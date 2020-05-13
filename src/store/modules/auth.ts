@@ -84,10 +84,10 @@ export const authWithoutLogin = (): ThunkType => async (
     '_blank',
     'height=600,width=600'
   );
-  const interval = setInterval(async function () {
+  const interval = setInterval(function () {
     if (win!.closed) {
       clearInterval(interval);
-      await authApi
+      authApi
         .createSession(tokenResponse.request_token)
         .then((sessionResponse) => {
           dispatch(actions.setAuthStatus(true));
@@ -97,13 +97,13 @@ export const authWithoutLogin = (): ThunkType => async (
             tokenResponse.expires_at
           );
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err.response));
     }
   }, 500);
 };
 export const logout = (): ThunkType => async (dispatch: DispatchType) => {
   actions.setAuthStatus(false);
-  authApi.deleteSession('3');
+  authApi.deleteSession(localStorage.load('session').session_id);
   localStorage.remove('session');
 };
 export default authReducer;

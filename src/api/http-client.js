@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { localStorage } from '@src/lib/local-storage-back-up';
+import { localStorage } from '@src/lib/local-storage';
 
 export const http = axios.create({
   baseURL: 'https://api.themoviedb.org/3/',
