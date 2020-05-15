@@ -1,14 +1,15 @@
-import { AppStateType, InferActionsTypes } from '../store';
-import { ThunkAction } from 'redux-thunk';
+import { InferActionsTypes, BaseThunkType } from '../store';
 import { authApi } from '@src/api';
 import { Dispatch } from 'redux';
 import { localStorage } from '@src/lib/local-storage';
 
+type ActionsTypes = InferActionsTypes<typeof actions>;
+type ThunkType = BaseThunkType<ActionsTypes>;
+type InitialStateType = typeof initialState;
+
 let initialState = {
   isAuth: false,
 };
-
-export type InitialStateType = typeof initialState;
 
 const authReducer = (
   state = initialState,
@@ -22,20 +23,10 @@ const authReducer = (
   }
 };
 
-type ActionsTypes = InferActionsTypes<typeof actions>;
-
 export const actions = {
   setAuthStatus: (isAuth: boolean) =>
     ({ type: 'tmdb/auth/SET_AUTH_STATUS', isAuth } as const),
 };
-
-type ThunkType = ThunkAction<
-  Promise<void>,
-  AppStateType,
-  unknown,
-  ActionsTypes
->;
-type DispatchType = Dispatch<ActionsTypes>;
 
 const _saveSessionToLocalStorage = (
   session_id: string,
@@ -50,7 +41,7 @@ const _saveSessionToLocalStorage = (
 export const authWithLogin = (
   username: string,
   password: string
-): ThunkType => async (dispatch: DispatchType) => {
+): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
   try {
     const tokenResponse = await authApi.createRequestToken();
     const approvedTokenResponse = await authApi.createSessionWithLogin(
@@ -75,7 +66,7 @@ export const authWithLogin = (
 };
 
 export const authWithoutLogin = (): ThunkType => async (
-  dispatch: DispatchType
+  dispatch: Dispatch<ActionsTypes>
 ) => {
   const tokenResponse = await authApi.createRequestToken();
   console.log(tokenResponse);
@@ -101,7 +92,7 @@ export const authWithoutLogin = (): ThunkType => async (
     }
   }, 500);
 };
-export const logout = (): ThunkType => async (dispatch: DispatchType) => {
+export const logout = (): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
   actions.setAuthStatus(false);
   authApi.deleteSession(localStorage.load('session').session_id);
   localStorage.remove('session');

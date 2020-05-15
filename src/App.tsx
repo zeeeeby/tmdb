@@ -1,6 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { authWithLogin } from './store/modules/auth';
+import { Switch, Route } from 'react-router-dom';
+import { PrivateRoute } from './hoc/private-route';
+
+import Container from '@material-ui/core/Container';
+
+import { HeaderContainer as Header } from '@src/components/Header/HeaderContainer';
 
 type MapStatePropsType = {};
 
@@ -14,10 +20,15 @@ type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType;
 
 function App(props: PropsType) {
   return (
-    <div className="App">
-      <a onClick={() => props.authWithLogin('villione', 'dimasik5390')} href="#">
-        click
-      </a>
+    <div>
+      <Header />
+      <Container maxWidth="lg">
+        <Switch>
+          <Route exact path="/"></Route>
+          <Route path="/login">login</Route>
+          <PrivateRoute path="/private">secret</PrivateRoute>
+        </Switch>
+      </Container>
     </div>
   );
 }

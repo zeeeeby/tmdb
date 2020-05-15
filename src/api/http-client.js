@@ -9,7 +9,7 @@ http.interceptors.request.use((config) => {
   config.params = config.params || {};
   config.params['api_key'] = process.env.REACT_APP_API_KEY;
  
-  const session_id = localStorage.load('session_id') || '';
+  const session_id = localStorage.load('session').session_id || '';
   config.data = { ...config.data, session_id };
 
   return config;
