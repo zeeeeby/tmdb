@@ -3,13 +3,11 @@ import { connect } from 'react-redux';
 import { AppStateType } from '@src/store/store';
 import { Header } from './Header';
 
-const mapStateToPropsForRedirect = (state: AppStateType) => ({
+const mapStateToProps = (state: AppStateType) => ({
   isAuth: state.auth.isAuth,
 });
 
-type TMapStateToProps = {
-  isAuth: boolean;
-};
+type TMapStateToProps = ReturnType<typeof mapStateToProps>;
 
 const Component = (props: TMapStateToProps) => {
   return (
@@ -19,4 +17,4 @@ const Component = (props: TMapStateToProps) => {
   );
 };
 
-export const HeaderContainer = connect(mapStateToPropsForRedirect)(Component);
+export const HeaderContainer = connect(mapStateToProps)(Component);

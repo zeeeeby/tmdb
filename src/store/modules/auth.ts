@@ -5,7 +5,7 @@ import { localStorage } from '@src/lib/local-storage';
 
 type ActionsTypes = InferActionsTypes<typeof actions>;
 type ThunkType = BaseThunkType<ActionsTypes>;
-type InitialStateType = typeof initialState;
+type TInitialState = typeof initialState;
 
 let initialState = {
   isAuth: false,
@@ -14,7 +14,7 @@ let initialState = {
 const authReducer = (
   state = initialState,
   action: ActionsTypes
-): InitialStateType => {
+): TInitialState => {
   switch (action.type) {
     case 'tmdb/auth/SET_AUTH_STATUS':
       return { ...state, isAuth: action.isAuth };
@@ -92,7 +92,9 @@ export const authWithoutLogin = (): ThunkType => async (
     }
   }, 500);
 };
-export const logout = (): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
+export const logout = (): ThunkType => async (
+  dispatch: Dispatch<ActionsTypes>
+) => {
   actions.setAuthStatus(false);
   authApi.deleteSession(localStorage.load('session').session_id);
   localStorage.remove('session');
