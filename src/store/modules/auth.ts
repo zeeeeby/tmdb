@@ -33,9 +33,9 @@ export const signIn = (username: string, password: string): ThunkType => async (
 ) => {
   try {
     const result = await authApi.signIn(username, password);
-    console.log(result);
+    dispatch(actions.setAuthStatus(true));
   } catch (error) {
-    console.log(error.response);
+    throw error
   }
 };
 
@@ -47,13 +47,17 @@ export const signUp = (): ThunkType => async (
     dispatch(actions.setAuthStatus(true));
     console.log(result);
   } catch (error) {
-    console.log(error.response);
+    throw error
   }
 };
 export const signOut = (): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
-  authApi.signOut();
-  actions.setAuthStatus(false);
+  try {
+    authApi.signOut();
+    actions.setAuthStatus(false);
+  } catch (error) {
+    console.log(error.response);
+  }
 };
 export default authReducer;

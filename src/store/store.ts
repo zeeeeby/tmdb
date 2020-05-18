@@ -7,7 +7,8 @@ import {
 } from 'redux';
 import thunkMiddleware, { ThunkAction } from 'redux-thunk';
 import authReducer from '../store/modules/auth';
-
+import { localStorage } from '@src/lib/local-storage';
+import {actions as authActions} from "@src/store/modules/auth"
 let rootReducer = combineReducers({
   auth: authReducer,
 });
@@ -35,3 +36,8 @@ const store = createStore(
 );
 
 export default store;
+
+// сделать авообновление, проверку, подгрузку в стор токена
+const session_id: string = localStorage.load('session').session_id;
+
+if(session_id) store.dispatch(authActions.setAuthStatus(true))
