@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { authWithLogin } from './store/modules/auth';
+import { signIn, signUp } from './store/modules/auth';
 import { Switch, Route } from 'react-router-dom';
 import { PrivateRoute } from './hoc/private-route';
 
@@ -11,7 +11,8 @@ import { HeaderContainer as Header } from '@src/components/Header/HeaderContaine
 type MapStatePropsType = {};
 
 type MapDispatchPropsType = {
-  authWithLogin: (username: string, password: string) => void;
+  signIn: (username: string, password: string) => void;
+  signUp: () => void;
 };
 
 type OwnPropsType = {};
@@ -23,6 +24,7 @@ function App(props: PropsType) {
     <div>
       <Header />
       <Container maxWidth="lg">
+        <button onClick={() => props.signUp()}>click</button>
         <Switch>
           <Route exact path="/"></Route>
           <Route path="/login">login</Route>
@@ -33,4 +35,4 @@ function App(props: PropsType) {
   );
 }
 
-export default connect(null, { authWithLogin })(App);
+export default connect(null, { signIn, signUp })(App);
