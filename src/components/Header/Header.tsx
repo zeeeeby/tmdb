@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
   },
 }));
+
 type TProps = {
   isAuth: boolean;
 };
@@ -50,11 +51,13 @@ export const Header: React.ComponentType<TProps> = (props) => {
               </Link>
             </Button>
           ) : (
-            <Button color="inherit">
-              <Link className={classes.link} to="/login">
-                Login
-              </Link>
-            </Button>
+            <React.Fragment>
+              <Button color="inherit">
+                <Link className={classes.link} to="/login">
+                  Sign In
+                </Link>
+              </Button>
+            </React.Fragment>
           )}
         </Toolbar>
       </AppBar>

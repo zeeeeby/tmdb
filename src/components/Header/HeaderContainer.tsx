@@ -10,9 +10,10 @@ const mapStateToProps = (state: AppStateType) => ({
 type TMapStateToProps = ReturnType<typeof mapStateToProps>;
 
 const Component = (props: TMapStateToProps) => {
+  console.log('render');
   return (
     <div>
-      <Header isAuth={props.isAuth} />
+      <Header {...props} />
     </div>
   );
 };
