@@ -1,11 +1,11 @@
 import React from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { PrivateRoute } from './hoc/private-route';
 
 import Container from '@material-ui/core/Container';
 
-import { HeaderContainer as Header } from '@src/components/Header/HeaderContainer';
-import { AuthContainer as Auth } from '@src/pages';
+import { Header } from '@src/components/Header';
+import { Auth, Movies, NowPlaying } from '@src/pages';
 function App() {
   return (
     <div>
@@ -14,11 +14,11 @@ function App() {
         <Switch>
           <Route exact path="/"></Route>
           <Route path="/login" component={Auth} />
-          <PrivateRoute path="/private">secret</PrivateRoute>
+          <Route exact path="/movies" component={Movies}></Route>
+          <Route path="/movies/now-playing" component={NowPlaying} />
         </Switch>
       </Container>
     </div>
   );
 }
-
 export default App;

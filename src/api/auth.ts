@@ -1,16 +1,22 @@
-import { http } from './http-client';
+import { http } from './http-client.js';
 import { localStorage } from '@src/lib/local-storage';
 
+export type TResponse<T = any> = {
+  ok: boolean;
+  data: T;
+  statusCode: number;
+};
 type TCGSSuccess = {
   success: boolean;
   guest_session_id: string;
   expires_at: string;
 };
-
 const _createGuestSession = () =>
   http
-    .get<TCGSSuccess>('/authentication/guest_session/new')
-    .then((res) => res.data);
+    .get<TResponse<TCGSSuccess>, TResponse<TCGSSuccess>>(
+      '/authentication/guest_session/new'
+    )
+    .then((res) => res);
 
 type TCRTSuccess = {
   success: boolean;
@@ -19,7 +25,11 @@ type TCRTSuccess = {
 };
 
 const _createRequestToken = () =>
-  http.get<TCRTSuccess>('/authentication/token/new').then((res) => res.data);
+  http
+    .get<TResponse<TCRTSuccess>, TResponse<TCRTSuccess>>(
+      '/authentication/token/new'
+    )
+    .then((res) => res);
 
 const _createSessionWithLogin = (
   username: string,
@@ -70,42 +80,48 @@ const _saveSessionToLocalStorage = (
   });
 
 const signIn = async (username: string, password: string) => {
-  const tokenResponse = await _createRequestToken();
-  const approvedTokenResponse = await _createSessionWithLogin(
-    username,
-    password,
-    tokenResponse.request_token
-  );
+  try {
+    const tokenResponse = await _createRequestToken();
+    const approvedTokenResponse = await _createSessionWithLogin(
+      username,
+      password,
+      tokenResponse.data.request_token
+    );
 
-  const sessionResponse = await _createSession(
-    approvedTokenResponse.request_token
-  );
+    const sessionResponse = await _createSession(
+      approvedTokenResponse.request_token
+    );
 
-  _saveSessionToLocalStorage(
-    sessionResponse.session_id,
-    approvedTokenResponse.request_token,
-    approvedTokenResponse.expires_at
-  );
-  return sessionResponse;
+    _saveSessionToLocalStorage(
+      sessionResponse.session_id,
+      approvedTokenResponse.request_token,
+      approvedTokenResponse.expires_at
+    );
+    return sessionResponse;
+
+  } catch (error) {
+    throw error;
+  }
 };
-
 
 const signUp = async () => {
   const tokenResponse = await _createRequestToken();
   const win = window.open(
-    _getAuthLink(tokenResponse.request_token),
+    _getAuthLink(tokenResponse.data.request_token),
     '_blank',
     'height=600,width=600'
   );
   while (true) {
     await new Promise((resolve) => setTimeout(resolve, 500));
-    console.log("await");
+
     if (win!.closed) {
-      const sessionResponse = await _createSession(tokenResponse.request_token);
+      const sessionResponse = await _createSession(
+        tokenResponse.data.request_token
+      );
       _saveSessionToLocalStorage(
         sessionResponse.session_id,
-        tokenResponse.request_token,
-        tokenResponse.expires_at
+        tokenResponse.data.request_token,
+        tokenResponse.data.expires_at
       );
       return sessionResponse;
     }
@@ -114,9 +130,7 @@ const signUp = async () => {
 const signOut = async () => {
   try {
     _deleteSession(localStorage.load('session').session_id);
-    localStorage.remove('session');
-  } catch (error) {
-    console.log(error.response);
+  } finally {
     localStorage.remove('session');
   }
 };

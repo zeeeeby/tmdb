@@ -5,6 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
+import { FadeMenu } from './ui/menu';
+import { auth } from '@src/store/modules/auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,11 +24,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type TProps = {
-  isAuth: boolean;
-};
-export const Header: React.ComponentType<TProps> = (props) => {
+export const Header: React.ComponentType = () => {
   const classes = useStyles();
+  const isAuth = auth.useStatus();
+  const proFile = auth.useProfileData();
 
   return (
     <div className={classes.root}>
@@ -44,12 +45,10 @@ export const Header: React.ComponentType<TProps> = (props) => {
               </Link>
             </Button>
           </Typography>
-          {props.isAuth ? (
-            <Button color="inherit">
-              <Link className={classes.link} to="">
-                Хых здарова
-              </Link>
-            </Button>
+          {isAuth ? (
+            <FadeMenu
+              avatarLink={`https://www.gravatar.com/avatar/${proFile?.avatar?.gravatar?.hash}`}
+            />
           ) : (
             <React.Fragment>
               <Button color="inherit">
