@@ -10,10 +10,11 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch, connect } from 'react-redux';
+
 
 import { Field, Form } from 'react-final-form';
 import { auth } from '@src/store/modules/auth';
+import { account } from '@src/store/modules/account';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -46,12 +47,16 @@ export const Auth: React.FC = () => {
   const history = useHistory();
 
   const { signIn, signUp } = auth.useActions();
+  const { getProfile } = account.useActions();
 
   const onFormSubmit = async ({ password, username }: TFormValues) => {
     try {
       await signIn(username, password);
       history.push('/');
-    } catch {}
+      await getProfile();
+    } catch {
+      history.push('/login');
+    }
   };
 
   const onSignUpClick = async (event: any) => {

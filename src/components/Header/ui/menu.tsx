@@ -3,6 +3,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Avatar from '@material-ui/core/Avatar';
 import { auth } from '@src/store/modules/auth';
+import { account } from '@src/store/modules/account';
 
 export const FadeMenu = (props: { avatarLink: string | undefined }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -15,7 +16,14 @@ export const FadeMenu = (props: { avatarLink: string | undefined }) => {
     setAnchorEl(null);
   };
   const { signOut } = auth.useActions();
-  console.log('render1');
+  const { removeProfile } = account.useActions();
+
+  const onSignOutClick = async () => {
+    try {
+      await signOut();
+      await removeProfile();
+    } catch (err) {}
+  };
   return (
     <div>
       <Avatar
@@ -33,7 +41,7 @@ export const FadeMenu = (props: { avatarLink: string | undefined }) => {
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={signOut}>Logout</MenuItem>
+        <MenuItem onClick={onSignOutClick}>Logout</MenuItem>
       </Menu>
     </div>
   );
