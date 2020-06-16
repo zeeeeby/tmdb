@@ -2,7 +2,6 @@ import { InferActionsTypes, BaseThunkType } from '../..';
 import { accountApi } from '@src/api';
 import { Dispatch } from 'redux';
 import { TUserProfile } from '@src/types';
-import { AxiosResponse } from 'axios';
 
 
 type ActionsTypes = InferActionsTypes<typeof act>;

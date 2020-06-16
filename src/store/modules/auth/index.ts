@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getResponseStatus, getAuthStatus } from './selectors';
 
 import { actions, authReducer } from './reducer';

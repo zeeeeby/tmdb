@@ -1,5 +1,5 @@
 import { InferActionsTypes, BaseThunkType } from '../..';
-import { authApi, accountApi } from '@src/api';
+import { authApi } from '@src/api';
 import { Dispatch } from 'redux';
 import { AxiosResponse } from 'axios';
 

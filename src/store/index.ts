@@ -7,9 +7,10 @@ import {
 } from 'redux';
 import thunkMiddleware, { ThunkAction } from 'redux-thunk';
 import { authReducer } from './modules/auth';
-
+import { accountReducer } from './modules/account';
 let rootReducer = combineReducers({
   auth: authReducer,
+  account: accountReducer,
 });
 
 type RootReducerType = typeof rootReducer;
@@ -35,8 +36,3 @@ const store = createStore(
 );
 
 export default store;
-
-// сделать авообновление, проверку, подгрузку в стор токена
-// const session_id: string = localStorage.load('session').session_id;
-
-// if(session_id) store.dispatch(authActions.setAuthStatus(true))

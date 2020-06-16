@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { FadeMenu } from './ui/menu';
 import { auth } from '@src/store/modules/auth';
+import { account } from '@src/store/modules/account';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 export const Header: React.ComponentType = () => {
   const classes = useStyles();
   const isAuth = auth.useStatus();
-  const proFile = auth.useProfileData();
+  const proFile = account.useProfileDetails();
 
   return (
     <div className={classes.root}>
