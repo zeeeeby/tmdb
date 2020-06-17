@@ -10,7 +10,7 @@ import { account } from '@src/store/modules/account';
 import { auth } from '@src/store/modules/auth';
 import { localStorage } from './lib/local-storage';
 
-function App() {
+export const App = () => {
   const { getProfile } = account.useActions();
   const { updateAuthStatus } = auth.useActions();
   useEffect(() => {
@@ -22,7 +22,7 @@ function App() {
         if (session_id) {
           await getProfile();
           await updateAuthStatus(true);
-        } else await updateAuthStatus(false);
+        }
       } catch {}
     };
     f();
@@ -40,5 +40,4 @@ function App() {
       </Container>
     </div>
   );
-}
-export default App;
+};

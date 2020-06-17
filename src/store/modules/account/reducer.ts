@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 import { TUserProfile } from '@src/types';
 
 
-type ActionsTypes = InferActionsTypes<typeof act>;
+type ActionsTypes = InferActionsTypes<typeof localActions>;
 type ThunkType = BaseThunkType<ActionsTypes>;
 type TInitialState = typeof initialState;
 
@@ -22,7 +22,7 @@ export const accountReducer = (
       return state;
   }
 };
-const act = {
+const localActions = {
   setProfileDetails: (user: typeof initialState.profileData) =>
     ({
       type: 'tmdb/account/SET_PROFILE_DETAILS',
@@ -34,7 +34,7 @@ const getProfile = (): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
-    dispatch(act.setProfileDetails(await accountApi.getDetails()));
+    dispatch(localActions.setProfileDetails(await accountApi.getDetails()));
   } catch (error) {
     throw error.response;
   }
@@ -44,7 +44,7 @@ const removeProfile = (): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
-    dispatch(act.setProfileDetails(null));
+    dispatch(localActions.setProfileDetails(null));
   } catch (error) {
     throw error.response;
   }
