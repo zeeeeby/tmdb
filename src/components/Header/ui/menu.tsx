@@ -16,12 +16,12 @@ export const FadeMenu = (props: { avatarLink: string | undefined }) => {
     setAnchorEl(null);
   };
   const { signOut } = auth.useActions();
-  const { removeProfile } = account.useActions();
+  const { dropProfile } = account.useActions();
 
   const onSignOutClick = async () => {
     try {
       await signOut();
-      await removeProfile();
+      await dropProfile();
     } catch (err) {}
   };
   return (

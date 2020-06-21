@@ -8,9 +8,11 @@ import {
 import thunkMiddleware, { ThunkAction } from 'redux-thunk';
 import { authReducer } from './modules/auth';
 import { accountReducer } from './modules/account';
+import { moviesReducer } from './modules/movies';
 let rootReducer = combineReducers({
   auth: authReducer,
   account: accountReducer,
+  movies: moviesReducer,
 });
 
 type RootReducerType = typeof rootReducer;
@@ -34,4 +36,3 @@ export const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(thunkMiddleware))
 );
-

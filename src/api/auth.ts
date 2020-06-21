@@ -1,22 +1,13 @@
 import { http } from './http-client.js';
 import { localStorage } from '@src/lib/local-storage';
 
-export type TResponse<T = any> = {
-  ok: boolean;
-  data: T;
-  statusCode: number;
-};
 type TCGSSuccess = {
   success: boolean;
   guest_session_id: string;
   expires_at: string;
 };
 const _createGuestSession = () =>
-  http
-    .get<TResponse<TCGSSuccess>, TResponse<TCGSSuccess>>(
-      '/authentication/guest_session/new'
-    )
-    .then((res) => res);
+  http.get<TCGSSuccess>('/authentication/guest_session/new').then((res) => res);
 
 type TCRTSuccess = {
   success: boolean;
@@ -25,11 +16,7 @@ type TCRTSuccess = {
 };
 
 const _createRequestToken = () =>
-  http
-    .get<TResponse<TCRTSuccess>, TResponse<TCRTSuccess>>(
-      '/authentication/token/new'
-    )
-    .then((res) => res);
+  http.get<TCRTSuccess>('/authentication/token/new').then((res) => res);
 
 const _createSessionWithLogin = (
   username: string,
@@ -98,7 +85,6 @@ const signIn = async (username: string, password: string) => {
       approvedTokenResponse.expires_at
     );
     return sessionResponse;
-
   } catch (error) {
     throw error;
   }
