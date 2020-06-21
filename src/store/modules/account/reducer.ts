@@ -1,8 +1,7 @@
 import { InferActionsTypes, BaseThunkType } from '../..';
 import { accountApi } from '@src/api';
 import { Dispatch } from 'redux';
-import { TUserProfile } from '@src/types';
-
+import { TUserProfile } from '@src/store/modules/account/types';
 
 type ActionsTypes = InferActionsTypes<typeof localActions>;
 type ThunkType = BaseThunkType<ActionsTypes>;
@@ -40,7 +39,7 @@ const getProfile = (): ThunkType => async (
   }
 };
 
-const removeProfile = (): ThunkType => async (
+const dropProfile = (): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
@@ -52,5 +51,5 @@ const removeProfile = (): ThunkType => async (
 
 export const actions = {
   getProfile,
-  removeProfile,
+  dropProfile,
 };
