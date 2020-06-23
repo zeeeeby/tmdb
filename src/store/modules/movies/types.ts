@@ -68,44 +68,27 @@ type TMovie = {
   video: boolean
   vote_average: number
 }
-// Popular movies
-
-export type TPopularMovies = {
+type TResult = {
   page: number
   results: Array<TMovie>
   total_results: number
   total_pages: number
 }
-// Now playing movies
-export type TNowPlayingMovies = {
-  page: number
-  results: Array<TMovie>
+
+export type TPopularMovies = TResult
+export type TTopRatedMovies = TResult
+export type TSimilarMovies = TResult
+export type TRecommendations = TResult
+
+export type TNowPlayingMovies = TResult & {
   dates: {
     maximum: string
     minimum: string
   }
-  total_results: number
-  total_pages: number
 }
-
-// Top rated movies
-
-export type TTopRatedMovies = {
-  page: number
-  results: Array<TMovie>
-  total_results: number
-  total_pages: number
-}
-
-// Upcoming movies
-
-export type TUpcomingMovies = {
-  page: number
-  results: Array<TMovie>
+export type TUpcomingMovies = TResult & {
   dates: {
     maximum: string
     minimum: string
   }
-  total_results: number
-  total_pages: number
 }

@@ -1,5 +1,5 @@
 import { InferActionsTypes, BaseThunkType } from '../..'
-import { authApi } from '@src/api'
+
 import { Dispatch } from 'redux'
 
 import {
@@ -7,6 +7,8 @@ import {
   TNowPlayingMovies,
   TPopularMovies,
   TTopRatedMovies,
+  TSimilarMovies,
+  TRecommendations,
 } from './types'
 
 type ActionsTypes = InferActionsTypes<typeof localActions>
@@ -14,7 +16,11 @@ type ThunkType = BaseThunkType<ActionsTypes>
 type TInitialState = typeof initialState
 
 let initialState = {
-  movieDetails: {} as TMovieDetails,
+  currentMovie: {
+    details: {} as TMovieDetails,
+    similar: {} as TSimilarMovies,
+    recommendations: {} as TRecommendations,
+  },
   popularMovies: {} as TPopularMovies,
   nowPlayingMovies: {} as TNowPlayingMovies,
   topRatedMovies: {} as TTopRatedMovies,
@@ -28,7 +34,26 @@ export const moviesReducer = (
     case 'tmdb/movies/SET_MOVIE_DETAILS':
       return {
         ...state,
-        movieDetails: action.payload.details,
+        currentMovie: {
+          ...state.currentMovie,
+          details: action.payload.details,
+        },
+      }
+    case 'tmdb/movies/SET_SIMILAR_MOVIES':
+      return {
+        ...state,
+        currentMovie: {
+          ...state.currentMovie,
+          similar: action.payload.movies,
+        },
+      }
+    case 'tmdb/movies/SET_RECOMMENDATIONS':
+      return {
+        ...state,
+        currentMovie: {
+          ...state.currentMovie,
+          recommendations: action.payload.movies,
+        },
       }
     case 'tmdb/movies/SET_POPULAR_MOVIES':
       return {
@@ -63,6 +88,16 @@ const localActions = {
   setTopRatedMovies: (movies: TNowPlayingMovies) =>
     ({
       type: 'tmdb/movies/SET_TOP_RATED_MOVIES',
+      payload: { movies },
+    } as const),
+  setSimilarMovies: (movies: TSimilarMovies) =>
+    ({
+      type: 'tmdb/movies/SET_SIMILAR_MOVIES',
+      payload: { movies },
+    } as const),
+  setRecommendations: (movies: TRecommendations) =>
+    ({
+      type: 'tmdb/movies/SET_RECOMMENDATIONS',
       payload: { movies },
     } as const),
 }

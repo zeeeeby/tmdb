@@ -5,13 +5,13 @@ import {
   TNowPlayingMovies,
   TTopRatedMovies,
   TUpcomingMovies,
+  TSimilarMovies,
+  TRecommendations,
 } from '@src/store/modules/movies/types'
 import { getQueryString } from '@src/lib/get_query_string'
 
 const getDetails = (movie_id: number) =>
-  http
-    .get<TMovieDetails>(`/movie/?${getQueryString({ movie_id })}`)
-    .then((res) => res.data)
+  http.get<TMovieDetails>(`/movie/${movie_id}?`).then((res) => res.data)
 
 const getPopular = (language?: string, page?: number, region?: string) =>
   http
@@ -34,10 +34,31 @@ const getTopRated = (language?: string, page?: number, region?: string) =>
     )
     .then((res) => res.data)
 
-const getUpcoming = () => (language?: string, page?: number, region?: string) =>
+const getUpcoming = (language?: string, page?: number, region?: string) =>
   http
     .get<TUpcomingMovies>(
       `/movie/upcoming/?${getQueryString({ language, page, region })}`
+    )
+    .then((res) => res.data)
+
+const getSimilar = (movie_id: number, language?: string, page?: number) =>
+  http
+    .get<TSimilarMovies>(
+      `/movie/${movie_id}/similar/?${getQueryString({ language, page })}`
+    )
+    .then((res) => res.data)
+
+const getRecommendations = (
+  movie_id: number,
+  language?: string,
+  page?: number
+) =>
+  http
+    .get<TRecommendations>(
+      `/movie/${movie_id}/recommendations/?${getQueryString({
+        language,
+        page,
+      })}`
     )
     .then((res) => res.data)
 
@@ -47,4 +68,6 @@ export const moviesApi = {
   getNowPlaying,
   getTopRated,
   getUpcoming,
+  getSimilar,
+  getRecommendations,
 }
