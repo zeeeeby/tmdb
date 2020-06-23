@@ -33,7 +33,7 @@ const getAiringToday = (language?: string, page?: number) =>
 const getSimilar = (tv_id: number, language?: string, page?: number) =>
   http
     .get<TSimilarTV>(
-      `/movie/${tv_id}/similar/?${getQueryString({ language, page })}`
+      `/tv/${tv_id}/similar/?${getQueryString({ language, page })}`
     )
     .then((res) => res.data)
 
