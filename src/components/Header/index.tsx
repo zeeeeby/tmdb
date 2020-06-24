@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 export const Header: React.ComponentType = () => {
   const classes = useStyles();
   const isAuth = auth.useStatus();
-  const proFile = account.useProfileDetails();
+  const profile = account.useProfileDetails();
 
   return (
     <div className={classes.root}>
@@ -48,7 +48,7 @@ export const Header: React.ComponentType = () => {
           </Typography>
           {isAuth ? (
             <FadeMenu
-              avatarLink={`https://www.gravatar.com/avatar/${proFile?.avatar?.gravatar?.hash}`}
+              avatarLink={`https://www.gravatar.com/avatar/${profile?.avatar?.gravatar?.hash}`}
             />
           ) : (
             <React.Fragment>
