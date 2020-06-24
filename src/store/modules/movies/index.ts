@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 
-import { moviesReducer } from './reducer'
+import { actions, moviesReducer } from './reducer'
 import { useActions } from '@src/hooks/useActions'
 import {
   getMovieDetails,
@@ -22,5 +22,5 @@ export const movies = {
   usePopular: () => useSelector(getPopularMovies),
   useNowPlayings: () => useSelector(getNowPlayingMovies),
   useTopRated: () => useSelector(getTopRatedMovies),
-  useActions: () => null,
+  useActions: (): typeof actions => useActions(actions),
 }
