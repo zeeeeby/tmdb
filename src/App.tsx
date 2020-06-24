@@ -9,6 +9,7 @@ import { Auth, Movies, NowPlaying } from '@src/pages'
 import { account } from '@src/store/modules/account'
 import { auth } from '@src/store/modules/auth'
 import { localStorage } from './lib/local-storage'
+import { useDispatch } from 'react-redux'
 
 export const App = () => {
   const { getProfile } = account.useActions()
