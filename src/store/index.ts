@@ -4,35 +4,38 @@ import {
   compose,
   createStore,
   Action,
-} from 'redux';
-import thunkMiddleware, { ThunkAction } from 'redux-thunk';
-import { authReducer } from './modules/auth';
-import { accountReducer } from './modules/account';
-import { moviesReducer } from './modules/movies';
+} from 'redux'
+import thunkMiddleware, { ThunkAction } from 'redux-thunk'
+import { authReducer } from './modules/auth'
+import { accountReducer } from './modules/account'
+import { moviesReducer } from './modules/movies'
+import { tvReducer } from './modules/tv'
+
 let rootReducer = combineReducers({
   auth: authReducer,
   account: accountReducer,
   movies: moviesReducer,
-});
+  tv: tvReducer,
+})
 
-type RootReducerType = typeof rootReducer;
+type RootReducerType = typeof rootReducer
 
-export type AppStateType = ReturnType<RootReducerType>;
+export type AppStateType = ReturnType<RootReducerType>
 
 export type InferActionsTypes<T> = T extends {
-  [key: string]: (...args: any[]) => infer U;
+  [key: string]: (...args: any[]) => infer U
 }
   ? U
-  : never;
+  : never
 
 export type BaseThunkType<
   A extends Action = Action,
   R = Promise<void>
-> = ThunkAction<R, AppStateType, unknown, A>;
+> = ThunkAction<R, AppStateType, unknown, A>
 // @ts-ignore
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 export const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(thunkMiddleware))
-);
+)
