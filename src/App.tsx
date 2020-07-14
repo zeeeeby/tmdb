@@ -4,12 +4,11 @@ import { Switch, Route } from 'react-router-dom'
 import Container from '@material-ui/core/Container'
 
 import { Header } from '@src/components/Header'
-import { Auth, Movies, NowPlaying } from '@src/pages'
+import { Auth, Movies, NowPlayingMovies, TV } from '@src/pages'
 
 import { account } from '@src/store/modules/account'
 import { auth } from '@src/store/modules/auth'
 import { localStorage } from './lib/local-storage'
-import { useDispatch } from 'react-redux'
 
 export const App = () => {
   const { getProfile } = account.useActions()
@@ -34,8 +33,9 @@ export const App = () => {
         <Switch>
           <Route exact path="/"></Route>
           <Route path="/login" component={Auth} />
-          <Route exact path="/movies" component={Movies}></Route>
-          <Route path="/movies/now-playing" component={NowPlaying} />
+          <Route exact path="/movies/" component={Movies} />
+          <Route path="/movies/now-playing" component={NowPlayingMovies} />
+          <Route exact path="/tv/" component={TV} />
         </Switch>
       </Container>
     </div>
