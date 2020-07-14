@@ -30,7 +30,7 @@ export type InferActionsTypes<T> = T extends {
 
 export type BaseThunkType<
   A extends Action = Action,
-  R = Promise<void>
+  R = Promise<any>
 > = ThunkAction<R, AppStateType, unknown, A>
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

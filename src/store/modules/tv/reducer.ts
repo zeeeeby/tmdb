@@ -19,14 +19,14 @@ type TInitialState = typeof initialState
 
 let initialState = {
   currentTV: {
-    details: {} as TTVDetails,
-    similar: {} as TSimilarTV,
-    recommendations: {} as TRecommendations,
+    details: {} as TTVDetails | null,
+    similar: {} as TSimilarTV | null,
+    recommendations: {} as TRecommendations | null,
   },
-  popularTV: {} as TPopularTV,
-  airingTodayTV: {} as TAiringTodayTV,
-  onTheAirTV: {} as TOnTheAirTV,
-  topRatedTV: {} as TTopRatedTV,
+  popularTV: {} as TPopularTV | null,
+  airingTodayTV: {} as TAiringTodayTV | null,
+  onTheAirTV: {} as TOnTheAirTV | null,
+  topRatedTV: {} as TTopRatedTV | null,
 }
 
 export const tvReducer = (
@@ -75,37 +75,37 @@ export const tvReducer = (
 }
 
 const localActions = {
-  setTVDetails: (details: TTVDetails) =>
+  setTVDetails: (details: TTVDetails | null) =>
     ({
       type: 'tmdb/tv/SET_TV_DETAILS',
       payload: { details },
     } as const),
-  setPopularTV: (tv: TPopularTV) =>
+  setPopularTV: (tv: TPopularTV | null) =>
     ({
       type: 'tmdb/tv/SET_POPULAR_TV',
       payload: { tv },
     } as const),
-  setTAiringTodayTV: (tv: TAiringTodayTV) =>
+  setTAiringTodayTV: (tv: TAiringTodayTV | null) =>
     ({
       type: 'tmdb/tv/SET_AIRING_TODAY_TV',
       payload: { tv },
     } as const),
-  setOnTheAirTV: (tv: TOnTheAirTV) =>
+  setOnTheAirTV: (tv: TOnTheAirTV | null) =>
     ({
       type: 'tmdb/tv/SET_ON_THE_AIR_TV',
       payload: { tv },
     } as const),
-  setTopRatedTV: (tv: TTopRatedTV) =>
+  setTopRatedTV: (tv: TTopRatedTV | null) =>
     ({
       type: 'tmdb/tv/SET_TOP_RATED_TV',
       payload: { tv },
     } as const),
-  setSimilarTV: (tv: TSimilarTV) =>
+  setSimilarTV: (tv: TSimilarTV | null) =>
     ({
       type: 'tmdb/tv/SET_SIMILAR_TV',
       payload: { tv },
     } as const),
-  setRecommendations: (tv: TRecommendations) =>
+  setRecommendations: (tv: TRecommendations | null) =>
     ({
       type: 'tmdb/tv/SET_RECOMMENDATIONS',
       payload: { tv },
@@ -116,6 +116,7 @@ const getTVDetails = (tv_id: number): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
+    dispatch(localActions.setTVDetails(null))
     dispatch(localActions.setTVDetails(await tvApi.getDetails(tv_id)))
   } catch (error) {
     throw error.response
@@ -125,6 +126,7 @@ const getPopularTV = (language?: string, page?: number): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
+    dispatch(localActions.setPopularTV(null))
     dispatch(localActions.setPopularTV(await tvApi.getPopular(language, page)))
   } catch (error) {
     throw error.response
@@ -135,6 +137,7 @@ const getAiringTodayTV = (
   page?: number
 ): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
   try {
+    dispatch(localActions.setTAiringTodayTV(null))
     dispatch(
       localActions.setTAiringTodayTV(await tvApi.getAiringToday(language, page))
     )
@@ -146,6 +149,7 @@ const getTopRatedTV = (language?: string, page?: number): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
+    dispatch(localActions.setTopRatedTV(null))
     dispatch(
       localActions.setTopRatedTV(await tvApi.getTopRated(language, page))
     )
@@ -159,6 +163,7 @@ const getSimilarTV = (
   page?: number
 ): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
   try {
+    dispatch(localActions.setSimilarTV(null))
     dispatch(
       localActions.setSimilarTV(await tvApi.getSimilar(tv_id, language, page))
     )
@@ -172,6 +177,7 @@ const getRecommendations = (
   page?: number
 ): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
   try {
+    dispatch(localActions.setRecommendations(null))
     dispatch(
       localActions.setRecommendations(
         await tvApi.getRecommendations(tv_id, language, page)
@@ -185,6 +191,7 @@ const getOnTheAirTV = (language?: string, page?: number): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
+    dispatch(localActions.setOnTheAirTV(null))
     dispatch(
       localActions.setOnTheAirTV(await tvApi.getOnTheAir(language, page))
     )

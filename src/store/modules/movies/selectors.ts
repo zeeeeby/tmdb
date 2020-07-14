@@ -13,3 +13,4 @@ export const getNowPlayingMovies = (state: AppStateType) =>
   state.movies.nowPlayingMovies
 export const getTopRatedMovies = (state: AppStateType) =>
   state.movies.topRatedMovies
+

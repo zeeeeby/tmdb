@@ -52,7 +52,7 @@ export type TMovieDetails = {
   vote_count: number
 }
 
-type TMovie = {
+export type TMovie = {
   poster_path: string | null
   adult: boolean
   overview: string
@@ -70,7 +70,7 @@ type TMovie = {
 }
 type TResult = {
   page: number
-  results: Array<TMovie>
+  results: Array<TMovie> 
   total_results: number
   total_pages: number
 }

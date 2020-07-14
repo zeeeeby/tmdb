@@ -20,7 +20,7 @@ export const movies = {
     useRecommendations: () => useSelector(getRecommendations),
   },
   usePopular: () => useSelector(getPopularMovies),
-  useNowPlayings: () => useSelector(getNowPlayingMovies),
+  useNowPlaying: () => useSelector(getNowPlayingMovies),
   useTopRated: () => useSelector(getTopRatedMovies),
   useActions: (): typeof actions => useActions(actions),
 }

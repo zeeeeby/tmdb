@@ -71,7 +71,7 @@ export type TTVDetails = {
   vote_count: number
 }
 
-type TTV = {
+export type TTV = {
   poster_path: string | null
   adult: boolean
   overview: string

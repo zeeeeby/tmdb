@@ -1,6 +1,6 @@
 import { InferActionsTypes, BaseThunkType } from '../..'
 
-import { Dispatch } from 'redux'
+import { Dispatch, Action } from 'redux'
 import { moviesApi } from '@src/api'
 
 import {
@@ -12,7 +12,7 @@ import {
   TRecommendations,
   TUpcomingMovies,
 } from './types'
-import { useDispatch } from 'react-redux'
+
 
 type ActionsTypes = InferActionsTypes<typeof localActions>
 type ThunkType = BaseThunkType<ActionsTypes>
@@ -20,14 +20,14 @@ type TInitialState = typeof initialState
 
 let initialState = {
   currentMovie: {
-    details: {} as TMovieDetails,
-    similar: {} as TSimilarMovies,
-    recommendations: {} as TRecommendations,
+    details: {} as TMovieDetails | null,
+    similar: {} as TSimilarMovies | null,
+    recommendations: {} as TRecommendations | null,
   },
-  popularMovies: {} as TPopularMovies,
-  nowPlayingMovies: {} as TNowPlayingMovies,
-  topRatedMovies: {} as TTopRatedMovies,
-  upcomingMovies: {} as TUpcomingMovies,
+  popularMovies: {} as TPopularMovies | null,
+  nowPlayingMovies: {} as TNowPlayingMovies | null,
+  topRatedMovies: {} as TTopRatedMovies | null,
+  upcomingMovies: {} as TUpcomingMovies | null,
 }
 
 export const moviesReducer = (
@@ -76,37 +76,37 @@ export const moviesReducer = (
 }
 
 const localActions = {
-  setMovieDetails: (details: TMovieDetails) =>
+  setMovieDetails: (details: TMovieDetails | null) =>
     ({
       type: 'tmdb/movies/SET_MOVIE_DETAILS',
       payload: { details },
     } as const),
-  setPopularMovies: (movies: TPopularMovies) =>
+  setPopularMovies: (movies: TPopularMovies | null) =>
     ({
       type: 'tmdb/movies/SET_POPULAR_MOVIES',
       payload: { movies },
     } as const),
-  setNowPlayingMovies: (movies: TNowPlayingMovies) =>
+  setNowPlayingMovies: (movies: TNowPlayingMovies | null) =>
     ({
       type: 'tmdb/movies/SET_NOW_PLAYING_MOVIES',
       payload: { movies },
     } as const),
-  setTopRatedMovies: (movies: TTopRatedMovies) =>
+  setTopRatedMovies: (movies: TTopRatedMovies | null) =>
     ({
       type: 'tmdb/movies/SET_TOP_RATED_MOVIES',
       payload: { movies },
     } as const),
-  setSimilarMovies: (movies: TSimilarMovies) =>
+  setSimilarMovies: (movies: TSimilarMovies | null) =>
     ({
       type: 'tmdb/movies/SET_SIMILAR_MOVIES',
       payload: { movies },
     } as const),
-  setRecommendations: (movies: TRecommendations) =>
+  setRecommendations: (movies: TRecommendations | null) =>
     ({
       type: 'tmdb/movies/SET_RECOMMENDATIONS',
       payload: { movies },
     } as const),
-  setUpcoming: (movies: TUpcomingMovies) =>
+  setUpcoming: (movies: TUpcomingMovies | null) =>
     ({
       type: 'tmdb/movies/SET_UPCOMING_MOVIES',
       payload: { movies },
@@ -117,6 +117,7 @@ const getMovieDetails = (movie_id: number): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
+    dispatch(localActions.setMovieDetails(null))
     dispatch(localActions.setMovieDetails(await moviesApi.getDetails(movie_id)))
   } catch (error) {
     throw error.response
@@ -128,6 +129,7 @@ const getPopularMovies = (
   region?: string
 ): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
   try {
+    dispatch(localActions.setPopularMovies(null))
     dispatch(
       localActions.setPopularMovies(
         await moviesApi.getPopular(language, page, region)
@@ -143,6 +145,7 @@ const getNowPlayingMovies = (
   region?: string
 ): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
   try {
+    dispatch(localActions.setNowPlayingMovies(null))
     dispatch(
       localActions.setNowPlayingMovies(
         await moviesApi.getNowPlaying(language, page, region)
@@ -158,6 +161,7 @@ const getTopRatedMovies = (
   region?: string
 ): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
   try {
+    dispatch(localActions.setTopRatedMovies(null))
     dispatch(
       localActions.setTopRatedMovies(
         await moviesApi.getTopRated(language, page, region)
@@ -173,6 +177,7 @@ const getSimilarMovies = (
   page?: number
 ): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
   try {
+    dispatch(localActions.setSimilarMovies(null))
     dispatch(
       localActions.setSimilarMovies(
         await moviesApi.getSimilar(movie_id, language, page)
@@ -188,6 +193,7 @@ const getRecommendations = (
   page?: number
 ): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
   try {
+    dispatch(localActions.setRecommendations(null))
     dispatch(
       localActions.setRecommendations(
         await moviesApi.getRecommendations(movie_id, language, page)
@@ -203,6 +209,7 @@ const getUpcomingMovies = (
   region?: string
 ): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
   try {
+    dispatch(localActions.setUpcoming(null))
     dispatch(
       localActions.setUpcoming(
         await moviesApi.getUpcoming(language, page, region)
