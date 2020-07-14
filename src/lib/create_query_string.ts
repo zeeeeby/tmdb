@@ -1,4 +1,4 @@
-export const getQueryString = function (obj: any) {
+export const createQueryString = function (obj: any) {
   let str: Array<string> = []
   for (let p in obj)
     if (obj.hasOwnProperty(p) && obj[p]) {
