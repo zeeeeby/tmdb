@@ -1,13 +1,13 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
-import { FadeMenu } from './ui/menu';
-import { auth } from '@src/store/modules/auth';
-import { account } from '@src/store/modules/account';
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import { NavLink, Link } from 'react-router-dom'
+import { FadeMenu } from './ui/menu'
+import { auth } from '@src/store/modules/auth'
+import { account } from '@src/store/modules/account'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,12 +23,12 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     textDecoration: 'none',
   },
-}));
+}))
 
 export const Header: React.ComponentType = () => {
-  const classes = useStyles();
-  const isAuth = auth.useStatus();
-  const profile = account.useProfileDetails();
+  const classes = useStyles()
+  const isAuth = auth.useStatus()
+  const profile = account.useProfileDetails()
 
   return (
     <div className={classes.root}>
@@ -36,14 +36,26 @@ export const Header: React.ComponentType = () => {
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             <Button color="inherit">
-              <Link className={classes.link} to="/movies">
+              <NavLink
+                activeStyle={{
+                 borderBottom: "2px solid white"
+                }}
+                className={classes.link}
+                to="/movies/"
+              >
                 Movies
-              </Link>
+              </NavLink>
             </Button>
             <Button color="inherit">
-              <Link className={classes.link} to="/tv-shows">
-                TV Shows
-              </Link>
+              <NavLink
+               activeStyle={{
+                borderBottom: "2px solid white"
+               }}
+                className={classes.link}
+                to="/tv/"
+              >
+                TV Series
+              </NavLink>
             </Button>
           </Typography>
           {isAuth ? (
@@ -62,5 +74,5 @@ export const Header: React.ComponentType = () => {
         </Toolbar>
       </AppBar>
     </div>
-  );
-};
+  )
+}
