@@ -10,12 +10,14 @@ import { authReducer } from './modules/auth'
 import { accountReducer } from './modules/account'
 import { moviesReducer } from './modules/movies'
 import { tvReducer } from './modules/tv'
+import { searchReducer } from './modules/search'
 
 let rootReducer = combineReducers({
   auth: authReducer,
   account: accountReducer,
   movies: moviesReducer,
   tv: tvReducer,
+  search: searchReducer,
 })
 
 type RootReducerType = typeof rootReducer
