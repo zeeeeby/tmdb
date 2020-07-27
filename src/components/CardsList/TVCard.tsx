@@ -1,10 +1,12 @@
 import React from 'react'
+import { getImageLink } from '@src/api'
 import { TTV } from '@src/store/modules/tv/types'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import Skeleton from '@material-ui/lab/Skeleton'
 import { makeStyles } from '@material-ui/core'
 import { CardItem } from './CardItem'
+import { useHistory } from 'react-router-dom'
 
 type TCard = {
   card: TTV
@@ -29,12 +31,17 @@ const useStyles = makeStyles({
 })
 export const TVCard: React.FC<TCard> = ({ card }) => {
   const classes = useStyles()
+  const history = useHistory()
+  const handleClick = React.useCallback(() => {
+    if (card.id) history.push('/tv/' + card.id.toString())
+  }, [card])
+
   return (
-    <CardItem>
+    <CardItem onClick={handleClick}>
       {card ? (
         <img
           className={classes.media}
-          src={'https://image.tmdb.org/t/p/w500/' + card.poster_path}
+          src={getImageLink(card.poster_path)}
           alt="poster"
         />
       ) : (
@@ -52,7 +59,7 @@ export const TVCard: React.FC<TCard> = ({ card }) => {
         </Typography>
         <Typography variant="caption" color="textSecondary">
           {card ? (
-            card.release_date
+            new Date(card.release_date).toLocaleDateString() + ", TV"
           ) : (
             <Skeleton animation="wave" variant="text" />
           )}

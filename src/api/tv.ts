@@ -10,6 +10,7 @@ import {
 } from '@src/store/modules/tv/types'
 import { createQueryString } from '@src/lib/create_query_string'
 
+
 const getDetails = (tv_id: number) =>
   http.get<TTVDetails>(`/tv/${tv_id}?`).then((res) => res.data)
 const getPopular = (language?: string, page?: number) =>

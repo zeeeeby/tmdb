@@ -1,10 +1,12 @@
 import React from 'react'
+import { getImageLink } from '@src/api'
 import { TMovie } from '@src/store/modules/movies/types'
 import { makeStyles } from '@material-ui/core/styles'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import Skeleton from '@material-ui/lab/Skeleton'
 import { CardItem } from './CardItem'
+import { useHistory } from 'react-router-dom'
 type TCard = {
   card: TMovie
 }
@@ -26,14 +28,20 @@ const useStyles = makeStyles({
     display: 'block',
   },
 })
+
 export const MovieCard: React.FC<TCard> = ({ card }) => {
   const classes = useStyles()
+  const history = useHistory()
+  const handleClick = React.useCallback(() => {
+    if (card.id) history.push('/movies/' + card.id.toString())
+  }, [card])
+
   return (
-    <CardItem>
+    <CardItem onClick={handleClick}>
       {card ? (
         <img
           className={classes.media}
-          src={'https://image.tmdb.org/t/p/w500/' + card.poster_path}
+          src={getImageLink(card.poster_path)}
           alt="poster"
         />
       ) : (
@@ -51,7 +59,7 @@ export const MovieCard: React.FC<TCard> = ({ card }) => {
         </Typography>
         <Typography variant="caption" color="textSecondary">
           {card ? (
-            card.release_date
+            new Date(card.release_date).toLocaleDateString() + ', Movie'
           ) : (
             <Skeleton animation="wave" variant="text" />
           )}

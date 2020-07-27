@@ -199,6 +199,7 @@ const getOnTheAirTV = (language?: string, page?: number): ThunkType => async (
     throw error.response
   }
 }
+
 export const actions = {
   getSimilarTV,
   getTVDetails,

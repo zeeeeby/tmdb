@@ -11,8 +11,8 @@ import {
   TSimilarMovies,
   TRecommendations,
   TUpcomingMovies,
+  TVideo,
 } from './types'
-
 
 type ActionsTypes = InferActionsTypes<typeof localActions>
 type ThunkType = BaseThunkType<ActionsTypes>
@@ -23,6 +23,7 @@ let initialState = {
     details: {} as TMovieDetails | null,
     similar: {} as TSimilarMovies | null,
     recommendations: {} as TRecommendations | null,
+    videos: {} as TVideo | null,
   },
   popularMovies: {} as TPopularMovies | null,
   nowPlayingMovies: {} as TNowPlayingMovies | null,
@@ -58,6 +59,11 @@ export const moviesReducer = (
           ...state.currentMovie,
           recommendations: action.payload.movies,
         },
+      }
+    case 'tmdb/movies/SET_VIDEOS':
+      return {
+        ...state,
+        currentMovie: { ...state.currentMovie, videos: action.payload.videos },
       }
     case 'tmdb/movies/SET_POPULAR_MOVIES':
       return {
@@ -111,14 +117,24 @@ const localActions = {
       type: 'tmdb/movies/SET_UPCOMING_MOVIES',
       payload: { movies },
     } as const),
+  setVideos: (videos: TVideo | null) =>
+    ({ type: 'tmdb/movies/SET_VIDEOS', payload: { videos } } as const),
 }
 
-const getMovieDetails = (movie_id: number): ThunkType => async (
-  dispatch: Dispatch<ActionsTypes>
-) => {
+const getMovieDetails = (
+  movie_id: number,
+  language?: string
+): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
   try {
     dispatch(localActions.setMovieDetails(null))
-    dispatch(localActions.setMovieDetails(await moviesApi.getDetails(movie_id)))
+    dispatch(
+      localActions.setMovieDetails(
+        await moviesApi.getDetails(movie_id, language)
+      )
+    )
+    dispatch(
+      localActions.setVideos(await moviesApi.getVideos(movie_id, language))
+    )
   } catch (error) {
     throw error.response
   }
@@ -219,6 +235,7 @@ const getUpcomingMovies = (
     throw error.response
   }
 }
+
 export const actions = {
   getMovieDetails,
   getTopRatedMovies,

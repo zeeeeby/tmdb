@@ -16,13 +16,15 @@ const useStyles = makeStyles({
     height: '100%',
     justifyContent: 'space-between',
   },
+  grid: {
+    flexShrink: 0,
+  },
 })
-
-export const CardItem: React.FC = ({ children }) => {
+export const CardItem: React.FC<any> = ({ children, onClick }) => {
   const classes = useStyles()
   return (
-    <Grid item xs={6} sm={4} md={3} lg={2}>
-      <Paper className={classes.root}>
+    <Grid className={classes.grid} item xs={6} sm={4} md={3} lg={2}>
+      <Paper onClick={onClick} className={classes.root}>
         <Card className={classes.root}>
           <CardActionArea className={classes.cardAction}>
             {children}
