@@ -100,3 +100,4 @@ export type TAiringTodayTV = TResult
 export type TOnTheAirTV = TResult
 export type TSimilarTV = TResult
 export type TRecommendations = TResult
+export type TSearchTV = TResult
