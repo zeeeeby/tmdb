@@ -70,7 +70,7 @@ export type TMovie = {
 }
 type TResult = {
   page: number
-  results: Array<TMovie> 
+  results: Array<TMovie>
   total_results: number
   total_pages: number
 }
@@ -92,3 +92,25 @@ export type TUpcomingMovies = TResult & {
     minimum: string
   }
 }
+
+export type TVideo = {
+  id: number
+  results: Array<{
+    id: string
+    iso_639_1: string
+    iso_3166_1: string
+    key: string
+    name: string
+    site: 'YouTube' | 'Vimeo'
+    size: number
+    type:
+      | 'Trailer'
+      | 'Teaser'
+      | 'Clip'
+      | 'Featurette'
+      | 'Behind the Scenes'
+      | 'Bloopers'
+  }>
+}
+
+export type TSearchMovies = TResult
