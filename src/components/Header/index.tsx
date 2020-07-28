@@ -76,7 +76,7 @@ export const Header: React.ComponentType = () => {
     setSearchValue(value)
     timeout.current = window.setTimeout(() => {
       //@ts-ignore
-      if (value) find(value, 1).then(() => setFindStatus(true))
+      if (value) find(value, 1, true).then(() => setFindStatus(true))
     }, 300)
   }
 

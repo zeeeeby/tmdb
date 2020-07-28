@@ -5,6 +5,7 @@ import { CardsList } from '@src/components/CardsList'
 import { useHistory, useLocation } from 'react-router-dom'
 import { movies } from '@src/store/modules/movies'
 import { parseQueryString } from '@src/lib/parse_query_string'
+import { MovieCard } from '@src/components/CardsList/MovieCard'
 const useStyles = makeStyles({
   pagination: {
     '& ul': { justifyContent: 'center', margin: '10px 0' },
@@ -37,7 +38,11 @@ export const Upcoming: React.FC = () => {
   }
   return (
     <>
-      <CardsList cards={upcoming?.results} cardType="movie" />
+      <CardsList>
+        {upcoming?.results?.map((el) => (
+          <MovieCard card={el} />
+        ))}
+      </CardsList>
       <Pagination
         className={classes.pagination}
         count={upcoming?.total_pages}

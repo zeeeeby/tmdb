@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 type T = {
   isOpened: boolean
-  results: TSearchResult | null
+  results: TSearchResult | null 
 }
 export const SearchResultsList: React.FC<T> = ({ isOpened, results }) => {
   const classes = useStyles()
@@ -34,7 +34,7 @@ export const SearchResultsList: React.FC<T> = ({ isOpened, results }) => {
       {isOpened && (
         <List className={classes.root}>
           {results?.total_results ? (
-            results?.results.map((media) => {
+            results?.results?.map((media) => {
               return (
                 <ListItem
                   key={media.id}

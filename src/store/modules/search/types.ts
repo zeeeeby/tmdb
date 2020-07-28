@@ -7,7 +7,7 @@ export type TMultiSearch =
   
 export type TSearchResult = {
   page: number
-  results: Array<TMultiSearch>
+  results: Array<TMultiSearch> | null
   total_results: number
   total_pages: number
 }

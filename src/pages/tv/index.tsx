@@ -5,6 +5,7 @@ import { CardsList } from '@src/components/CardsList'
 import { useHistory, useLocation } from 'react-router-dom'
 import { tv } from '@src/store/modules/tv'
 import { parseQueryString } from '@src/lib/parse_query_string'
+import { TVCard } from '@src/components/CardsList/TVCard'
 const useStyles = makeStyles({
   pagination: {
     '& ul': { justifyContent: 'center', margin: '10px 0' },
@@ -37,7 +38,11 @@ export const TV: React.FC = () => {
   }
   return (
     <>
-      <CardsList cards={popularTV?.results} cardType="tv" />
+      <CardsList>
+        {popularTV?.results?.map((el) => (
+          <TVCard card={el} />
+        ))}
+      </CardsList>
       <Pagination
         className={classes.pagination}
         count={popularTV?.total_pages}

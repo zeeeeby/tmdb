@@ -11,6 +11,7 @@ import Rating from '@material-ui/lab/Rating'
 import Skeleton from '@material-ui/lab/Skeleton'
 
 import { Expand } from '@src/components/common/expand'
+import { MovieCard } from '@src/components/CardsList/MovieCard'
 
 const useStyles = makeStyles({
   pagination: {
@@ -307,11 +308,11 @@ export const ByID: React.FC = () => {
               <Link to={'recommendations/' + details?.id}>посмотреть все</Link>
             </Typography>
             <div className={classes.slider}>
-              <CardsList
-                style={{ flexWrap: 'nowrap' }}
-                cardType="movie"
-                cards={recommendations?.results}
-              />
+              <CardsList style={{ flexWrap: 'nowrap' }}>
+                {recommendations?.results?.map((el) => (
+                  <MovieCard card={el} />
+                ))}
+              </CardsList>
             </div>
           </>
         ) : null}
@@ -323,11 +324,11 @@ export const ByID: React.FC = () => {
               <Link to={'similar/' + details?.id}>посмотреть все</Link>
             </Typography>
             <div className={classes.slider}>
-              <CardsList
-                style={{ flexWrap: 'nowrap' }}
-                cardType="movie"
-                cards={similar?.results}
-              />
+              <CardsList style={{ flexWrap: 'nowrap' }}>
+                {similar?.results?.map((el) => (
+                  <MovieCard card={el} />
+                ))}
+              </CardsList>
             </div>
           </>
         ) : null}
