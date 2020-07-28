@@ -121,83 +121,56 @@ const localActions = {
     ({ type: 'tmdb/movies/SET_VIDEOS', payload: { videos } } as const),
 }
 
-const getMovieDetails = (
-  movie_id: number,
-  language?: string
-): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
+const getMovieDetails = (movie_id: number): ThunkType => async (
+  dispatch: Dispatch<ActionsTypes>
+) => {
   try {
     dispatch(localActions.setMovieDetails(null))
-    dispatch(
-      localActions.setMovieDetails(
-        await moviesApi.getDetails(movie_id, language)
-      )
-    )
-    dispatch(
-      localActions.setVideos(await moviesApi.getVideos(movie_id, language))
-    )
+    dispatch(localActions.setMovieDetails(await moviesApi.getDetails(movie_id)))
+    dispatch(localActions.setVideos(await moviesApi.getVideos(movie_id)))
   } catch (error) {
     throw error.response
   }
 }
-const getPopularMovies = (
-  language?: string,
-  page?: number,
-  region?: string
-): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
+const getPopularMovies = (page?: number): ThunkType => async (
+  dispatch: Dispatch<ActionsTypes>
+) => {
   try {
     dispatch(localActions.setPopularMovies(null))
-    dispatch(
-      localActions.setPopularMovies(
-        await moviesApi.getPopular(language, page, region)
-      )
-    )
+    dispatch(localActions.setPopularMovies(await moviesApi.getPopular(page)))
   } catch (error) {
     throw error.response
   }
 }
-const getNowPlayingMovies = (
-  language?: string,
-  page?: number,
-  region?: string
-): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
+const getNowPlayingMovies = (page?: number): ThunkType => async (
+  dispatch: Dispatch<ActionsTypes>
+) => {
   try {
     dispatch(localActions.setNowPlayingMovies(null))
     dispatch(
-      localActions.setNowPlayingMovies(
-        await moviesApi.getNowPlaying(language, page, region)
-      )
+      localActions.setNowPlayingMovies(await moviesApi.getNowPlaying(page))
     )
   } catch (error) {
     throw error.response
   }
 }
-const getTopRatedMovies = (
-  language?: string,
-  page?: number,
-  region?: string
-): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
+const getTopRatedMovies = (page?: number): ThunkType => async (
+  dispatch: Dispatch<ActionsTypes>
+) => {
   try {
     dispatch(localActions.setTopRatedMovies(null))
-    dispatch(
-      localActions.setTopRatedMovies(
-        await moviesApi.getTopRated(language, page, region)
-      )
-    )
+    dispatch(localActions.setTopRatedMovies(await moviesApi.getTopRated(page)))
   } catch (error) {
     throw error.response
   }
 }
-const getSimilarMovies = (
-  movie_id: number,
-  language?: string,
-  page?: number
-): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
+const getSimilarMovies = (movie_id: number, page?: number): ThunkType => async (
+  dispatch: Dispatch<ActionsTypes>
+) => {
   try {
     dispatch(localActions.setSimilarMovies(null))
     dispatch(
-      localActions.setSimilarMovies(
-        await moviesApi.getSimilar(movie_id, language, page)
-      )
+      localActions.setSimilarMovies(await moviesApi.getSimilar(movie_id, page))
     )
   } catch (error) {
     throw error.response
@@ -205,32 +178,25 @@ const getSimilarMovies = (
 }
 const getRecommendations = (
   movie_id: number,
-  language?: string,
   page?: number
 ): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
   try {
     dispatch(localActions.setRecommendations(null))
     dispatch(
       localActions.setRecommendations(
-        await moviesApi.getRecommendations(movie_id, language, page)
+        await moviesApi.getRecommendations(movie_id, page)
       )
     )
   } catch (error) {
     throw error.response
   }
 }
-const getUpcomingMovies = (
-  language?: string,
-  page?: number,
-  region?: string
-): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
+const getUpcomingMovies = (page?: number): ThunkType => async (
+  dispatch: Dispatch<ActionsTypes>
+) => {
   try {
     dispatch(localActions.setUpcoming(null))
-    dispatch(
-      localActions.setUpcoming(
-        await moviesApi.getUpcoming(language, page, region)
-      )
-    )
+    dispatch(localActions.setUpcoming(await moviesApi.getUpcoming(page)))
   } catch (error) {
     throw error.response
   }

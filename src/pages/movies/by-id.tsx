@@ -75,7 +75,7 @@ const useStyles = makeStyles({
   },
 })
 export const ByID: React.FC = () => {
-  const DESCRIPTION_BREAKPOINT = 150
+  const DESCRIPTION_BREAKPOINT = 25
 
   const classes = useStyles()
   const {
@@ -85,6 +85,7 @@ export const ByID: React.FC = () => {
     useVideos,
   } = movies.currentMovie
   const details = useDetails()
+  const detailsOverview = details?.overview?.split(' ') || []
   const history = useHistory()
   const recommendations = useRecommendations()
   const similar = useSimilar()
@@ -101,7 +102,7 @@ export const ByID: React.FC = () => {
 
   React.useEffect(() => {
     //@ts-ignore
-    getMovieDetails(movieID, ' ').catch((err: any) => {
+    getMovieDetails(movieID).catch((err: any) => {
       if (err?.status === 422) {
         console.log(2)
       }
@@ -109,8 +110,8 @@ export const ByID: React.FC = () => {
         console.log(err)
       }
     })
-    getRecommendations(movieID, ' ', 1)
-    getSimilarMovies(movieID, ' ', 1)
+    getRecommendations(movieID, 1)
+    getSimilarMovies(movieID, 1)
   }, [movieID])
 
   return (
@@ -141,6 +142,13 @@ export const ByID: React.FC = () => {
               `${details.title}(${new Date(
                 details?.release_date || ''
               ).getFullYear()})`
+            ) : (
+              <Skeleton animation="wave" variant="text" />
+            )}
+          </Typography>
+          <Typography variant="h6" component="h4">
+            {details?.original_title ? (
+              `${details.original_title}`
             ) : (
               <Skeleton animation="wave" variant="text" />
             )}
@@ -229,24 +237,34 @@ export const ByID: React.FC = () => {
             <Typography variant="body1" component="h6"></Typography>
           </Grid>
           <Grid style={{ marginTop: '15px' }} item xs={12}>
-            <Typography
-              style={{ marginBottom: '10px' }}
-              variant="h5"
-              component="h5"
-            >
-              ОПИСАНИЕ
-            </Typography>
-            {details?.overview ? (
-              <div>
-                <Typography variant="body1" component="h6">
-                  {details.overview.slice(0, DESCRIPTION_BREAKPOINT)}
+            {details?.id ? (
+              <>
+                <Typography
+                  style={{ marginBottom: '10px' }}
+                  variant="h5"
+                  component="h5"
+                >
+                  ОПИСАНИЕ
                 </Typography>
-                <Expand>
-                  <Typography variant="body1" component="h6">
-                    {details.overview.slice(150)}
-                  </Typography>
-                </Expand>
-              </div>
+                {details?.overview && (
+                  <div>
+                    <Typography variant="body1" component="h6">
+                      {detailsOverview
+                        ?.slice(0, DESCRIPTION_BREAKPOINT)
+                        .join(' ')}
+                    </Typography>
+                    {detailsOverview?.length - DESCRIPTION_BREAKPOINT > 0 && (
+                      <Expand>
+                        <Typography variant="body1" component="h6">
+                          {detailsOverview
+                            ?.slice(DESCRIPTION_BREAKPOINT)
+                            .join(' ')}
+                        </Typography>
+                      </Expand>
+                    )}
+                  </div>
+                )}
+              </>
             ) : (
               <Skeleton
                 style={{ height: '50px' }}

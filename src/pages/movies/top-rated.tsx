@@ -7,7 +7,7 @@ import { movies } from '@src/store/modules/movies'
 import { parseQueryString } from '@src/lib/parse_query_string'
 const useStyles = makeStyles({
   pagination: {
-    '& ul': { justifyContent: 'center', margin: "10px 0" },
+    '& ul': { justifyContent: 'center', margin: '10px 0' },
   },
 })
 export const TopRated: React.FC = () => {
@@ -27,7 +27,7 @@ export const TopRated: React.FC = () => {
 
   React.useEffect(() => {
     //@ts-ignore
-    getTopRatedMovies('', page).catch((err: any) => {
+    getTopRatedMovies(page).catch((err: any) => {
       if (err?.status === 422) switchPage(1)
     })
   }, [page])

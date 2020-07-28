@@ -5,6 +5,10 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
 import { TSearchResult, TMultiSearch } from '@src/store/modules/search/types'
+import { ListItemIcon, Typography } from '@material-ui/core'
+import TvIcon from '@material-ui/icons/Tv'
+import MovieIcon from '@material-ui/icons/Movie'
+import PersonIcon from '@material-ui/icons/Person'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,25 +34,26 @@ export const SearchResultsList: React.FC<T> = ({ isOpened, results }) => {
       {isOpened && (
         <List className={classes.root}>
           {results?.total_results ? (
-            results?.results.map((value) => {
+            results?.results.map((media) => {
               return (
                 <ListItem
-                  key={value.id}
+                  key={media.id}
                   role={undefined}
                   dense
                   button
                   onClick={handleClick(1)}
                 >
+                  <ListItemIcon>{getIcon(media)}</ListItemIcon>
                   <ListItemText
                     style={{ marginTop: 0 }}
-                    primary={`${getTitle(value)}`}
+                    primary={`${getTitle(media)}`}
                   />
                   <ListItemSecondaryAction></ListItemSecondaryAction>
                 </ListItem>
               )
             })
           ) : (
-            <div>НЕТ РЕЗУЛЬТАТОВ</div>
+            <Typography style={{textAlign: "center"}} variant="h5">НЕТ РЕЗУЛЬТАТОВ</Typography>
           )}
         </List>
       )}
@@ -63,5 +68,15 @@ const getTitle = (media: TMultiSearch) => {
       return media.name + ' (TV)'
     default:
       return 'NOT STATED (Persona)'
+  }
+}
+const getIcon = (media: TMultiSearch) => {
+  switch (media.media_type) {
+    case 'movie':
+      return <MovieIcon />
+    case 'tv':
+      return <TvIcon />
+    default:
+      return <PersonIcon />
   }
 }

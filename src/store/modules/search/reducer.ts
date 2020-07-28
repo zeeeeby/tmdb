@@ -33,17 +33,11 @@ const localActions = {
     } as const),
 }
 
-const find = (
-  query: string,
-  page?: number,
-  language?: string
-): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
+const find = (query: string, page?: number): ThunkType => async (
+  dispatch: Dispatch<ActionsTypes>
+) => {
   try {
-    dispatch(
-      localActions.setSearchResult(
-        await searchApi.search(query, page, language)
-      )
-    )
+    dispatch(localActions.setSearchResult(await searchApi.search(query, page)))
   } catch (error) {
     throw error.response
   }

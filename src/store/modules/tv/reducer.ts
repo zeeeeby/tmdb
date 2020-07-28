@@ -122,79 +122,66 @@ const getTVDetails = (tv_id: number): ThunkType => async (
     throw error.response
   }
 }
-const getPopularTV = (language?: string, page?: number): ThunkType => async (
+const getPopularTV = (page?: number): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
     dispatch(localActions.setPopularTV(null))
-    dispatch(localActions.setPopularTV(await tvApi.getPopular(language, page)))
+    dispatch(localActions.setPopularTV(await tvApi.getPopular(page)))
   } catch (error) {
     throw error.response
   }
 }
-const getAiringTodayTV = (
-  language?: string,
-  page?: number
-): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
+const getAiringTodayTV = (page?: number): ThunkType => async (
+  dispatch: Dispatch<ActionsTypes>
+) => {
   try {
     dispatch(localActions.setTAiringTodayTV(null))
-    dispatch(
-      localActions.setTAiringTodayTV(await tvApi.getAiringToday(language, page))
-    )
+    dispatch(localActions.setTAiringTodayTV(await tvApi.getAiringToday(page)))
   } catch (error) {
     throw error.response
   }
 }
-const getTopRatedTV = (language?: string, page?: number): ThunkType => async (
+const getTopRatedTV = (page?: number): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
     dispatch(localActions.setTopRatedTV(null))
-    dispatch(
-      localActions.setTopRatedTV(await tvApi.getTopRated(language, page))
-    )
+    dispatch(localActions.setTopRatedTV(await tvApi.getTopRated(page)))
   } catch (error) {
     throw error.response
   }
 }
-const getSimilarTV = (
-  tv_id: number,
-  language?: string,
-  page?: number
-): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
+const getSimilarTV = (tv_id: number, page?: number): ThunkType => async (
+  dispatch: Dispatch<ActionsTypes>
+) => {
   try {
     dispatch(localActions.setSimilarTV(null))
-    dispatch(
-      localActions.setSimilarTV(await tvApi.getSimilar(tv_id, language, page))
-    )
+    dispatch(localActions.setSimilarTV(await tvApi.getSimilar(tv_id, page)))
   } catch (error) {
     throw error.response
   }
 }
-const getRecommendations = (
-  tv_id: number,
-  language?: string,
-  page?: number
-): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
+const getRecommendations = (tv_id: number, page?: number): ThunkType => async (
+  dispatch: Dispatch<ActionsTypes>
+) => {
   try {
     dispatch(localActions.setRecommendations(null))
     dispatch(
       localActions.setRecommendations(
-        await tvApi.getRecommendations(tv_id, language, page)
+        await tvApi.getRecommendations(tv_id, page)
       )
     )
   } catch (error) {
     throw error.response
   }
 }
-const getOnTheAirTV = (language?: string, page?: number): ThunkType => async (
+const getOnTheAirTV = (page?: number): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
     dispatch(localActions.setOnTheAirTV(null))
-    dispatch(
-      localActions.setOnTheAirTV(await tvApi.getOnTheAir(language, page))
-    )
+    dispatch(localActions.setOnTheAirTV(await tvApi.getOnTheAir(page)))
   } catch (error) {
     throw error.response
   }

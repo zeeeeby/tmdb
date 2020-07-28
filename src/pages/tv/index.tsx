@@ -27,7 +27,7 @@ export const TV: React.FC = () => {
 
   React.useEffect(() => {
     //@ts-ignore
-    getPopularTV('', page).catch((err: any) => {
+    getPopularTV(page).catch((err: any) => {
       if (err.status === 422) switchPage(1)
     })
   }, [page])

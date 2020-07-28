@@ -27,7 +27,7 @@ export const NowPlaying: React.FC = () => {
 
   React.useEffect(() => {
     //@ts-ignore
-    getNowPlayingMovies('', page).catch((err: any) => {
+    getNowPlayingMovies(page).catch((err: any) => {
       if (err?.status === 422) switchPage(1)
     })
   }, [page])

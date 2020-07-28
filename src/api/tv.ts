@@ -10,39 +10,33 @@ import {
 } from '@src/store/modules/tv/types'
 import { createQueryString } from '@src/lib/create_query_string'
 
-
 const getDetails = (tv_id: number) =>
   http.get<TTVDetails>(`/tv/${tv_id}?`).then((res) => res.data)
-const getPopular = (language?: string, page?: number) =>
+const getPopular = (page?: number) =>
   http
-    .get<TPopularTV>(`/tv/popular?${createQueryString({ language, page })}`)
+    .get<TPopularTV>(`/tv/popular?${createQueryString({ page })}`)
     .then((res) => res.data)
-const getTopRated = (language?: string, page?: number) =>
+const getTopRated = (page?: number) =>
   http
-    .get<TTopRatedTV>(`/tv/top_rated?${createQueryString({ language, page })}`)
+    .get<TTopRatedTV>(`/tv/top_rated?${createQueryString({ page })}`)
     .then((res) => res.data)
-const getOnTheAir = (language?: string, page?: number) =>
+const getOnTheAir = (page?: number) =>
   http
-    .get<TOnTheAirTV>(`/tv/on_the_air?${createQueryString({ language, page })}`)
+    .get<TOnTheAirTV>(`/tv/on_the_air?${createQueryString({ page })}`)
     .then((res) => res.data)
-const getAiringToday = (language?: string, page?: number) =>
+const getAiringToday = (page?: number) =>
   http
-    .get<TAiringTodayTV>(
-      `/tv/airing_today?${createQueryString({ language, page })}`
-    )
+    .get<TAiringTodayTV>(`/tv/airing_today?${createQueryString({ page })}`)
     .then((res) => res.data)
-const getSimilar = (tv_id: number, language?: string, page?: number) =>
+const getSimilar = (tv_id: number, page?: number) =>
   http
-    .get<TSimilarTV>(
-      `/tv/${tv_id}/similar?${createQueryString({ language, page })}`
-    )
+    .get<TSimilarTV>(`/tv/${tv_id}/similar?${createQueryString({ page })}`)
     .then((res) => res.data)
 
-const getRecommendations = (tv_id: number, language?: string, page?: number) =>
+const getRecommendations = (tv_id: number, page?: number) =>
   http
     .get<TRecommendations>(
       `/tv/${tv_id}/recommendations?${createQueryString({
-        language,
         page,
       })}`
     )

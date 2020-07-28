@@ -27,7 +27,7 @@ export const Popular: React.FC = () => {
 
   React.useEffect(() => {
     //@ts-ignore
-    getPopularMovies('', page).catch((err: any) => {
+    getPopularMovies(page).catch((err: any) => {
       if (err.status === 422) switchPage(1)
     })
   }, [page])
