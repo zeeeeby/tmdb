@@ -22,7 +22,7 @@ export const Search: React.FC = () => {
   let query = parseQueryString(params.search).query || ''
   const [page, setPage] = React.useState(parseInt(pageNumber))
   const { find } = search.useActions()
-
+  console.log(params)
   const switchPage = (page: number) => {
     setPage(page)
     history.push(`?page=${page}&query=${query}`)
@@ -40,27 +40,33 @@ export const Search: React.FC = () => {
   }
   return (
     <>
-    <div>По запросу <b>{query}</b> найдено {searchRes?.total_results} совпадений</div>
-      <CardsList>
-        {searchRes?.results?.map((el) => {
-          switch (el.media_type) {
-            case 'movie':
-              return <MovieCard card={el} />
-            case 'tv':
-              return <TVCard card={el} />
-            default:
-              return <CardItem>N/A(Persona)</CardItem>
-          }
-        })}
-      </CardsList>
-      <Pagination
-        className={classes.pagination}
-        count={searchRes?.total_pages}
-        page={page}
-        color="primary"
-        size="large"
-        onChange={handleChange}
-      />
+      <div>
+        По запросу <b>{query}</b> найдено {searchRes?.total_results} совпадений
+      </div>
+      {searchRes?.total_results ? (
+        <>
+          <CardsList>
+            {searchRes.results?.map((el) => {
+              switch (el.media_type) {
+                case 'movie':
+                  return <MovieCard key={el.id} card={el} />
+                case 'tv':
+                  return <TVCard key={el.id} card={el} />
+                default:
+                  return <CardItem key={el.id}>N/A(Persona)</CardItem>
+              }
+            })}
+          </CardsList>
+          <Pagination
+            className={classes.pagination}
+            count={searchRes?.total_pages}
+            page={page}
+            color="primary"
+            size="large"
+            onChange={handleChange}
+          />
+        </>
+      ) : null}
     </>
   )
 }

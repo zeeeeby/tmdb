@@ -6,8 +6,8 @@ const search = (query: string, page?: number) =>
   http
     .get<TSearchResult>(
       `search/multi?${createQueryString({
-        query,
         page,
+        query,
       })}`
     )
     .then((res) => res.data)

@@ -16,7 +16,6 @@ const useStyles = makeStyles({
 })
 export const CardsList: React.FC<TCards> = ({ children, style }) => {
   const styles = useStyles()
-  console.log(children)
   return (
     <Grid
       style={style}

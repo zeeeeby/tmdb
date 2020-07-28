@@ -140,9 +140,11 @@ export const ByID: React.FC = () => {
         <Grid className={classes.zidx} item xs={12} sm={9}>
           <Typography variant="h4" component="h4">
             {details?.title ? (
-              `${details.title}(${new Date(
-                details?.release_date || ''
-              ).getFullYear()})`
+              `${details.title}(${
+                details?.release_date
+                  ? new Date(details?.release_date).getFullYear()
+                  : 'N/A'
+              })`
             ) : (
               <Skeleton animation="wave" variant="text" />
             )}
@@ -275,7 +277,7 @@ export const ByID: React.FC = () => {
             )}
           </Grid>
         </Grid>
-        {videos!.results?.length > 0 && (
+        {videos?.results?.length ? (
           <>
             <Typography variant="button" component="h6">
               ВИДЕО
@@ -300,7 +302,7 @@ export const ByID: React.FC = () => {
               ))}
             </Grid>
           </>
-        )}
+        ) : null}
         {recommendations?.total_results ? (
           <>
             <Typography variant="button" component="h6">

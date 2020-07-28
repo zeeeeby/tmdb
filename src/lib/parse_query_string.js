@@ -4,5 +4,5 @@ export const parseQueryString = (str) =>
     .split('&')
     .reduce((acc, el) => {
       const [key, value] = el.split('=')
-      return { ...acc, [key]: value }
+      return { ...acc, [key]: decodeURIComponent(value) }
     }, {})

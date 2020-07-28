@@ -126,6 +126,7 @@ const getMovieDetails = (movie_id: number): ThunkType => async (
 ) => {
   try {
     dispatch(localActions.setMovieDetails(null))
+    dispatch(localActions.setVideos(null))
     dispatch(localActions.setMovieDetails(await moviesApi.getDetails(movie_id)))
     dispatch(localActions.setVideos(await moviesApi.getVideos(movie_id)))
   } catch (error) {

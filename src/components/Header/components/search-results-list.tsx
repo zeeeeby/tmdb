@@ -9,6 +9,7 @@ import { ListItemIcon, Typography } from '@material-ui/core'
 import TvIcon from '@material-ui/icons/Tv'
 import MovieIcon from '@material-ui/icons/Movie'
 import PersonIcon from '@material-ui/icons/Person'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,12 +24,16 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 type T = {
   isOpened: boolean
-  results: TSearchResult | null 
+  results: TSearchResult | null
+  onRedirect: () => void
 }
-export const SearchResultsList: React.FC<T> = ({ isOpened, results }) => {
+export const SearchResultsList: React.FC<T> = ({
+  isOpened,
+  results,
+  onRedirect,
+}) => {
   const classes = useStyles()
-  const handleClick = (value: number) => () => {}
-
+  const history = useHistory()
   return (
     <>
       {isOpened && (
@@ -41,7 +46,10 @@ export const SearchResultsList: React.FC<T> = ({ isOpened, results }) => {
                   role={undefined}
                   dense
                   button
-                  onClick={handleClick(1)}
+                  onClick={() => {
+                    onRedirect()
+                    history.push(getUrl(media))
+                  }}
                 >
                   <ListItemIcon>{getIcon(media)}</ListItemIcon>
                   <ListItemText
@@ -53,7 +61,9 @@ export const SearchResultsList: React.FC<T> = ({ isOpened, results }) => {
               )
             })
           ) : (
-            <Typography style={{textAlign: "center"}} variant="h5">НЕТ РЕЗУЛЬТАТОВ</Typography>
+            <Typography style={{ textAlign: 'center' }} variant="h5">
+              НЕТ РЕЗУЛЬТАТОВ
+            </Typography>
           )}
         </List>
       )}
@@ -78,5 +88,16 @@ const getIcon = (media: TMultiSearch) => {
       return <TvIcon />
     default:
       return <PersonIcon />
+  }
+}
+
+const getUrl = (media: TMultiSearch) => {
+  switch (media.media_type) {
+    case 'movie':
+      return '/movies/' + media.id
+    case 'tv':
+      return '/tv/' + media.id
+    default:
+      return ''
   }
 }

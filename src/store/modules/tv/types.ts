@@ -90,7 +90,7 @@ export type TTV = {
 }
 type TResult = {
   page: number
-  results: Array<TTV> | null
+  results: Array<TTV> 
   total_results: number
   total_pages: number
 }

@@ -70,7 +70,7 @@ export type TMovie = {
 }
 type TResult = {
   page: number
-  results: Array<TMovie> | null
+  results: Array<TMovie> 
   total_results: number
   total_pages: number
 }

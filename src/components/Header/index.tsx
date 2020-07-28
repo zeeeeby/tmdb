@@ -142,7 +142,13 @@ export const Header: React.ComponentType = () => {
           )}
         </Toolbar>
       </AppBar>
-      <SearchResultsList isOpened={didResultFind} results={searchResult} />
+      <SearchResultsList
+        isOpened={didResultFind}
+        results={searchResult}
+        onRedirect={() => {
+          closeSearchInput()
+        }}
+      />
     </div>
   )
 }
