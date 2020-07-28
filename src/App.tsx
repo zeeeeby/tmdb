@@ -4,7 +4,7 @@ import { Switch, Route, useLocation } from 'react-router-dom'
 import Container from '@material-ui/core/Container'
 
 import { Header } from '@src/components/Header'
-import { Auth, movies, TV } from '@src/pages'
+import { Auth, movies, TV, Search } from '@src/pages'
 
 import { account } from '@src/store/modules/account'
 import { auth } from '@src/store/modules/auth'
@@ -57,12 +57,15 @@ export const App = () => {
               path="/movies/recommendations/:id"
               component={movies.Recommendations}
             />
+
             <Route
               exact
               path="/movies/similar/:id"
               component={movies.Similar}
             />
             <Route exact path="/tv/" component={TV} />
+
+            <Route exact path="/search" component={Search} />
           </Switch>
         </Container>
       </div>
