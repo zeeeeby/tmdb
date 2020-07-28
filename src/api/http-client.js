@@ -14,6 +14,7 @@ http.interceptors.request.use((config) => {
   const session_id = localStorage.load('session').session_id || '';
   config.params['session_id'] = encodeURIComponent(session_id);
 
+  config.params['language'] = encodeURIComponent("ru-RU");
   return config;
 });
 
