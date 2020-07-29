@@ -23,10 +23,10 @@ let initialState = {
     similar: {} as TSimilarTV | null,
     recommendations: {} as TRecommendations | null,
   },
-  popularTV: {} as TPopularTV | null,
-  airingTodayTV: {} as TAiringTodayTV | null,
-  onTheAirTV: {} as TOnTheAirTV | null,
-  topRatedTV: {} as TTopRatedTV | null,
+  popular: {} as TPopularTV | null,
+  airingToday: {} as TAiringTodayTV | null,
+  onTheAir: {} as TOnTheAirTV | null,
+  topRated: {} as TTopRatedTV | null,
 }
 
 export const tvReducer = (
@@ -61,14 +61,14 @@ export const tvReducer = (
     case 'tmdb/tv/SET_POPULAR':
       return {
         ...state,
-        popularTV: action.payload.tv,
+        popular: action.payload.tv,
       }
     case 'tmdb/tv/SET_AIRING_TODAY':
-      return { ...state, airingTodayTV: action.payload.tv }
+      return { ...state, airingToday: action.payload.tv }
     case 'tmdb/tv/SET_ON_THE_AIR':
-      return { ...state, onTheAirTV: action.payload.tv }
+      return { ...state, onTheAir: action.payload.tv }
     case 'tmdb/tv/SET_TOP_RATED':
-      return { ...state, topRatedTV: action.payload.tv }
+      return { ...state, topRated: action.payload.tv }
     default:
       return state
   }

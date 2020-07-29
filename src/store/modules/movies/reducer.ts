@@ -12,6 +12,8 @@ import {
   TRecommendations,
   TUpcomingMovies,
   TVideo,
+  TMovieExternalIds,
+  TDiscoveredMovies,
 } from './types'
 
 type ActionsTypes = InferActionsTypes<typeof localActions>
@@ -24,11 +26,12 @@ let initialState = {
     similar: {} as TSimilarMovies | null,
     recommendations: {} as TRecommendations | null,
     videos: {} as TVideo | null,
+    externalIds: {} as TMovieExternalIds | null,
   },
-  popularMovies: {} as TPopularMovies | null,
-  nowPlayingMovies: {} as TNowPlayingMovies | null,
-  topRatedMovies: {} as TTopRatedMovies | null,
-  upcomingMovies: {} as TUpcomingMovies | null,
+  popular: {} as TPopularMovies | null,
+  nowPlaying: {} as TNowPlayingMovies | null,
+  topRated: {} as TTopRatedMovies | null,
+  upcoming: {} as TUpcomingMovies | null,
 }
 
 export const moviesReducer = (
@@ -65,17 +68,25 @@ export const moviesReducer = (
         ...state,
         currentMovie: { ...state.currentMovie, videos: action.payload.videos },
       }
+    case 'tmdb/movies/SET_EXTERNAL_IDS':
+      return {
+        ...state,
+        currentMovie: {
+          ...state.currentMovie,
+          externalIds: action.payload.ids,
+        },
+      }
     case 'tmdb/movies/SET_POPULAR':
       return {
         ...state,
-        popularMovies: action.payload.movies,
+        popular: action.payload.movies,
       }
     case 'tmdb/movies/SET_NOW_PLAYING':
-      return { ...state, nowPlayingMovies: action.payload.movies }
+      return { ...state, nowPlaying: action.payload.movies }
     case 'tmdb/movies/SET_TOP_RATED':
-      return { ...state, topRatedMovies: action.payload.movies }
+      return { ...state, topRated: action.payload.movies }
     case 'tmdb/movies/SET_UPCOMING':
-      return { ...state, upcomingMovies: action.payload.movies }
+      return { ...state, upcoming: action.payload.movies }
     default:
       return state
   }
@@ -119,6 +130,8 @@ const localActions = {
     } as const),
   setVideos: (videos: TVideo | null) =>
     ({ type: 'tmdb/movies/SET_VIDEOS', payload: { videos } } as const),
+  setExternalIds: (ids: TMovieExternalIds | null) =>
+    ({ type: 'tmdb/movies/SET_EXTERNAL_IDS', payload: { ids } } as const),
 }
 
 const getMovieDetails = (movie_id: number): ThunkType => async (
@@ -200,7 +213,18 @@ const getUpcomingMovies = (page?: number): ThunkType => async (
     throw error.response
   }
 }
-
+const getMovieExternalIds = (movie_id: number): ThunkType => async (
+  dispatch: Dispatch<ActionsTypes>
+) => {
+  try {
+    dispatch(localActions.setExternalIds(null))
+    dispatch(
+      localActions.setExternalIds(await moviesApi.getExternalIds(movie_id))
+    )
+  } catch (error) {
+    throw error.response
+  }
+}
 export const actions = {
   getMovieDetails,
   getTopRatedMovies,
@@ -209,4 +233,5 @@ export const actions = {
   getSimilarMovies,
   getNowPlayingMovies,
   getUpcomingMovies,
+  getMovieExternalIds,
 }

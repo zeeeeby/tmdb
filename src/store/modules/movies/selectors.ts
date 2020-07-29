@@ -8,12 +8,10 @@ export const getRecommendations = (state: AppStateType) =>
   state.movies.currentMovie.recommendations
 export const getVideos = (state: AppStateType) =>
   state.movies.currentMovie.videos
-  
-export const getPopular = (state: AppStateType) =>
-  state.movies.popularMovies
-export const getNowPlaying = (state: AppStateType) =>
-  state.movies.nowPlayingMovies
-export const getTopRated = (state: AppStateType) =>
-  state.movies.topRatedMovies
-export const getUpcoming = (state: AppStateType) =>
-  state.movies.upcomingMovies
+export const getExternalIds = (state: AppStateType) =>
+  state.movies.currentMovie.externalIds
+
+export const getPopular = (state: AppStateType) => state.movies.popular
+export const getNowPlaying = (state: AppStateType) => state.movies.nowPlaying
+export const getTopRated = (state: AppStateType) => state.movies.topRated
+export const getUpcoming = (state: AppStateType) => state.movies.upcoming
