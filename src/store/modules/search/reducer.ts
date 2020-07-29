@@ -10,7 +10,7 @@ type ThunkType = BaseThunkType<ActionsTypes>
 type TInitialState = typeof initialState
 
 let initialState = {
-  searchResults: {} as TSearchResult | null,
+  searchResult: {} as TSearchResult | null,
 }
 
 export const searchReducer = (
@@ -18,18 +18,18 @@ export const searchReducer = (
   action: ActionsTypes
 ): TInitialState => {
   switch (action.type) {
-    case 'tmdb/search/SET_SEARCH_RESULT':
-      return { ...state, searchResults: action.payload.results }
+    case 'tmdb/search/SET_RESULT':
+      return { ...state, searchResult: action.payload.result }
     default:
       return state
   }
 }
 
 const localActions = {
-  setSearchResult: (results: TSearchResult | null) =>
+  setResult: (result: TSearchResult | null) =>
     ({
-      type: 'tmdb/search/SET_SEARCH_RESULT',
-      payload: { results },
+      type: 'tmdb/search/SET_RESULT',
+      payload: { result },
     } as const),
 }
 
@@ -39,9 +39,9 @@ const find = (
   inSearchInputMode?: boolean
 ): ThunkType => async (dispatch: Dispatch<ActionsTypes>) => {
   try {
-    if (!inSearchInputMode) dispatch(localActions.setSearchResult(null))
-    dispatch(localActions.setSearchResult(await searchApi.search(query, page)))
-  } catch (error) {     
+    if (!inSearchInputMode) dispatch(localActions.setResult(null))
+    dispatch(localActions.setResult(await searchApi.search(query, page)))
+  } catch (error) {
     throw error.response
   }
 }

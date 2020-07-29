@@ -68,7 +68,7 @@ export const Header: React.ComponentType = () => {
   const { find } = search.useActions()
   const searchResult = search.useResult()
   const [didResultFind, setFindStatus] = React.useState(false)
-  // throttling
+
   let timeout = React.useRef(0)
   const handleChange = (event: any) => {
     const value = event.target.value

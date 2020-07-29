@@ -34,7 +34,7 @@ export const tvReducer = (
   action: ActionsTypes
 ): TInitialState => {
   switch (action.type) {
-    case 'tmdb/tv/SET_TV_DETAILS':
+    case 'tmdb/tv/SET_DETAILS':
       return {
         ...state,
         currentTV: {
@@ -42,7 +42,7 @@ export const tvReducer = (
           details: action.payload.details,
         },
       }
-    case 'tmdb/tv/SET_SIMILAR_TV':
+    case 'tmdb/tv/SET_SIMILAR':
       return {
         ...state,
         currentTV: {
@@ -58,16 +58,16 @@ export const tvReducer = (
           recommendations: action.payload.tv,
         },
       }
-    case 'tmdb/tv/SET_POPULAR_TV':
+    case 'tmdb/tv/SET_POPULAR':
       return {
         ...state,
         popularTV: action.payload.tv,
       }
-    case 'tmdb/tv/SET_AIRING_TODAY_TV':
+    case 'tmdb/tv/SET_AIRING_TODAY':
       return { ...state, airingTodayTV: action.payload.tv }
-    case 'tmdb/tv/SET_ON_THE_AIR_TV':
+    case 'tmdb/tv/SET_ON_THE_AIR':
       return { ...state, onTheAirTV: action.payload.tv }
-    case 'tmdb/tv/SET_TOP_RATED_TV':
+    case 'tmdb/tv/SET_TOP_RATED':
       return { ...state, topRatedTV: action.payload.tv }
     default:
       return state
@@ -75,34 +75,34 @@ export const tvReducer = (
 }
 
 const localActions = {
-  setTVDetails: (details: TTVDetails | null) =>
+  setDetails: (details: TTVDetails | null) =>
     ({
-      type: 'tmdb/tv/SET_TV_DETAILS',
+      type: 'tmdb/tv/SET_DETAILS',
       payload: { details },
     } as const),
-  setPopularTV: (tv: TPopularTV | null) =>
+  setPopular: (tv: TPopularTV | null) =>
     ({
-      type: 'tmdb/tv/SET_POPULAR_TV',
+      type: 'tmdb/tv/SET_POPULAR',
       payload: { tv },
     } as const),
-  setTAiringTodayTV: (tv: TAiringTodayTV | null) =>
+  setTAiringToday: (tv: TAiringTodayTV | null) =>
     ({
-      type: 'tmdb/tv/SET_AIRING_TODAY_TV',
+      type: 'tmdb/tv/SET_AIRING_TODAY',
       payload: { tv },
     } as const),
-  setOnTheAirTV: (tv: TOnTheAirTV | null) =>
+  setOnTheAir: (tv: TOnTheAirTV | null) =>
     ({
-      type: 'tmdb/tv/SET_ON_THE_AIR_TV',
+      type: 'tmdb/tv/SET_ON_THE_AIR',
       payload: { tv },
     } as const),
-  setTopRatedTV: (tv: TTopRatedTV | null) =>
+  setTopRated: (tv: TTopRatedTV | null) =>
     ({
-      type: 'tmdb/tv/SET_TOP_RATED_TV',
+      type: 'tmdb/tv/SET_TOP_RATED',
       payload: { tv },
     } as const),
-  setSimilarTV: (tv: TSimilarTV | null) =>
+  setSimilar: (tv: TSimilarTV | null) =>
     ({
-      type: 'tmdb/tv/SET_SIMILAR_TV',
+      type: 'tmdb/tv/SET_SIMILAR',
       payload: { tv },
     } as const),
   setRecommendations: (tv: TRecommendations | null) =>
@@ -116,8 +116,8 @@ const getTVDetails = (tv_id: number): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
-    dispatch(localActions.setTVDetails(null))
-    dispatch(localActions.setTVDetails(await tvApi.getDetails(tv_id)))
+    dispatch(localActions.setDetails(null))
+    dispatch(localActions.setDetails(await tvApi.getDetails(tv_id)))
   } catch (error) {
     throw error.response
   }
@@ -126,8 +126,8 @@ const getPopularTV = (page?: number): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
-    dispatch(localActions.setPopularTV(null))
-    dispatch(localActions.setPopularTV(await tvApi.getPopular(page)))
+    dispatch(localActions.setPopular(null))
+    dispatch(localActions.setPopular(await tvApi.getPopular(page)))
   } catch (error) {
     throw error.response
   }
@@ -136,8 +136,8 @@ const getAiringTodayTV = (page?: number): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
-    dispatch(localActions.setTAiringTodayTV(null))
-    dispatch(localActions.setTAiringTodayTV(await tvApi.getAiringToday(page)))
+    dispatch(localActions.setTAiringToday(null))
+    dispatch(localActions.setTAiringToday(await tvApi.getAiringToday(page)))
   } catch (error) {
     throw error.response
   }
@@ -146,8 +146,8 @@ const getTopRatedTV = (page?: number): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
-    dispatch(localActions.setTopRatedTV(null))
-    dispatch(localActions.setTopRatedTV(await tvApi.getTopRated(page)))
+    dispatch(localActions.setTopRated(null))
+    dispatch(localActions.setTopRated(await tvApi.getTopRated(page)))
   } catch (error) {
     throw error.response
   }
@@ -156,8 +156,8 @@ const getSimilarTV = (tv_id: number, page?: number): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
-    dispatch(localActions.setSimilarTV(null))
-    dispatch(localActions.setSimilarTV(await tvApi.getSimilar(tv_id, page)))
+    dispatch(localActions.setSimilar(null))
+    dispatch(localActions.setSimilar(await tvApi.getSimilar(tv_id, page)))
   } catch (error) {
     throw error.response
   }
@@ -180,8 +180,8 @@ const getOnTheAirTV = (page?: number): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
-    dispatch(localActions.setOnTheAirTV(null))
-    dispatch(localActions.setOnTheAirTV(await tvApi.getOnTheAir(page)))
+    dispatch(localActions.setOnTheAir(null))
+    dispatch(localActions.setOnTheAir(await tvApi.getOnTheAir(page)))
   } catch (error) {
     throw error.response
   }

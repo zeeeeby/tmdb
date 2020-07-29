@@ -22,7 +22,7 @@ export const Search: React.FC = () => {
   let query = parseQueryString(params.search).query || ''
   const [page, setPage] = React.useState(parseInt(pageNumber))
   const { find } = search.useActions()
-  console.log(params)
+
   const switchPage = (page: number) => {
     setPage(page)
     history.push(`?page=${page}&query=${query}`)
@@ -46,7 +46,7 @@ export const Search: React.FC = () => {
       {searchRes?.total_results ? (
         <>
           <CardsList>
-            {searchRes.results?.map((el) => {
+            {searchRes.results?.map((el:any) => {
               switch (el.media_type) {
                 case 'movie':
                   return <MovieCard key={el.id} card={el} />
