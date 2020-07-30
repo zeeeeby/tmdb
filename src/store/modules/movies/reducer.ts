@@ -14,6 +14,7 @@ import {
   TVideo,
   TMovieExternalIds,
   TDiscoveredMovies,
+  TDiscoverMovie,
 } from './types'
 
 type ActionsTypes = InferActionsTypes<typeof localActions>
@@ -32,6 +33,7 @@ let initialState = {
   nowPlaying: {} as TNowPlayingMovies | null,
   topRated: {} as TTopRatedMovies | null,
   upcoming: {} as TUpcomingMovies | null,
+  discovered: {} as TDiscoveredMovies | null,
 }
 
 export const moviesReducer = (
@@ -87,6 +89,8 @@ export const moviesReducer = (
       return { ...state, topRated: action.payload.movies }
     case 'tmdb/movies/SET_UPCOMING':
       return { ...state, upcoming: action.payload.movies }
+    case 'tmdb/movies/SET_DISCOVERED':
+      return { ...state, discovered: action.payload.movies }
     default:
       return state
   }
@@ -132,6 +136,8 @@ const localActions = {
     ({ type: 'tmdb/movies/SET_VIDEOS', payload: { videos } } as const),
   setExternalIds: (ids: TMovieExternalIds | null) =>
     ({ type: 'tmdb/movies/SET_EXTERNAL_IDS', payload: { ids } } as const),
+  setDiscovered: (movies: TDiscoveredMovies | null) =>
+    ({ type: 'tmdb/movies/SET_DISCOVERED', payload: { movies } } as const),
 }
 
 const getMovieDetails = (movie_id: number): ThunkType => async (
@@ -225,6 +231,16 @@ const getMovieExternalIds = (movie_id: number): ThunkType => async (
     throw error.response
   }
 }
+const getDiscoveredMovies = (args: TDiscoverMovie): ThunkType => async (
+  dispatch: Dispatch<ActionsTypes>
+) => {
+  try {
+    dispatch(localActions.setDiscovered(null))
+    dispatch(localActions.setDiscovered(await moviesApi.getDiscovered(args)))
+  } catch (error) {
+    throw error.response
+  }
+}
 export const actions = {
   getMovieDetails,
   getTopRatedMovies,
@@ -234,4 +250,5 @@ export const actions = {
   getNowPlayingMovies,
   getUpcomingMovies,
   getMovieExternalIds,
+  getDiscoveredMovies,
 }
