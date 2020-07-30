@@ -70,7 +70,7 @@ export type TMovie = {
 }
 type TResult = {
   page: number
-  results: Array<TMovie> 
+  results: Array<TMovie>
   total_results: number
   total_pages: number
 }
@@ -114,3 +114,63 @@ export type TVideo = {
 }
 
 export type TSearchMovies = TResult
+export type TDiscoveredMovies = TResult
+
+export type TMovieExternalIds = {
+  imdb_id: string | null
+  facebook_id: string | null
+  instagram_id: string | null
+  twitter_id: string | null
+  id: number
+}
+
+export type TDiscoverMovie = {
+  sort_by?: TSortBy
+  language?: string
+  region?: string
+  certification_country?: string
+  certification?: string
+  'certification.lte'?: string | number
+  'certification.gte'?: string | number
+  include_adult?: boolean
+  include_video?: boolean
+  page?: number
+  primary_release_year?: number
+  'primary_release_date.gte'?: string | number
+  'primary_release_date.lte'?: string | number
+  'release_date.gte'?: string | number
+  'release_date.lte'?: string
+  with_release_type?: number
+  year?: number
+  'vote_count.gte'?: string | number
+  'vote_count.lte'?: string | number
+  'vote_average.gte'?: string | number
+  'vote_average.lte'?: string | number
+  with_cast?: string
+  with_crew?: string
+  with_people?: string
+  with_companies?: string
+  with_genres?: string
+  without_genres?: string
+  with_keywords?: string
+  without_keywords?: string
+  'with_runtime.gte'?: string | number
+  'with_runtime.lte'?: string | number
+  with_original_language?: string
+}
+
+type TSortBy =
+  | 'popularity.asc'
+  | 'popularity.desc'
+  | 'release_date.asc'
+  | 'release_date.desc'
+  | 'revenue.asc'
+  | 'revenue.desc'
+  | 'primary_release_date.asc'
+  | 'primary_release_date.desc'
+  | 'original_title.asc'
+  | 'original_title.desc'
+  | 'vote_average.asc'
+  | 'vote_average.desc'
+  | 'vote_count.asc'
+  | 'vote_count.desc'
