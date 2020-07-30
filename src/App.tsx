@@ -50,8 +50,8 @@ export const App = () => {
             />
             <Route exact path="/movies/top-rated" component={movies.TopRated} />
             <Route exact path="/movies/upcoming" component={movies.Upcoming} />
+            <Route exact path="/movies/genres/:genre" component={movies.ByGenre} />
             <Route exact path="/movies/:id" component={movies.ByID} />
-
             <Route
               exact
               path="/movies/recommendations/:id"

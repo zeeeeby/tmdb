@@ -49,7 +49,7 @@ export const Search: React.FC = () => {
             {searchRes.results?.map((el:any) => {
               switch (el.media_type) {
                 case 'movie':
-                  return <MovieCard key={el.id} card={el} />
+                  return <MovieCard  key={el.id} card={el} />
                 case 'tv':
                   return <TVCard key={el.id} card={el} />
                 default:

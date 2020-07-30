@@ -44,7 +44,7 @@ export const Similar: React.FC = () => {
     <>
       <CardsList>
         {similarMovies?.results?.map((el) => (
-          <MovieCard card={el} />
+          <MovieCard key={el.id} card={el} />
         ))}
       </CardsList>
       <Pagination

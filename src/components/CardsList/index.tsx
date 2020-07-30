@@ -28,7 +28,7 @@ export const CardsList: React.FC<TCards> = ({ children, style }) => {
         ? children
         : Array(20)
             .fill(0)
-            .map((el) => <MovieCard card={null as any} />)}
+            .map((el, idx) => <MovieCard key={idx} card={null as any} />)}
     </Grid>
   )
 }

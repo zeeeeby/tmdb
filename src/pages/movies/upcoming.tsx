@@ -40,7 +40,7 @@ export const Upcoming: React.FC = () => {
     <>
       <CardsList>
         {upcoming?.results?.map((el) => (
-          <MovieCard card={el} />
+          <MovieCard key={el.id} card={el} />
         ))}
       </CardsList>
       <Pagination

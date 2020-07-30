@@ -40,7 +40,7 @@ export const TopRated: React.FC = () => {
     <>
       <CardsList>
         {topRatedMovies?.results?.map((el) => (
-          <MovieCard card={el} />
+          <MovieCard key={el.id} card={el} />
         ))}
       </CardsList>
       <Pagination

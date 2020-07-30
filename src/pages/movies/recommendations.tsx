@@ -44,7 +44,7 @@ export const Recommendations: React.FC = () => {
     <>
       <CardsList>
         {moviesRecommendations?.results?.map((el) => (
-          <MovieCard card={el} />
+          <MovieCard key={el.id} card={el} />
         ))}
       </CardsList>
       <Pagination

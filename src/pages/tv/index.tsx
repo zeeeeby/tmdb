@@ -40,7 +40,7 @@ export const TV: React.FC = () => {
     <>
       <CardsList>
         {popularTV?.results?.map((el) => (
-          <TVCard card={el} />
+          <TVCard key={el.id} card={el} />
         ))}
       </CardsList>
       <Pagination

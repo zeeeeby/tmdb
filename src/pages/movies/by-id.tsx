@@ -312,7 +312,7 @@ export const ByID: React.FC = () => {
             <div className={classes.slider}>
               <CardsList style={{ flexWrap: 'nowrap' }}>
                 {recommendations?.results?.map((el) => (
-                  <MovieCard card={el} />
+                  <MovieCard key={el.id} card={el} />
                 ))}
               </CardsList>
             </div>
@@ -328,7 +328,7 @@ export const ByID: React.FC = () => {
             <div className={classes.slider}>
               <CardsList style={{ flexWrap: 'nowrap' }}>
                 {similar?.results?.map((el) => (
-                  <MovieCard card={el} />
+                  <MovieCard key={el.id} card={el} />
                 ))}
               </CardsList>
             </div>

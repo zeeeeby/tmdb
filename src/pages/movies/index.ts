@@ -5,6 +5,8 @@ import { Recommendations } from './recommendations'
 import { Similar } from './similar'
 import { TopRated } from './top-rated'
 import { Upcoming } from './upcoming'
+import { ByGenre } from './by-genre'
+
 export const movies = {
   Popular,
   NowPlaying,
@@ -13,4 +15,5 @@ export const movies = {
   Similar,
   TopRated,
   Upcoming,
+  ByGenre,
 }
