@@ -8,6 +8,9 @@ import {
   TSimilarMovies,
   TRecommendations,
   TVideo,
+  TMovieExternalIds,
+  TDiscoveredMovies,
+  TDiscoverMovie,
 } from '@src/store/modules/movies/types'
 import { createQueryString } from '@src/lib/create_query_string'
 
@@ -58,6 +61,18 @@ const getRecommendations = (movie_id: number, page?: number) =>
 const getVideos = (movie_id: number) =>
   http.get<TVideo>(`/movie/${movie_id}/videos?`).then((res) => res.data)
 
+const getExternalIds = (movie_id: number) =>
+  http
+    .get<TMovieExternalIds>(`/movie/${movie_id}/external_ids?`)
+    .then((res) => res.data)
+
+const getDiscovered = (args: TDiscoverMovie) =>
+  {console.log(args)
+    return http.get<TDiscoveredMovies>(`/discover/movie?${createQueryString({
+      ...args,
+    })}`).then((res) => res.data)
+  }
+
 export const moviesApi = {
   getDetails,
   getPopular,
@@ -67,4 +82,6 @@ export const moviesApi = {
   getSimilar,
   getRecommendations,
   getVideos,
+  getExternalIds,
+  getDiscovered,
 }
