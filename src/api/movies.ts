@@ -67,11 +67,13 @@ const getExternalIds = (movie_id: number) =>
     .then((res) => res.data)
 
 const getDiscovered = (args: TDiscoverMovie) =>
-  {console.log(args)
-    return http.get<TDiscoveredMovies>(`/discover/movie?${createQueryString({
-      ...args,
-    })}`).then((res) => res.data)
-  }
+  http
+    .get<TDiscoveredMovies>(
+      `/discover/movie?${createQueryString({
+        ...args,
+      })}`
+    )
+    .then((res) => res.data)
 
 export const moviesApi = {
   getDetails,

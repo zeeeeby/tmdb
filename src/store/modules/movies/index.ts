@@ -12,6 +12,7 @@ import {
   getUpcoming,
   getVideos,
   getDiscovered,
+  getExternalIds,
 } from './selectors'
 
 export { moviesReducer }
@@ -22,6 +23,7 @@ export const movies = {
     useSimilar: () => useSelector(getSimilar),
     useRecommendations: () => useSelector(getRecommendations),
     useVideos: () => useSelector(getVideos),
+    useExternalIds: () => useSelector(getExternalIds),
   },
   usePopular: () => useSelector(getPopular),
   useNowPlaying: () => useSelector(getNowPlaying),

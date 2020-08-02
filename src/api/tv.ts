@@ -7,6 +7,8 @@ import {
   TAiringTodayTV,
   TRecommendations,
   TSimilarTV,
+  TTVExternalIds,
+  TVideo,
 } from '@src/store/modules/tv/types'
 import { createQueryString } from '@src/lib/create_query_string'
 
@@ -41,6 +43,13 @@ const getRecommendations = (tv_id: number, page?: number) =>
       })}`
     )
     .then((res) => res.data)
+const getVideos = (movie_id: number) =>
+  http.get<TVideo>(`/tv/${movie_id}/videos?`).then((res) => res.data)
+
+const getExternalIds = (movie_id: number) =>
+  http
+    .get<TTVExternalIds>(`/tv/${movie_id}/external_ids?`)
+    .then((res) => res.data)
 
 export const tvApi = {
   getDetails,
@@ -49,5 +58,7 @@ export const tvApi = {
   getOnTheAir,
   getAiringToday,
   getSimilar,
+  getVideos,
   getRecommendations,
+  getExternalIds,
 }

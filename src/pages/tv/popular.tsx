@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     '& ul': { justifyContent: 'center', margin: '10px 0' },
   },
 })
-export const TV: React.FC = () => {
+export const Popular: React.FC = () => {
   const classes = useStyles()
   const popularTV = tv.usePopular()
   const history = useHistory()

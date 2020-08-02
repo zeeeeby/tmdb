@@ -59,7 +59,9 @@ export const TVCard: React.FC<TCard> = ({ card }) => {
         </Typography>
         <Typography variant="caption" color="textSecondary">
           {card ? (
-            new Date(card.release_date).toLocaleDateString() + ", TV"
+            `${card.first_air_date
+              ? new Date(card.first_air_date).toLocaleDateString()
+              : 'N/A'}, TV`
           ) : (
             <Skeleton animation="wave" variant="text" />
           )}
