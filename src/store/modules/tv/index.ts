@@ -9,6 +9,8 @@ import {
   getSimilar,
   getDetails,
   getTopRated,
+  getExternalIds,
+  getVideos,
 } from './selectors'
 
 export { tvReducer }
@@ -18,6 +20,8 @@ export const tv = {
     useDetails: () => useSelector(getDetails),
     useSimilar: () => useSelector(getSimilar),
     useRecommendations: () => useSelector(getRecommendations),
+    useVideos: () => useSelector(getVideos),
+    useExternalIds: () => useSelector(getExternalIds),
   },
   usePopular: () => useSelector(getPopular),
   useAiringToday: () => useSelector(getAiringToday),
