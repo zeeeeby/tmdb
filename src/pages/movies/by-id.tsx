@@ -290,7 +290,7 @@ export const ByID: React.FC = () => {
             )}
           </Grid>
         </Grid>
-        {videos?.results?.length ? (
+        {!details.isLoading ? (
           <>
             <Typography variant="button" component="h6">
               ВИДЕО
@@ -316,7 +316,7 @@ export const ByID: React.FC = () => {
             </Grid>
           </>
         ) : null}
-        {recommendations.data?.total_results ? (
+        {!recommendations.isLoading ? (
           <>
             <Typography variant="button" component="h6">
               Рекомендации{' '}
@@ -338,7 +338,7 @@ export const ByID: React.FC = () => {
           </>
         ) : null}
 
-        {similar.data?.total_results ? (
+        {!similar.isLoading ? (
           <>
             <Typography variant="button" component="h6">
               Схожие фильмы{' '}
