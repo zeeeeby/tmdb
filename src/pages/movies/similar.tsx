@@ -6,7 +6,7 @@ export const Similar: React.FC = () => {
   const { getSimilarMovies } = movies.useActions()
   return (
     <Page
-      content={movies.currentMovie.useSimilar()}
+      content={movies.useSimilar()}
       getter={getSimilarMovies}
       withURLParam
     />

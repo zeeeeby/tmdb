@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { CardsList } from '@src/components/CardsList'
-import { useHistory, useRouteMatch, Link } from 'react-router-dom'
+import { useRouteMatch, Link } from 'react-router-dom'
 import { movies } from '@src/store/modules/movies'
 
 import { Typography, Grid, Box } from '@material-ui/core'
@@ -26,7 +26,8 @@ const useStyles = makeStyles({
   container: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
+    height: '100%',
+    alignItems: 'end',
   },
   containerImage: {
     textAlign: 'center',
@@ -87,58 +88,42 @@ export const ByID: React.FC = () => {
   const DESCRIPTION_BREAKPOINT = 25
 
   const classes = useStyles()
-  const {
-    useDetails,
-    useRecommendations,
-    useSimilar,
-    useVideos,
-    useExternalIds,
-  } = movies.currentMovie
+  const { useDetails } = movies.currentMovie
+  const { useRecommendations, useSimilar } = movies
   const details = useDetails()
-  const detailsOverview = details?.overview?.split(' ') || []
-  const history = useHistory()
+  const videos = details.data?.videos
+
+  const detailsOverview = details.data?.overview?.split(' ') || []
+
   const recommendations = useRecommendations()
   const similar = useSimilar()
-  const videos = useVideos()
 
   const matchedParams = useRouteMatch().params as { id: string }
 
   let movieID = parseInt(matchedParams.id || '1')
 
-  const externalIds = useExternalIds()
-
   const {
     getMovieDetails,
     getRecommendations,
     getSimilarMovies,
-    getMovieExternalIds,
   } = movies.useActions()
 
   React.useEffect(() => {
-    //@ts-ignore
-    getMovieDetails(movieID).catch((err: any) => {
-      if (err?.status === 422) {
-        console.log(2)
-      }
-      if (err?.status === 404) {
-        console.log(err)
-      }
-    })
+    getMovieDetails(movieID)
     getRecommendations(movieID, 1)
     getSimilarMovies(movieID, 1)
-    getMovieExternalIds(movieID)
   }, [movieID])
 
   return (
     <>
       <Grid alignItems="stretch" container spacing={2}>
         <Grid className={classes.zidx} item xs={12} sm={3}>
-          {details?.poster_path ? (
+          {!details.isLoading ? (
             <div className={classes.container}>
               <div className={classes.containerImage}>
                 <img
                   className={classes.image}
-                  src={getImageLink(details?.poster_path)}
+                  src={getImageLink(details.data?.poster_path)}
                   alt="poster"
                 />
               </div>
@@ -163,10 +148,10 @@ export const ByID: React.FC = () => {
         </Grid>
         <Grid className={classes.zidx} item xs={12} sm={9}>
           <Typography variant="h4" component="h4">
-            {details?.title ? (
-              `${details.title}(${
-                details?.release_date
-                  ? new Date(details?.release_date).getFullYear()
+            {!details.isLoading ? (
+              `${details.data?.title}(${
+                details?.data?.release_date
+                  ? new Date(details?.data?.release_date).getFullYear()
                   : 'N/A'
               })`
             ) : (
@@ -174,13 +159,13 @@ export const ByID: React.FC = () => {
             )}
           </Typography>
           <Typography variant="h6" component="h4">
-            {details?.original_title ? (
-              `${details.original_title}`
+            {!details.isLoading ? (
+              `${details.data?.original_title}`
             ) : (
               <Skeleton animation="wave" variant="text" />
             )}
           </Typography>
-          {details?.vote_average ? (
+          {!details.isLoading ? (
             <Grid
               style={{ display: 'flex', alignItems: 'center' }}
               item
@@ -190,10 +175,10 @@ export const ByID: React.FC = () => {
                 max={10}
                 size="medium"
                 name="read-only"
-                value={details?.vote_average}
+                value={details?.data?.vote_average}
                 readOnly
               />
-              <Box>{details?.vote_average}</Box>
+              <Box>{details?.data?.vote_average}</Box>
             </Grid>
           ) : (
             <Skeleton animation="wave" variant="text" />
@@ -207,42 +192,44 @@ export const ByID: React.FC = () => {
               >
                 ИНФОРМАЦИЯ
               </Typography>
-              {details?.id ? (
+              {!details.isLoading ? (
                 <>
-                  {details.status && (
+                  {details.data?.status && (
                     <Typography variant="body1" component="h6">
                       Статус:
-                      {details.status}
+                      {details.data?.status}
                     </Typography>
                   )}
-                  {details.release_date && (
+                  {details.data?.release_date && (
                     <Typography variant="body1" component="h6">
                       Дата выхода:{' '}
-                      {new Date(details?.release_date).toLocaleDateString()}
+                      {new Date(
+                        details?.data?.release_date
+                      ).toLocaleDateString()}
                     </Typography>
                   )}
-                  {details.runtime && (
+                  {details.data?.runtime && (
                     <Typography variant="body1" component="h6">
                       Длительность:
-                      {` ${Math.trunc(details.runtime / 60)} ч ${
-                        details.runtime % 60
+                      {` ${Math.trunc(details.data?.runtime / 60)} ч ${
+                        details.data?.runtime % 60
                       } мин`}
                     </Typography>
                   )}
-                  {details.tagline && (
+                  {details.data?.tagline && (
                     <Typography variant="body1" component="h6">
-                      Тег: {' ' + details.tagline}
+                      Тег: {' ' + details.data?.tagline}
                     </Typography>
                   )}
-                  {Number.isInteger(details.budget) && (
+                  {Number.isInteger(details.data!.budget) && (
                     <Typography variant="body1" component="h6">
-                      Бюджет: {details.budget + '$'}
+                      Бюджет: {details.data?.budget + '$'}
                     </Typography>
                   )}
-                  {details.genres.length > 0 && (
+                  {details.data?.genres?.length ? (
                     <Typography variant="body1" component="h6">
                       Жанры:
-                      {details.genres?.map((el, idx) => (
+                      {details.data?.genres.map((el, idx) => (
                         <Link
                           className={classes.genresLink}
                           key={el.id}
@@ -252,7 +239,7 @@ export const ByID: React.FC = () => {
                         </Link>
                       ))}
                     </Typography>
-                  )}
+                  ) : null}
                 </>
               ) : (
                 <Skeleton
@@ -266,7 +253,7 @@ export const ByID: React.FC = () => {
             </Grid>
           </Grid>
           <Grid style={{ marginTop: '15px' }} item xs={12}>
-            {details?.id ? (
+            {!details.isLoading ? (
               <>
                 <Typography
                   style={{ marginBottom: '10px' }}
@@ -275,7 +262,7 @@ export const ByID: React.FC = () => {
                 >
                   ОПИСАНИЕ
                 </Typography>
-                {details?.overview && (
+                {details.data?.overview && (
                   <div>
                     <Typography variant="body1" component="h6">
                       {detailsOverview
@@ -329,32 +316,42 @@ export const ByID: React.FC = () => {
             </Grid>
           </>
         ) : null}
-        {recommendations?.total_results ? (
+        {recommendations.data?.total_results ? (
           <>
             <Typography variant="button" component="h6">
               Рекомендации{' '}
-              <Link to={'recommendations/' + details?.id}>посмотреть все</Link>
+              <Link to={'recommendations/' + details.data?.id}>
+                посмотреть все
+              </Link>
             </Typography>
             <div className={classes.slider}>
               <CardsList style={{ flexWrap: 'nowrap' }}>
-                {recommendations?.results?.map((el) => (
-                  <MovieCard key={el.id} card={el} />
+                {recommendations.data?.results?.map((el) => (
+                  <MovieCard
+                    isLoading={recommendations.isLoading}
+                    key={el.id}
+                    card={el}
+                  />
                 ))}
               </CardsList>
             </div>
           </>
         ) : null}
 
-        {similar?.total_results ? (
+        {similar.data?.total_results ? (
           <>
             <Typography variant="button" component="h6">
               Схожие фильмы{' '}
-              <Link to={'similar/' + details?.id}>посмотреть все</Link>
+              <Link to={'similar/' + details.data?.id}>посмотреть все</Link>
             </Typography>
             <div className={classes.slider}>
               <CardsList style={{ flexWrap: 'nowrap' }}>
-                {similar?.results?.map((el) => (
-                  <MovieCard key={el.id} card={el} />
+                {similar.data?.results?.map((el) => (
+                  <MovieCard
+                    isLoading={similar.isLoading}
+                    key={el.id}
+                    card={el}
+                  />
                 ))}
               </CardsList>
             </div>

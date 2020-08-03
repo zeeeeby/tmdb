@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { CardsList } from '@src/components/CardsList'
-import { useHistory, useRouteMatch, Link } from 'react-router-dom'
+import { useRouteMatch, Link } from 'react-router-dom'
 import { tv } from '@src/store/modules/tv'
 
 import { Typography, Grid, Box } from '@material-ui/core'
@@ -11,15 +11,7 @@ import Rating from '@material-ui/lab/Rating'
 import Skeleton from '@material-ui/lab/Skeleton'
 
 import { Expand } from '@src/components/common/expand'
-import { MovieCard } from '@src/components/CardsList/MovieCard'
-import { TMovieExternalIds } from '@src/store/modules/movies/types'
-
-import TwitterIcon from '@material-ui/icons/Twitter'
-import InstagramIcon from '@material-ui/icons/Instagram'
-import FacebookIcon from '@material-ui/icons/Facebook'
-import ImdbIcon from '@src/assets/icons/imdb.svg'
 import { TVCard } from '@src/components/CardsList/TVCard'
-import { CardItem } from '@src/components/CardsList/CardItem'
 import { TVSeasonCard } from '@src/components/CardsList/TVSeasonCard'
 
 const useStyles = makeStyles({
@@ -35,7 +27,8 @@ const useStyles = makeStyles({
   container: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'end',
+    height: '100%',
   },
   containerImage: {
     textAlign: 'center',
@@ -96,59 +89,38 @@ export const ByID: React.FC = () => {
   const DESCRIPTION_BREAKPOINT = 25
 
   const classes = useStyles()
-  const {
-    useDetails,
-    useRecommendations,
-    useSimilar,
-    useVideos,
-    useExternalIds,
-  } = tv.currentTV
+  const { useDetails } = tv.currentTV
+  const { useRecommendations, useSimilar } = tv
   const details = useDetails()
-  const detailsOverview = details?.overview?.split(' ') || []
-  const history = useHistory()
+  const videos = details.data?.videos
+  const detailsOverview = details.data?.overview?.split(' ') || []
   const recommendations = useRecommendations()
   const similar = useSimilar()
-  const videos = useVideos()
 
   const matchedParams = useRouteMatch().params as { id: string }
 
-  let movieID = parseInt(matchedParams.id || '1')
+  let tvID = parseInt(matchedParams.id || '1')
 
-  const externalIds = useExternalIds()
-
-  const {
-    getTVDetails,
-    getRecommendations,
-    getSimilarTV,
-    getTVExternalIds,
-  } = tv.useActions()
+  const { getTVDetails, getRecommendations, getSimilarTV } = tv.useActions()
 
   React.useEffect(() => {
     //@ts-ignore
-    getTVDetails(movieID).catch((err: any) => {
-      if (err?.status === 422) {
-        console.log(2)
-      }
-      if (err?.status === 404) {
-        console.log(err)
-      }
-    })
-    getRecommendations(movieID, 1)
-    getSimilarTV(movieID, 1)
-    getTVExternalIds(movieID)
+    getTVDetails(tvID)
+    getRecommendations(tvID, 1)
+    getSimilarTV(tvID, 1)
     //TODO: Redurect to 404
-  }, [movieID])
+  }, [tvID])
 
   return (
     <>
       <Grid alignItems="stretch" container spacing={2}>
         <Grid className={classes.zidx} item xs={12} sm={3}>
-          {details?.poster_path ? (
+          {!details.isLoading ? (
             <div className={classes.container}>
               <div className={classes.containerImage}>
                 <img
                   className={classes.image}
-                  src={getImageLink(details?.poster_path)}
+                  src={getImageLink(details.data?.poster_path)}
                   alt="poster"
                 />
               </div>
@@ -173,10 +145,10 @@ export const ByID: React.FC = () => {
         </Grid>
         <Grid className={classes.zidx} item xs={12} sm={9}>
           <Typography variant="h4" component="h4">
-            {details?.name ? (
-              `${details.name}(${
-                details?.first_air_date
-                  ? new Date(details?.first_air_date).getFullYear()
+            {!details.isLoading ? (
+              `${details.data?.name}(${
+                details.data?.first_air_date
+                  ? new Date(details.data?.first_air_date).getFullYear()
                   : 'N/A'
               })`
             ) : (
@@ -184,13 +156,13 @@ export const ByID: React.FC = () => {
             )}
           </Typography>
           <Typography variant="h6" component="h4">
-            {details?.original_name ? (
-              `${details.original_name}`
+            {details.data?.original_name ? (
+              `${details.data?.original_name}`
             ) : (
               <Skeleton animation="wave" variant="text" />
             )}
           </Typography>
-          {details?.vote_average ? (
+          {!details.isLoading ? (
             <Grid
               style={{ display: 'flex', alignItems: 'center' }}
               item
@@ -200,10 +172,10 @@ export const ByID: React.FC = () => {
                 max={10}
                 size="medium"
                 name="read-only"
-                value={details?.vote_average}
+                value={details.data?.vote_average}
                 readOnly
               />
-              <Box>{details?.vote_average}</Box>
+              <Box>{details.data?.vote_average}</Box>
             </Grid>
           ) : (
             <Skeleton animation="wave" variant="text" />
@@ -217,47 +189,48 @@ export const ByID: React.FC = () => {
               >
                 ИНФОРМАЦИЯ
               </Typography>
-              {details?.id ? (
+              {!details.isLoading ? (
                 <>
-                  {details.status && (
+                  {details.data?.status && (
                     <Typography variant="body1" component="h6">
                       Статус:
-                      {details.status}
+                      {details.data?.status}
                     </Typography>
                   )}
-                  {details.first_air_date && (
+                  {details.data?.first_air_date && (
                     <Typography variant="body1" component="h6">
                       Дата выхода:{' '}
-                      {new Date(details?.first_air_date).toLocaleDateString()}
+                      {new Date(
+                        details.data?.first_air_date
+                      ).toLocaleDateString()}
                     </Typography>
                   )}
-                  {details.episode_run_time && (
+                  {details.data?.episode_run_time && (
                     <Typography variant="body1" component="h6">
                       Длительность эпизода:
                       {` ${Math.trunc(
-                        details.episode_run_time.reduce(
+                        details.data?.episode_run_time.reduce(
                           (acc, el) => acc + el,
                           0
-                        ) /
-                          details.episode_run_time.length 
+                        ) / details.data?.episode_run_time.length
                       )} мин`}
                     </Typography>
                   )}
-                  {details.number_of_episodes && (
+                  {details.data?.number_of_episodes && (
                     <Typography variant="body1" component="h6">
-                      Эпизодов: {' ' + details.number_of_episodes}
+                      Эпизодов: {' ' + details.data?.number_of_episodes}
                     </Typography>
                   )}
-                  {details.number_of_seasons && (
+                  {details.data?.number_of_seasons && (
                     <Typography variant="body1" component="h6">
-                      Сезонов: {' ' + details.number_of_seasons}
+                      Сезонов: {' ' + details.data?.number_of_seasons}
                     </Typography>
                   )}
 
-                  {details.genres.length > 0 && (
+                  {details.data?.genres && details.data?.genres.length > 0 && (
                     <Typography variant="body1" component="h6">
                       Жанры:
-                      {details.genres?.map((el, idx) => (
+                      {details.data?.genres.map((el, idx) => (
                         <Link
                           className={classes.genresLink}
                           key={el.id}
@@ -281,7 +254,7 @@ export const ByID: React.FC = () => {
             </Grid>
           </Grid>
           <Grid style={{ marginTop: '15px' }} item xs={12}>
-            {details?.id ? (
+            {!details.isLoading ? (
               <>
                 <Typography
                   style={{ marginBottom: '10px' }}
@@ -290,7 +263,7 @@ export const ByID: React.FC = () => {
                 >
                   ОПИСАНИЕ
                 </Typography>
-                {details?.overview && (
+                {details.data?.overview && (
                   <div>
                     <Typography variant="body1" component="h6">
                       {detailsOverview
@@ -344,15 +317,19 @@ export const ByID: React.FC = () => {
             </Grid>
           </>
         ) : null}
-        {details?.seasons ? (
+        {details.data?.seasons ? (
           <>
             <Typography variant="button" component="h6">
               Сезоны{' '}
             </Typography>
             <div className={classes.slider}>
               <CardsList style={{ flexWrap: 'nowrap' }}>
-                {details?.seasons.map((el) => (
-                  <TVSeasonCard card={el} key={el.id}>
+                {details.data?.seasons.map((el) => (
+                  <TVSeasonCard
+                    isLoading={details.isLoading}
+                    card={el}
+                    key={el.id}
+                  >
                     {
                       ' Сезон!'
                       //create season card
@@ -364,32 +341,38 @@ export const ByID: React.FC = () => {
           </>
         ) : null}
 
-        {recommendations?.total_results ? (
+        {recommendations?.data?.total_results ? (
           <>
             <Typography variant="button" component="h6">
               Рекомендации{' '}
-              <Link to={'recommendations/' + details?.id}>посмотреть все</Link>
+              <Link to={'recommendations/' + details.data?.id}>
+                посмотреть все
+              </Link>
             </Typography>
             <div className={classes.slider}>
               <CardsList style={{ flexWrap: 'nowrap' }}>
-                {recommendations?.results?.map((el) => (
-                  <TVCard key={el.id} card={el} />
+                {recommendations?.data?.results?.map((el) => (
+                  <TVCard
+                    isLoading={recommendations.isLoading}
+                    key={el.id}
+                    card={el}
+                  />
                 ))}
               </CardsList>
             </div>
           </>
         ) : null}
 
-        {similar?.total_results ? (
+        {similar.data?.total_results ? (
           <>
             <Typography variant="button" component="h6">
               Схожие сериалы{' '}
-              <Link to={'similar/' + details?.id}>посмотреть все</Link>
+              <Link to={'similar/' + details.data?.id}>посмотреть все</Link>
             </Typography>
             <div className={classes.slider}>
               <CardsList style={{ flexWrap: 'nowrap' }}>
-                {similar?.results?.map((el) => (
-                  <TVCard key={el.id} card={el} />
+                {similar.data?.results.map((el) => (
+                  <TVCard isLoading={similar.isLoading} key={el.id} card={el} />
                 ))}
               </CardsList>
             </div>
@@ -399,48 +382,3 @@ export const ByID: React.FC = () => {
     </>
   )
 }
-
-// const getExternalLinks = (ids: TMovieExternalIds) => {
-//   const res: any[] = []
-//   if (ids.imdb_id)
-//     res.push(
-//       <a
-//         rel="noopener noreferrer"
-//         target="_blank"
-//         href={`https://www.imdb.com/title/${ids.imdb_id}`}
-//       >
-//         <img className="MuiSvgIcon-root" src={ImdbIcon} alt="" />
-//       </a>
-//     )
-//   if (ids.facebook_id)
-//     res.push(
-//       <a
-//         rel="noopener noreferrer"
-//         target="_blank"
-//         href={`https://facebook.com/${ids.facebook_id}`}
-//       >
-//         <FacebookIcon />
-//       </a>
-//     )
-//   if (ids.instagram_id)
-//     res.push(
-//       <a
-//         rel="noopener noreferrer"
-//         target="_blank"
-//         href={`https://www.instagram.com/${ids.instagram_id}`}
-//       >
-//         <InstagramIcon />
-//       </a>
-//     )
-//   if (ids.twitter_id)
-//     res.push(
-//       <a
-//         rel="noopener noreferrer"
-//         target="_blank"
-//         href={`https://twitter.com/${ids.twitter_id}`}
-//       >
-//         <TwitterIcon />
-//       </a>
-//     )
-//   return res
-// }

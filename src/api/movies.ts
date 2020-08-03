@@ -14,8 +14,12 @@ import {
 } from '@src/store/modules/movies/types'
 import { createQueryString } from '@src/lib/create_query_string'
 
-const getDetails = (movie_id: number) =>
-  http.get<TMovieDetails>(`/movie/${movie_id}?`).then((res) => res.data)
+const getDetails = (movie_id: number, append_to_response = 'string') =>
+  http
+    .get<TMovieDetails>(
+      `/movie/${movie_id}?${createQueryString({ append_to_response })}`
+    )
+    .then((res) => res.data)
 
 const getPopular = (page?: number, region?: string) =>
   http

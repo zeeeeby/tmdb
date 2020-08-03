@@ -61,6 +61,35 @@ export type TTVDetails = {
   type: string
   vote_average: number
   vote_count: number
+  videos: TVideo
+  external_ids: TTVExternalIds
+}
+export type TVideo = {
+  results: Array<{
+    id: string
+    iso_639_1: string
+    iso_3166_1: string
+    key: string
+    name: string
+    site: 'YouTube' | 'Vimeo'
+    size: number
+    type:
+      | 'Trailer'
+      | 'Teaser'
+      | 'Clip'
+      | 'Featurette'
+      | 'Behind the Scenes'
+      | 'Bloopers'
+      | 'Opening Credits'
+      | 'Scenes'
+  }>
+}
+
+export type TTVExternalIds = {
+  imdb_id: string | null
+  facebook_id: string | null
+  instagram_id: string | null
+  twitter_id: string | null
 }
 
 export type TTVSeason = {
@@ -88,13 +117,6 @@ export type TTV = {
   first_air_date: string
   origin_country: Array<string>
 }
-export type TTVExternalIds = {
-  imdb_id: string | null
-  facebook_id: string | null
-  instagram_id: string | null
-  twitter_id: string | null
-  id: number
-}
 
 type TResult = {
   page: number
@@ -109,25 +131,3 @@ export type TOnTheAirTV = TResult
 export type TSimilarTV = TResult
 export type TRecommendations = TResult
 export type TSearchTV = TResult
-
-export type TVideo = {
-  id: number
-  results: Array<{
-    id: string
-    iso_639_1: string
-    iso_3166_1: string
-    key: string
-    name: string
-    site: 'YouTube' | 'Vimeo'
-    size: number
-    type:
-      | 'Trailer'
-      | 'Teaser'
-      | 'Clip'
-      | 'Featurette'
-      | 'Behind the Scenes'
-      | 'Bloopers'
-      | 'Opening Credits'
-      | 'Scenes'
-  }>
-}

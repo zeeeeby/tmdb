@@ -9,6 +9,7 @@ import { CardItem } from './CardItem'
 import { useHistory } from 'react-router-dom'
 type TCard = {
   card: TMovie
+  isLoading: boolean
 }
 const useStyles = makeStyles({
   media: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles({
   },
 })
 
-export const MovieCard: React.FC<TCard> = ({ card }) => {
+export const MovieCard: React.FC<TCard> = ({ card, isLoading }) => {
   const classes = useStyles()
   const history = useHistory()
   const handleClick = React.useCallback(() => {
@@ -38,10 +39,10 @@ export const MovieCard: React.FC<TCard> = ({ card }) => {
 
   return (
     <CardItem onClick={handleClick}>
-      {card ? (
+      {!isLoading ? (
         <img
           className={classes.media}
-          src={getImageLink(card.poster_path)}
+          src={getImageLink(card?.poster_path)}
           alt="poster"
         />
       ) : (
@@ -55,10 +56,10 @@ export const MovieCard: React.FC<TCard> = ({ card }) => {
       )}
       <CardContent className={classes.cardContent}>
         <Typography gutterBottom variant="body2" component="h2">
-          {card ? card.title : <Skeleton animation="wave" variant="text" />}
+          {!isLoading ? card.title : <Skeleton animation="wave" variant="text" />}
         </Typography>
         <Typography variant="caption" color="textSecondary">
-        {card ? (
+          {!isLoading ? (
             `${
               card.release_date
                 ? new Date(card.release_date).toLocaleDateString()

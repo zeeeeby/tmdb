@@ -10,8 +10,6 @@ import {
   TSimilarTV,
   TTVDetails,
   TTopRatedTV,
-  TTVExternalIds,
-  TVideo,
 } from './types'
 import { tvApi } from '@src/api/tv'
 
@@ -22,15 +20,13 @@ type TInitialState = typeof initialState
 let initialState = {
   currentTV: {
     details: {} as TTVDetails | null,
-    similar: {} as TSimilarTV | null,
-    recommendations: {} as TRecommendations | null,
-    videos: {} as TVideo | null,
-    externalIds: {} as TTVExternalIds | null,
   },
   popular: {} as TPopularTV | null,
   airingToday: {} as TAiringTodayTV | null,
   onTheAir: {} as TOnTheAirTV | null,
   topRated: {} as TTopRatedTV | null,
+  similar: {} as TSimilarTV | null,
+  recommendations: {} as TRecommendations | null,
 }
 
 export const tvReducer = (
@@ -49,31 +45,12 @@ export const tvReducer = (
     case 'tmdb/tv/SET_SIMILAR':
       return {
         ...state,
-        currentTV: {
-          ...state.currentTV,
-          similar: action.payload.tv,
-        },
+        similar: action.payload.tv,
       }
     case 'tmdb/tv/SET_RECOMMENDATIONS':
       return {
         ...state,
-        currentTV: {
-          ...state.currentTV,
-          recommendations: action.payload.tv,
-        },
-      }
-    case 'tmdb/tv/SET_VIDEOS':
-      return {
-        ...state,
-        currentTV: { ...state.currentTV, videos: action.payload.videos },
-      }
-    case 'tmdb/tv/SET_EXTERNAL_IDS':
-      return {
-        ...state,
-        currentTV: {
-          ...state.currentTV,
-          externalIds: action.payload.ids,
-        },
+        recommendations: action.payload.tv,
       }
     case 'tmdb/tv/SET_POPULAR':
       return {
@@ -127,10 +104,6 @@ const localActions = {
       type: 'tmdb/tv/SET_RECOMMENDATIONS',
       payload: { tv },
     } as const),
-  setVideos: (videos: TVideo | null) =>
-    ({ type: 'tmdb/tv/SET_VIDEOS', payload: { videos } } as const),
-  setExternalIds: (ids: TTVExternalIds | null) =>
-    ({ type: 'tmdb/tv/SET_EXTERNAL_IDS', payload: { ids } } as const),
 }
 
 const getTVDetails = (tv_id: number): ThunkType => async (
@@ -138,9 +111,7 @@ const getTVDetails = (tv_id: number): ThunkType => async (
 ) => {
   try {
     dispatch(localActions.setDetails(null))
-    dispatch(localActions.setVideos(null))
     dispatch(localActions.setDetails(await tvApi.getDetails(tv_id)))
-    dispatch(localActions.setVideos(await tvApi.getVideos(tv_id)))
   } catch (error) {
     throw error.response
   }
@@ -209,16 +180,7 @@ const getOnTheAirTV = (page?: number): ThunkType => async (
     throw error.response
   }
 }
-const getTVExternalIds = (tv_id: number): ThunkType => async (
-  dispatch: Dispatch<ActionsTypes>
-) => {
-  try {
-    dispatch(localActions.setExternalIds(null))
-    dispatch(localActions.setExternalIds(await tvApi.getExternalIds(tv_id)))
-  } catch (error) {
-    throw error.response
-  }
-}
+
 export const actions = {
   getSimilarTV,
   getTVDetails,
@@ -227,5 +189,4 @@ export const actions = {
   getAiringTodayTV,
   getTopRatedTV,
   getOnTheAirTV,
-  getTVExternalIds,
 }

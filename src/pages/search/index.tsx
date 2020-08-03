@@ -49,9 +49,9 @@ export const Search: React.FC = () => {
             {searchRes.results?.map((el:any) => {
               switch (el.media_type) {
                 case 'movie':
-                  return <MovieCard  key={el.id} card={el} />
+                  return <MovieCard isLoading={false} key={el.id} card={el} />
                 case 'tv':
-                  return <TVCard key={el.id} card={el} />
+                  return <TVCard isLoading={false} key={el.id} card={el} />
                 default:
                   return <CardItem key={el.id}>N/A(Persona)</CardItem>
               }

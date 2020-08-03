@@ -50,6 +50,8 @@ export type TMovieDetails = {
   video: boolean
   vote_average: number
   vote_count: number
+  videos: TVideo
+  external_ids: TMovieExternalIds
 }
 
 export type TMovie = {
@@ -94,7 +96,6 @@ export type TUpcomingMovies = TResult & {
 }
 
 export type TVideo = {
-  id: number
   results: Array<{
     id: string
     iso_639_1: string
@@ -121,7 +122,6 @@ export type TMovieExternalIds = {
   facebook_id: string | null
   instagram_id: string | null
   twitter_id: string | null
-  id: number
 }
 
 export type TDiscoverMovie = {

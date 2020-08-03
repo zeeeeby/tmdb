@@ -10,6 +10,7 @@ import { useHistory } from 'react-router-dom'
 
 type TCard = {
   card: TTV
+  isLoading: boolean
 }
 const useStyles = makeStyles({
   media: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles({
     display: 'block',
   },
 })
-export const TVCard: React.FC<TCard> = ({ card }) => {
+export const TVCard: React.FC<TCard> = ({ card, isLoading }) => {
   const classes = useStyles()
   const history = useHistory()
   const handleClick = React.useCallback(() => {
@@ -38,7 +39,7 @@ export const TVCard: React.FC<TCard> = ({ card }) => {
 
   return (
     <CardItem onClick={handleClick}>
-      {card ? (
+      {!isLoading ? (
         <img
           className={classes.media}
           src={getImageLink(card.poster_path)}
@@ -55,13 +56,19 @@ export const TVCard: React.FC<TCard> = ({ card }) => {
       )}
       <CardContent className={classes.cardContent}>
         <Typography gutterBottom variant="body2" component="h2">
-          {card ? card.name : <Skeleton animation="wave" variant="text" />}
+          {!isLoading ? (
+            card.name
+          ) : (
+            <Skeleton animation="wave" variant="text" />
+          )}
         </Typography>
         <Typography variant="caption" color="textSecondary">
-          {card ? (
-            `${card.first_air_date
-              ? new Date(card.first_air_date).toLocaleDateString()
-              : 'N/A'}, TV`
+          {!isLoading ? (
+            `${
+              card.first_air_date
+                ? new Date(card.first_air_date).toLocaleDateString()
+                : 'N/A'
+            }, TV`
           ) : (
             <Skeleton animation="wave" variant="text" />
           )}

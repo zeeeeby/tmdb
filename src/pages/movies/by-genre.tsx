@@ -42,13 +42,13 @@ export const ByGenre: React.FC = () => {
   return (
     <>
       <CardsList>
-        {movi?.results?.map((el) => (
-          <MovieCard key={el.id} card={el} />
+        {movi.data?.results?.map((el) => (
+          <MovieCard isLoading={movi.isLoading} key={el.id} card={el} />
         ))}
       </CardsList>
       <Pagination
         className={classes.pagination}
-        count={movi?.total_pages}
+        count={movi?.data?.total_pages}
         page={page}
         color="primary"
         size="large"

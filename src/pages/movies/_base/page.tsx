@@ -13,20 +13,26 @@ import {
   TRecommendations,
   TSimilarMovies,
 } from '@src/store/modules/movies/types'
+import { TResponseError } from '@src/api/types'
 const useStyles = makeStyles({
   pagination: {
     '& ul': { justifyContent: 'center', margin: '10px 0' },
   },
 })
 type T = {
-  content:
-    | TUpcomingMovies
-    | TPopularMovies
-    | TNowPlayingMovies
-    | TTopRatedMovies
-    | TRecommendations
-    | TSimilarMovies
-    | null
+  content: {
+    data:
+      | TUpcomingMovies
+      | TPopularMovies
+      | TNowPlayingMovies
+      | TTopRatedMovies
+      | TRecommendations
+      | TSimilarMovies
+      | null
+    isLoading: boolean
+    error: TResponseError | null
+  }
+
   getter: (...args: any[]) => any
   withURLParam?: boolean
 }
@@ -61,13 +67,13 @@ export const Page: React.FC<T> = ({ content, getter, withURLParam }) => {
   return (
     <>
       <CardsList>
-        {content?.results?.map((el) => (
-          <MovieCard key={el.id} card={el} />
+        {content.data?.results?.map((el) => (
+          <MovieCard isLoading={content.isLoading} key={el.id} card={el} />
         ))}
       </CardsList>
       <Pagination
         className={classes.pagination}
-        count={content?.total_pages}
+        count={content.data?.total_pages}
         page={page}
         color="primary"
         size="large"

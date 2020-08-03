@@ -1,15 +1,9 @@
 import { AppStateType } from '@src/store'
 
-export const getDetails = (state: AppStateType) =>
-  state.movies.currentMovie.details
-export const getSimilar = (state: AppStateType) =>
-  state.movies.currentMovie.similar
+export const getDetails = (state: AppStateType) => state.movies.currentMovie
+export const getSimilar = (state: AppStateType) => state.movies.similar
 export const getRecommendations = (state: AppStateType) =>
-  state.movies.currentMovie.recommendations
-export const getVideos = (state: AppStateType) =>
-  state.movies.currentMovie.videos
-export const getExternalIds = (state: AppStateType) =>
-  state.movies.currentMovie.externalIds
+  state.movies.recommendations
 
 export const getPopular = (state: AppStateType) => state.movies.popular
 export const getNowPlaying = (state: AppStateType) => state.movies.nowPlaying

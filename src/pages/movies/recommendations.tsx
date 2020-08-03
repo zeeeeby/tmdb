@@ -6,7 +6,7 @@ export const Recommendations: React.FC = () => {
   const { getRecommendations } = movies.useActions()
   return (
     <Page
-      content={movies.currentMovie.useRecommendations()}
+      content={movies.useRecommendations()}
       getter={getRecommendations}
       withURLParam
     />

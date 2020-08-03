@@ -39,13 +39,13 @@ export const Popular: React.FC = () => {
   return (
     <>
       <CardsList>
-        {popularTV?.results?.map((el) => (
-          <TVCard key={el.id} card={el} />
+        {popularTV.data?.results?.map((el) => (
+          <TVCard isLoading={popularTV.isLoading} key={el.id} card={el} />
         ))}
       </CardsList>
       <Pagination
         className={classes.pagination}
-        count={popularTV?.total_pages}
+        count={popularTV.data?.total_pages}
         page={page}
         color="primary"
         size="large"
