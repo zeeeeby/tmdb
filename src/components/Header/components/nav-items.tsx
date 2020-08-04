@@ -1,14 +1,37 @@
 import React from 'react'
-import { makeStyles, Typography, Button } from '@material-ui/core'
-import { NavLink } from 'react-router-dom'
+import { makeStyles, Typography, Button, Theme } from '@material-ui/core'
+import { NavLink, Link } from 'react-router-dom'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   title: {
     flexGrow: 1,
   },
   link: {
     color: 'white',
     textDecoration: 'none',
+  },
+  navWrapper: {
+    position: 'relative',
+    '&:hover div': {
+      display: 'block',
+    },
+    '& ul': {
+      listStyle: 'none',
+      '& li': {
+        cursor: 'pointer',
+        padding: '5px 0px',
+        '& a': {
+          color: 'black',
+        },
+      },
+    },
+  },
+  navContent: {
+    display: 'none',
+    position: 'absolute',
+    backgroundColor: 'white',
+    width: '120%',
+    top: '85%',
   },
 }))
 
@@ -17,26 +40,48 @@ export const NavItems: React.FC = () => {
   return (
     <Typography variant="h6" className={classes.title}>
       <Button color="inherit">
-        <NavLink
-          activeStyle={{
-            borderBottom: '2px solid white',
-          }}
-          className={classes.link}
-          to="/movies/"
-        >
-          Movies
+        <NavLink className={classes.link} to="/">
+          Home
         </NavLink>
       </Button>
-      <Button color="inherit">
-        <NavLink
-          activeStyle={{
-            borderBottom: '2px solid white',
-          }}
-          className={classes.link}
-          to="/tv/"
-        >
-          TV Series
-        </NavLink>
+
+      <Button className={classes.navWrapper} color="inherit">
+        <div className={classes.link}>Movies</div>
+        <div className={classes.navContent}>
+          <ul>
+            <li>
+              <Link to={'/movies/'}>Popular</Link>
+            </li>
+            <li>
+              <Link to={'/movies/now-playing'}>Now playing</Link>
+            </li>
+            <li>
+              <Link to={'/movies/top-rated'}>Top rated</Link>
+            </li>
+            <li>
+              <Link to={'/movies/upcoming'}>Upcoming</Link>
+            </li>
+          </ul>
+        </div>
+      </Button>
+      <Button className={classes.navWrapper} color="inherit">
+        <div className={classes.link}>TV Series</div>
+        <div className={classes.navContent}>
+          <ul>
+            <li>
+              <Link to={'/tv/'}>Popular</Link>
+            </li>
+            <li>
+              <Link to={'/tv/airing-today'}>Airing today</Link>
+            </li>
+            <li>
+              <Link to={'/tv/top-rated'}>Top rated</Link>
+            </li>
+            <li>
+              <Link to={'/tv/on-the-air'}>On the air</Link>
+            </li>
+          </ul>
+        </div>
       </Button>
     </Typography>
   )
