@@ -3,59 +3,35 @@ import { makeStyles } from '@material-ui/core/styles'
 import Pagination from '@material-ui/lab/Pagination'
 import { CardsList } from '@src/components/CardsList'
 import { useHistory, useLocation, useRouteMatch } from 'react-router-dom'
+import { tv } from '@src/store/modules/tv'
 import { parseQueryString } from '@src/lib/parse_query_string'
-import { MovieCard } from '@src/components/CardsList/MovieCard'
-import {
-  TPopularMovies,
-  TUpcomingMovies,
-  TNowPlayingMovies,
-  TTopRatedMovies,
-  TRecommendations,
-  TSimilarMovies,
-} from '@src/store/modules/movies/types'
-import { TResponseError } from '@src/api/types'
+import { TVCard } from '@src/components/CardsList/TVCard'
 const useStyles = makeStyles({
   pagination: {
     '& ul': { justifyContent: 'center', margin: '10px 0' },
   },
 })
-type T = {
-  content: {
-    data:
-      | TUpcomingMovies
-      | TPopularMovies
-      | TNowPlayingMovies
-      | TTopRatedMovies
-      | TRecommendations
-      | TSimilarMovies
-      | null
-    isLoading: boolean
-    error: TResponseError | null
-  }
-
-  getter: (...args: any[]) => any
-  withURLParam?: boolean
-}
-export const Page: React.FC<T> = ({ content, getter, withURLParam }) => {
+export const ByGenre: React.FC = () => {
   const classes = useStyles()
+  const tvs = tv.useDiscovered()
   const history = useHistory()
   const params = useLocation()
   let pageNumber = parseQueryString(params.search).page || 1
 
   const [page, setPage] = React.useState(parseInt(pageNumber))
 
+  const matchedParams = useRouteMatch().params as { genre: string }
+  const genre_id = matchedParams.genre
+  const { getDiscoveredTV } = tv.useActions()
+
   const switchPage = (page: number) => {
     setPage(page)
     history.push(`?page=${page}`)
   }
 
-  const matchedParams = useRouteMatch().params as any
-  const movieID = parseInt(matchedParams.id || '-1')
-
   React.useEffect(() => {
-    if (!withURLParam) getter(page)
-    else getter(movieID, page)
-  }, [page, getter, movieID])
+    getDiscoveredTV({ with_genres: genre_id, page })
+  }, [page, genre_id])
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     switchPage(value)
@@ -63,13 +39,13 @@ export const Page: React.FC<T> = ({ content, getter, withURLParam }) => {
   return (
     <>
       <CardsList>
-        {content.data?.results?.map((el) => (
-          <MovieCard isLoading={content.isLoading} key={el.id} card={el} />
+        {tvs.data?.results?.map((el) => (
+          <TVCard isLoading={tvs.isLoading} key={el.id} card={el} />
         ))}
       </CardsList>
       <Pagination
         className={classes.pagination}
-        count={content.data?.total_pages}
+        count={tvs?.data?.total_pages}
         page={page}
         color="primary"
         size="large"
