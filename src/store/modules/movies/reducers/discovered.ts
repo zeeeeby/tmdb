@@ -11,7 +11,7 @@ type ThunkType = BaseThunkType<ActionsTypes>
 type TInitialState = typeof initialState
 
 let initialState = {
-  data: {} as TDiscoveredMovies | null,
+  data: {} as TDiscoveredMovies,
   isLoading: false,
   error: null as TResponseError | null,
 }
@@ -39,7 +39,7 @@ export const discoveredReducer = (
 }
 
 const actions = {
-  setData: (data: TDiscoveredMovies | null) =>
+  setData: (data: TDiscoveredMovies) =>
     ({
       type: 'tmdb/movies/discovered/SET_ITEMS',
       payload: { data },

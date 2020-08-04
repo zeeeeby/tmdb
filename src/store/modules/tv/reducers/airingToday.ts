@@ -11,7 +11,7 @@ type ThunkType = BaseThunkType<ActionsTypes>
 type TInitialState = typeof initialState
 
 let initialState = {
-  data: {} as TAiringTodayTV | null,
+  data: {} as TAiringTodayTV,
   isLoading: false,
   error: null as TResponseError | null,
 }
@@ -39,7 +39,7 @@ export const airingTodayReducer = (
 }
 
 const actions = {
-  setData: (data: TAiringTodayTV | null) =>
+  setData: (data: TAiringTodayTV) =>
     ({
       type: 'tmdb/tv/airing_today/SET_ITEMS',
       payload: { data },

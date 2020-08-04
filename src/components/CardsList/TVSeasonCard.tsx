@@ -41,7 +41,8 @@ export const TVSeasonCard: React.FC<TCard> = ({ card, isLoading }) => {
   }, [card])
 
   return (
-    <CardItem onClick={handleClick}>
+    //TODO: Handle click
+    <CardItem onClick={()=>{}}>
       {!isLoading ? (
         <img
           className={classes.media}

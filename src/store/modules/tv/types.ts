@@ -131,3 +131,5 @@ export type TOnTheAirTV = TResult
 export type TSimilarTV = TResult
 export type TRecommendations = TResult
 export type TSearchTV = TResult
+export type TDiscoveredTV = TResult
+export type TDiscoverTV = {}

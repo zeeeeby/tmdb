@@ -11,7 +11,7 @@ type ThunkType = BaseThunkType<ActionsTypes>
 type TInitialState = typeof initialState
 
 let initialState = {
-  data: {} as TTVDetails | null,
+  data: {} as TTVDetails,
   isLoading: false,
   error: null as TResponseError | null,
 }
@@ -39,7 +39,7 @@ export const currentTVReducer = (
 }
 
 const actions = {
-  setData: (data: TTVDetails | null) =>
+  setData: (data: TTVDetails) =>
     ({
       type: 'tmdb/tv/currentTV/SET_ITEMS',
       payload: { data },
@@ -60,8 +60,9 @@ export const getTVDetails = (tv_id: number): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
+    const appendToResponse = 'videos,external_ids'
     dispatch(actions.setLoadingStatus(true))
-    dispatch(actions.setData(await tvApi.getDetails(tv_id)))
+    dispatch(actions.setData(await tvApi.getDetails(tv_id, appendToResponse)))
     dispatch(actions.setLoadingStatus(false))
   } catch (error) {
     dispatch(actions.setError(error.response))

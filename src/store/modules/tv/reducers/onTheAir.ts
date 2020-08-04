@@ -11,7 +11,7 @@ type ThunkType = BaseThunkType<ActionsTypes>
 type TInitialState = typeof initialState
 
 let initialState = {
-  data: {} as TOnTheAirTV | null,
+  data: {} as TOnTheAirTV,
   isLoading: false,
   error: null as TResponseError | null,
 }
@@ -39,7 +39,7 @@ export const onTheAirReducer = (
 }
 
 const actions = {
-  setData: (data: TOnTheAirTV | null) =>
+  setData: (data: TOnTheAirTV) =>
     ({
       type: 'tmdb/tv/onTheAir/SET_ITEMS',
       payload: { data },

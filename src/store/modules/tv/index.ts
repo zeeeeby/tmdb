@@ -9,6 +9,7 @@ import {
   getSimilar,
   getDetails,
   getTopRated,
+  getDiscovered,
 } from './selectors'
 
 export { tvReducer }
@@ -24,4 +25,5 @@ export const tv = {
   useActions: (): typeof actions => useActions(actions),
   useSimilar: () => useSelector(getSimilar),
   useRecommendations: () => useSelector(getRecommendations),
+  useDiscovered: () => useSelector(getDiscovered),
 }

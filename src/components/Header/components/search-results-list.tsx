@@ -73,9 +73,13 @@ export const SearchResultsList: React.FC<T> = ({
 const getTitle = (media: TMultiSearch) => {
   switch (media.media_type) {
     case 'movie':
-      return media.title + ' (Movie)'
+      return `${media.title} (Movie) ${
+        media.release_date ? new Date(media.release_date).getFullYear() : ''
+      }`
     case 'tv':
-      return media.name + ' (TV)'
+      return `${media.name} (TV) ${
+        media.first_air_date ? new Date(media.first_air_date).getFullYear() : ''
+      }`
     default:
       return 'NOT STATED (Persona)'
   }

@@ -14,7 +14,7 @@ import {
 } from '@src/store/modules/movies/types'
 import { createQueryString } from '@src/lib/create_query_string'
 
-const getDetails = (movie_id: number, append_to_response = 'string') =>
+const getDetails = (movie_id: number, append_to_response: string) =>
   http
     .get<TMovieDetails>(
       `/movie/${movie_id}?${createQueryString({ append_to_response })}`

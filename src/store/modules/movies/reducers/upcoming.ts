@@ -11,7 +11,7 @@ type ThunkType = BaseThunkType<ActionsTypes>
 type TInitialState = typeof initialState
 
 let initialState = {
-  data: {} as TUpcomingMovies | null,
+  data: {} as TUpcomingMovies,
   isLoading: false,
   error: null as TResponseError | null,
 }
@@ -39,7 +39,7 @@ export const upcomingReducer = (
 }
 
 const actions = {
-  setData: (data: TUpcomingMovies | null) =>
+  setData: (data: TUpcomingMovies) =>
     ({
       type: 'tmdb/movies/upcoming/SET_ITEMS',
       payload: { data },

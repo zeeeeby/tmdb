@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { CardsList } from '@src/components/CardsList'
-import { useRouteMatch, Link } from 'react-router-dom'
+import { useRouteMatch, Link, useHistory } from 'react-router-dom'
 import { movies } from '@src/store/modules/movies'
 
 import { Typography, Grid, Box } from '@material-ui/core'
@@ -86,7 +86,7 @@ const useStyles = makeStyles({
 })
 export const ByID: React.FC = () => {
   const DESCRIPTION_BREAKPOINT = 25
-
+  const history = useHistory()
   const classes = useStyles()
   const { useDetails } = movies.currentMovie
   const { useRecommendations, useSimilar } = movies
@@ -113,7 +113,7 @@ export const ByID: React.FC = () => {
     getRecommendations(movieID, 1)
     getSimilarMovies(movieID, 1)
   }, [movieID])
-
+  if (details.error?.status === 404) history.push('/404')
   return (
     <>
       <Grid alignItems="stretch" container spacing={2}>
@@ -292,69 +292,87 @@ export const ByID: React.FC = () => {
         </Grid>
         {!details.isLoading ? (
           <>
-            <Typography variant="button" component="h6">
-              ВИДЕО
-            </Typography>
-            <Grid
-              container
-              className={classes.slider}
-              style={{ flexWrap: 'nowrap', overflowY: 'hidden' }}
-            >
-              {videos?.results?.map((el) => (
-                <Grid style={{ flexShrink: 0 }} xs={12} sm={4} md={3} lg={3}>
-                  <div className={classes.videoWrapper}>
-                    <iframe
-                      frameBorder="0"
-                      allowFullScreen
-                      key={el.key}
-                      src={`https://www.youtube.com/embed/${el.key}`}
-                      title={el.name}
-                    ></iframe>
-                  </div>
+            {videos?.results.length > 0 && (
+              <>
+                <Typography variant="button" component="h6">
+                  ВИДЕО
+                </Typography>
+                <Grid
+                  container
+                  className={classes.slider}
+                  style={{ flexWrap: 'nowrap', overflowY: 'hidden' }}
+                >
+                  {videos?.results?.map((el) => (
+                    <Grid
+                      style={{ flexShrink: 0 }}
+                      xs={12}
+                      sm={4}
+                      md={3}
+                      lg={3}
+                    >
+                      <div className={classes.videoWrapper}>
+                        <iframe
+                          frameBorder="0"
+                          allowFullScreen
+                          key={el.key}
+                          src={`https://www.youtube.com/embed/${el.key}`}
+                          title={el.name}
+                        ></iframe>
+                      </div>
+                    </Grid>
+                  ))}
                 </Grid>
-              ))}
-            </Grid>
+              </>
+            )}
           </>
         ) : null}
         {!recommendations.isLoading ? (
           <>
-            <Typography variant="button" component="h6">
-              Рекомендации{' '}
-              <Link to={'recommendations/' + details.data?.id}>
-                посмотреть все
-              </Link>
-            </Typography>
-            <div className={classes.slider}>
-              <CardsList style={{ flexWrap: 'nowrap' }}>
-                {recommendations.data?.results?.map((el) => (
-                  <MovieCard
-                    isLoading={recommendations.isLoading}
-                    key={el.id}
-                    card={el}
-                  />
-                ))}
-              </CardsList>
-            </div>
+            {recommendations.data.total_results > 0 && (
+              <>
+                <Typography variant="button" component="h6">
+                  Рекомендации{' '}
+                  <Link to={'recommendations/' + details.data?.id}>
+                    посмотреть все
+                  </Link>
+                </Typography>
+                <div className={classes.slider}>
+                  <CardsList style={{ flexWrap: 'nowrap' }}>
+                    {recommendations.data?.results?.map((el) => (
+                      <MovieCard
+                        isLoading={recommendations.isLoading}
+                        key={el.id}
+                        card={el}
+                      />
+                    ))}
+                  </CardsList>
+                </div>
+              </>
+            )}
           </>
         ) : null}
 
         {!similar.isLoading ? (
           <>
-            <Typography variant="button" component="h6">
-              Схожие фильмы{' '}
-              <Link to={'similar/' + details.data?.id}>посмотреть все</Link>
-            </Typography>
-            <div className={classes.slider}>
-              <CardsList style={{ flexWrap: 'nowrap' }}>
-                {similar.data?.results?.map((el) => (
-                  <MovieCard
-                    isLoading={similar.isLoading}
-                    key={el.id}
-                    card={el}
-                  />
-                ))}
-              </CardsList>
-            </div>
+            {similar.data.total_results > 0 && (
+              <>
+                <Typography variant="button" component="h6">
+                  Схожие фильмы{' '}
+                  <Link to={'similar/' + details.data?.id}>посмотреть все</Link>
+                </Typography>
+                <div className={classes.slider}>
+                  <CardsList style={{ flexWrap: 'nowrap' }}>
+                    {similar.data.results?.map((el) => (
+                      <MovieCard
+                        isLoading={similar.isLoading}
+                        key={el.id}
+                        card={el}
+                      />
+                    ))}
+                  </CardsList>
+                </div>
+              </>
+            )}
           </>
         ) : null}
       </Grid>

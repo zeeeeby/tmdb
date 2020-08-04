@@ -1,4 +1,7 @@
 export type TResponseError = {
-  status_code: number;
-  status_message: string;
-};
+  data: {
+    status_code: number
+    status_message: string
+  }
+  status: number
+}

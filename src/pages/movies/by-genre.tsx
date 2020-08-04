@@ -30,10 +30,7 @@ export const ByGenre: React.FC = () => {
   }
 
   React.useEffect(() => {
-    //@ts-ignore
-    getDiscoveredMovies({ with_genres: genre_id }).catch((err: any) => {
-      if (err.status === 422) switchPage(1)
-    })
+    getDiscoveredMovies({ with_genres: genre_id, page })
   }, [page, genre_id])
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {

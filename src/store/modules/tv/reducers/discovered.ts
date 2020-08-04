@@ -3,7 +3,7 @@ import { InferActionsTypes, BaseThunkType } from '../../..'
 import { Dispatch } from 'redux'
 import { tvApi } from '@src/api'
 
-import { TPopularTV } from '../types'
+import { TPopularTV, TDiscoverTV, TDiscoveredTV } from '../types'
 import { TResponseError } from '@src/api/types'
 
 type ActionsTypes = InferActionsTypes<typeof actions>
@@ -11,7 +11,7 @@ type ThunkType = BaseThunkType<ActionsTypes>
 type TInitialState = typeof initialState
 
 let initialState = {
-  data: {} as TPopularTV | null,
+  data: {} as TDiscoveredTV,
   isLoading: false,
   error: null as TResponseError | null,
 }
@@ -39,7 +39,7 @@ export const discoveredReducer = (
 }
 
 const actions = {
-  setData: (data: TPopularTV | null) =>
+  setData: (data: TDiscoveredTV) =>
     ({
       type: 'tmdb/tv/discovered/SET_ITEMS',
       payload: { data },
@@ -55,13 +55,13 @@ const actions = {
       payload: { error },
     } as const),
 }
-// TODO: Discovered TV
-export const getDiscoveredTV = (page?: number): ThunkType => async (
+
+export const getDiscoveredTV = (args: TDiscoverTV): ThunkType => async (
   dispatch: Dispatch<ActionsTypes>
 ) => {
   try {
     dispatch(actions.setLoadingStatus(true))
-    dispatch(actions.setData(await tvApi.getTopRated(page)))
+    dispatch(actions.setData(await tvApi.getDiscovered(args)))
     dispatch(actions.setLoadingStatus(false))
   } catch (error) {
     dispatch(actions.setError(error.response))

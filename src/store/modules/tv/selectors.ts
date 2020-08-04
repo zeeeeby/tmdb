@@ -9,3 +9,4 @@ export const getPopular = (state: AppStateType) => state.tv.popular
 export const getOnTheAir = (state: AppStateType) => state.tv.onTheAir
 export const getAiringToday = (state: AppStateType) => state.tv.airingToday
 export const getTopRated = (state: AppStateType) => state.tv.topRated
+export const getDiscovered = (state: AppStateType) => state.tv.discovered

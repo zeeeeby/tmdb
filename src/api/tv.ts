@@ -9,11 +9,17 @@ import {
   TSimilarTV,
   TTVExternalIds,
   TVideo,
+  TDiscoveredTV,
+  TDiscoverTV,
 } from '@src/store/modules/tv/types'
 import { createQueryString } from '@src/lib/create_query_string'
 
-const getDetails = (tv_id: number) =>
-  http.get<TTVDetails>(`/tv/${tv_id}?`).then((res) => res.data)
+const getDetails = (tv_id: number, append_to_response: string) =>
+  http
+    .get<TTVDetails>(
+      `/tv/${tv_id}?${createQueryString({ append_to_response })}`
+    )
+    .then((res) => res.data)
 const getPopular = (page?: number) =>
   http
     .get<TPopularTV>(`/tv/popular?${createQueryString({ page })}`)
@@ -51,6 +57,15 @@ const getExternalIds = (movie_id: number) =>
     .get<TTVExternalIds>(`/tv/${movie_id}/external_ids?`)
     .then((res) => res.data)
 
+const getDiscovered = (args: TDiscoverTV) =>
+  http
+    .get<TDiscoveredTV>(
+      `/discover/tv?${createQueryString({
+        ...args,
+      })}`
+    )
+    .then((res) => res.data)
+
 export const tvApi = {
   getDetails,
   getPopular,
@@ -61,4 +76,5 @@ export const tvApi = {
   getVideos,
   getRecommendations,
   getExternalIds,
+  getDiscovered,
 }

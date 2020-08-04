@@ -11,7 +11,7 @@ type ThunkType = BaseThunkType<ActionsTypes>
 type TInitialState = typeof initialState
 
 let initialState = {
-  data: {} as TPopularTV | null,
+  data: {} as TPopularTV,
   isLoading: false,
   error: null as TResponseError | null,
 }
@@ -39,7 +39,7 @@ export const popularReducer = (
 }
 
 const actions = {
-  setData: (data: TPopularTV | null) =>
+  setData: (data: TPopularTV) =>
     ({
       type: 'tmdb/tv/popular/SET_ITEMS',
       payload: { data },

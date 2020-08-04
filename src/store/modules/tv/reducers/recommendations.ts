@@ -11,7 +11,7 @@ type ThunkType = BaseThunkType<ActionsTypes>
 type TInitialState = typeof initialState
 
 let initialState = {
-  data: {} as TRecommendations | null,
+  data: {} as TRecommendations,
   isLoading: false,
   error: null as TResponseError | null,
 }
@@ -39,7 +39,7 @@ export const recommendationsReducer = (
 }
 
 const actions = {
-  setData: (data: TRecommendations | null) =>
+  setData: (data: TRecommendations) =>
     ({
       type: 'tmdb/tv/recommendations/SET_ITEMS',
       payload: { data },

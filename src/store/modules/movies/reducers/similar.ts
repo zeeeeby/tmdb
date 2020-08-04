@@ -11,7 +11,7 @@ type ThunkType = BaseThunkType<ActionsTypes>
 type TInitialState = typeof initialState
 
 let initialState = {
-  data: {} as TSimilarMovies | null,
+  data: {} as TSimilarMovies,
   isLoading: false,
   error: null as TResponseError | null,
 }
@@ -39,7 +39,7 @@ export const similarReducer = (
 }
 
 const actions = {
-  setData: (data: TSimilarMovies | null) =>
+  setData: (data: TSimilarMovies) =>
     ({
       type: 'tmdb/movies/similar/SET_ITEMS',
       payload: { data },
