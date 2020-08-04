@@ -4,7 +4,7 @@ import { Switch, Route, useLocation } from 'react-router-dom'
 import Container from '@material-ui/core/Container'
 
 import { Header } from '@src/components/Header'
-import { Auth, movies, tv, Search } from '@src/pages'
+import { Auth, movies, tv, Search, Home } from '@src/pages'
 
 import { account } from '@src/store/modules/account'
 import { auth } from '@src/store/modules/auth'
@@ -40,7 +40,7 @@ export const App = () => {
         <Header />
         <Container maxWidth="lg">
           <Switch>
-            <Route exact path="/"></Route>
+            <Route exact path="/" component={Home} />
             <Route path="/login" component={Auth} />
             <Route exact path="/movies/" component={movies.Popular} />
             <Route
@@ -61,16 +61,28 @@ export const App = () => {
               path="/movies/recommendations/:id"
               component={movies.Recommendations}
             />
-
             <Route
               exact
               path="/movies/similar/:id"
               component={movies.Similar}
             />
+
             <Route exact path="/tv/" component={tv.Popular} />
+            <Route exact path="/tv/top-rated" component={tv.TopRated} />
+            <Route exact path="/tv/on-the-air" component={tv.OnTheAir} />
+            <Route exact path="/tv/airing-today" component={tv.AiringToday} />
+            <Route exact path="/tv/genres/:genre" component={tv.ByGenre} />
+            <Route
+              exact
+              path="/tv/recommendations/:id"
+              component={tv.Recommendations}
+            />
+            <Route exact path="/tv/similar/:id" component={tv.Similar} />
             <Route exact path="/tv/:id" component={tv.ByID} />
-            
+
             <Route exact path="/search" component={Search} />
+
+            <Route render={() => <h4>404 not found</h4>} />
           </Switch>
         </Container>
       </div>
