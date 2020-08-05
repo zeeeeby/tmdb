@@ -41,7 +41,6 @@ export const TVSeasonCard: React.FC<TCard> = ({ card, isLoading }) => {
   }, [card])
 
   return (
-    //TODO: Handle click
     <CardItem onClick={()=>{}}>
       {!isLoading ? (
         <img

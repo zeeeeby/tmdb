@@ -309,12 +309,12 @@ export const ByID: React.FC = () => {
                       sm={4}
                       md={3}
                       lg={3}
+                      key={el.key}
                     >
                       <div className={classes.videoWrapper}>
                         <iframe
                           frameBorder="0"
                           allowFullScreen
-                          key={el.key}
                           src={`https://www.youtube.com/embed/${el.key}`}
                           title={el.name}
                         ></iframe>

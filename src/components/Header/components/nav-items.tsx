@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       listStyle: 'none',
       '& li': {
         cursor: 'pointer',
-        padding: '5px 0px',
+        padding: '7px 0px',
         '& a': {
           color: 'black',
         },
@@ -29,9 +29,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   navContent: {
     display: 'none',
     position: 'absolute',
-    backgroundColor: 'white',
-    width: '120%',
+    backgroundColor: 'aliceblue;',
+    width: '140%',
     top: '85%',
+    borderRadius: '4px',
   },
 }))
 

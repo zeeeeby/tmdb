@@ -107,7 +107,6 @@ export const ByID: React.FC = () => {
     getTVDetails(tvID)
     getRecommendations(tvID, 1)
     getSimilarTV(tvID, 1)
-    //TODO: Redurect to 404
   }, [tvID])
   if (details.error?.status === 404) history.push('/404')
   return (
@@ -123,14 +122,6 @@ export const ByID: React.FC = () => {
                   alt="poster"
                 />
               </div>
-              {/* <div className={classes.containerExternalLinks}>
-                {externalIds &&
-                  getExternalLinks(externalIds).map((el) => (
-                    <Typography variant="body1" component="h6">
-                      {el}
-                    </Typography>
-                  ))}
-              </div> */}
             </div>
           ) : (
             <div className={classes.container}>
@@ -309,12 +300,12 @@ export const ByID: React.FC = () => {
                       sm={4}
                       md={3}
                       lg={3}
+                      key={el.key}
                     >
                       <div className={classes.videoWrapper}>
                         <iframe
                           frameBorder="0"
                           allowFullScreen
-                          key={el.key}
                           src={`https://www.youtube.com/embed/${el.key}`}
                           title={el.name}
                         ></iframe>
@@ -339,10 +330,7 @@ export const ByID: React.FC = () => {
                     card={el}
                     key={el.id}
                   >
-                    {
-                      ' Сезон!'
-                      //create season card
-                    }
+                    {' Сезон!'}
                   </TVSeasonCard>
                 ))}
               </CardsList>

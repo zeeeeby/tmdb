@@ -1,8 +1,16 @@
 import React from 'react'
 import { tv } from '@src/store/modules/tv'
 import { Page } from './_base/page'
+import { Typography } from '@material-ui/core'
 
 export const TopRated: React.FC = () => {
   const { getTopRatedTV } = tv.useActions()
-  return <Page content={tv.useTopRated()} getter={getTopRatedTV} />
+  return (
+    <>
+      <Typography variant="button" component="h6">
+        Top rated TV
+      </Typography>
+      <Page content={tv.useTopRated()} getter={getTopRatedTV} />
+    </>
+  )
 }

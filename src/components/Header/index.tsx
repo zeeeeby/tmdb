@@ -17,7 +17,7 @@ import { SearchResultsList } from './components/search-results-list'
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
-    marginBottom: '10px',
+    marginBottom: '25px',
   },
   menuButton: {
     marginRight: theme.spacing(2),
