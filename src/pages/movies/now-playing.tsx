@@ -10,7 +10,7 @@ export const NowPlaying: React.FC = () => {
       <Typography variant="button" component="h6">
         Now playing movies
       </Typography>
-      <Page content={movies.useNowPlaying()} getter={getNowPlayingMovies} />{' '}
+      <Page content={movies.useNowPlaying()} getter={getNowPlayingMovies} />
     </>
   )
 }

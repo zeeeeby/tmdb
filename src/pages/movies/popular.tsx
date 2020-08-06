@@ -8,10 +8,11 @@ export const Popular: React.FC = () => {
   const { getPopularMovies } = movies.useActions()
   return (
     <>
+      <FilterPanel />
       <Typography variant="button" component="h6">
         Popular movies
       </Typography>
-      <Page content={movies.usePopular()} getter={getPopularMovies} />{' '}
+      <Page content={movies.usePopular()} getter={getPopularMovies} />
     </>
   )
 }

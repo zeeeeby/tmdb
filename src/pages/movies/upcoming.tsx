@@ -4,14 +4,13 @@ import { Page } from './_base/page'
 import { Typography } from '@material-ui/core'
 
 export const Upcoming: React.FC = () => {
-  const upcoming = movies.useUpcoming()
   const { getUpcomingMovies } = movies.useActions()
   return (
     <>
       <Typography variant="button" component="h6">
         Upcoming movies
       </Typography>
-      <Page content={upcoming} getter={getUpcomingMovies} />{' '}
+      <Page content={movies.useUpcoming()} getter={getUpcomingMovies} />
     </>
   )
 }

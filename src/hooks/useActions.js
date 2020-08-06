@@ -1,10 +1,10 @@
-import { bindActionCreators } from 'redux';
-import { useDispatch } from 'react-redux';
-import { useMemo } from 'react';
+import { bindActionCreators } from 'redux'
+import { useDispatch } from 'react-redux'
+import { useMemo } from 'react'
 
 export const useActions = (actions) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   return useMemo(() => {
-    return bindActionCreators(actions, dispatch);
-  }, [dispatch]);
-};
+    return bindActionCreators(actions, dispatch)
+  }, [dispatch])
+}

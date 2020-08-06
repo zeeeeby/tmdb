@@ -50,7 +50,7 @@ export const Page: React.FC<T> = ({ content, getter, withURLParam }) => {
   }
 
   const matchedParams = useRouteMatch().params as any
-  const movieID = parseInt(matchedParams.id || '-1')
+  const movieID = parseInt(matchedParams.id || '0')
 
   React.useEffect(() => {
     if (!withURLParam) getter(page)

@@ -10,7 +10,7 @@ export const TopRated: React.FC = () => {
       <Typography variant="button" component="h6">
         Top rated movies
       </Typography>
-      <Page content={movies.useTopRated()} getter={getTopRatedMovies} />{' '}
+      <Page content={movies.useTopRated()} getter={getTopRatedMovies} />
     </>
   )
 }
