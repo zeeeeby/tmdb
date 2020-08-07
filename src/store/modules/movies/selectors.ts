@@ -10,3 +10,6 @@ export const getNowPlaying = (state: AppStateType) => state.movies.nowPlaying
 export const getTopRated = (state: AppStateType) => state.movies.topRated
 export const getUpcoming = (state: AppStateType) => state.movies.upcoming
 export const getDiscovered = (state: AppStateType) => state.movies.discovered
+export const getWatchList = (state: AppStateType) => state.movies.watchlist
+export const getFavoriteList = (state: AppStateType) =>
+  state.movies.favoritelist

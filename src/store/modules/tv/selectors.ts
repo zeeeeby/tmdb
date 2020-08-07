@@ -10,3 +10,5 @@ export const getOnTheAir = (state: AppStateType) => state.tv.onTheAir
 export const getAiringToday = (state: AppStateType) => state.tv.airingToday
 export const getTopRated = (state: AppStateType) => state.tv.topRated
 export const getDiscovered = (state: AppStateType) => state.tv.discovered
+export const getWatchList = (state: AppStateType) => state.tv.watchlist
+export const getFavoriteList = (state: AppStateType) => state.tv.favoritelist

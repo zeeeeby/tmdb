@@ -11,6 +11,8 @@ import {
   getTopRated,
   getUpcoming,
   getDiscovered,
+  getWatchList,
+  getFavoriteList,
 } from './selectors'
 
 export { moviesReducer }
@@ -26,5 +28,7 @@ export const movies = {
   useDiscovered: () => useSelector(getDiscovered),
   useSimilar: () => useSelector(getSimilar),
   useRecommendations: () => useSelector(getRecommendations),
+  useWatchList: () => useSelector(getWatchList),
+  useFavoriteList: () => useSelector(getFavoriteList),
   useActions: (): typeof actions => useActions(actions),
 }
