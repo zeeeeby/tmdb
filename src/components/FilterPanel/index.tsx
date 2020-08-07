@@ -4,6 +4,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 import './index.css'
+import { useToggle } from '@src/hooks/useToggle'
 
 const useStyles = makeStyles({
   d: {
@@ -26,11 +27,11 @@ const useStyles = makeStyles({
 export const FilterPanel: React.FC = () => {
   const classes = useStyles()
   const [isExpanded, switchExpansion] = React.useState(false)
-  const [open, setOpen] = React.useState(false)
-  
+  const [isOpen, toggle] = useToggle()
+
   const handleClick = () => {
     switchExpansion(!isExpanded)
-    setOpen(!open)
+    toggle()
   }
   return (
     <>
@@ -38,7 +39,7 @@ export const FilterPanel: React.FC = () => {
         {isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
       </div>
 
-      <Collapse in={open} timeout="auto" unmountOnExit>
+      <Collapse in={isOpen} timeout="auto" unmountOnExit>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa maiores
         repellendus id numquam officia. Porro nemo ducimus architecto itaque
         iste vero ipsam, sapiente expedita qui quam dolor minima autem nesciunt

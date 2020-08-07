@@ -70,7 +70,7 @@ export type TMovie = {
   video: boolean
   vote_average: number
 }
-type TResult = {
+export type TResult = {
   page: number
   results: Array<TMovie>
   total_results: number
@@ -174,3 +174,4 @@ type TSortBy =
   | 'vote_average.desc'
   | 'vote_count.asc'
   | 'vote_count.desc'
+

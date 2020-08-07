@@ -13,6 +13,7 @@ import {
   TDiscoverMovie,
 } from '@src/store/modules/movies/types'
 import { createQueryString } from '@src/lib/create_query_string'
+import { TAccountStates } from '@src/store/modules/account/types.js'
 
 const getDetails = (movie_id: number, append_to_response: string) =>
   http
@@ -78,6 +79,10 @@ const getDiscovered = (args: TDiscoverMovie) =>
       })}`
     )
     .then((res) => res.data)
+const getAccountStates = (movie_id: number) =>
+  http
+    .get<TAccountStates>(`/movie/${movie_id}/account_states`)
+    .then((res) => res.data)
 
 export const moviesApi = {
   getDetails,
@@ -90,4 +95,5 @@ export const moviesApi = {
   getVideos,
   getExternalIds,
   getDiscovered,
+  getAccountStates,
 }

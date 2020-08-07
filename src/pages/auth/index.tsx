@@ -128,10 +128,6 @@ export const Auth: React.FC = () => {
                   />
                 )}
               </Field>
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
               <Button
                 disabled={pristine || submitting}
                 type="submit"

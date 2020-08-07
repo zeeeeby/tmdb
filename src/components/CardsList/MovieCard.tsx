@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import Skeleton from '@material-ui/lab/Skeleton'
 import { CardItem } from './CardItem'
 import { useHistory } from 'react-router-dom'
+
 type TCard = {
   card: TMovie
   isLoading: boolean
@@ -33,12 +34,13 @@ const useStyles = makeStyles({
 export const MovieCard: React.FC<TCard> = ({ card, isLoading }) => {
   const classes = useStyles()
   const history = useHistory()
+
   const handleClick = React.useCallback(() => {
     if (card.id) history.push('/movies/' + card.id.toString())
   }, [card])
 
   return (
-    <CardItem onClick={handleClick}>
+    <CardItem type="movie" id={card?.id} onClick={handleClick}>
       {!isLoading ? (
         <img
           className={classes.media}
@@ -56,7 +58,11 @@ export const MovieCard: React.FC<TCard> = ({ card, isLoading }) => {
       )}
       <CardContent className={classes.cardContent}>
         <Typography gutterBottom variant="body2" component="h2">
-          {!isLoading ? card.title : <Skeleton animation="wave" variant="text" />}
+          {!isLoading ? (
+            card.title
+          ) : (
+            <Skeleton animation="wave" variant="text" />
+          )}
         </Typography>
         <Typography variant="caption" color="textSecondary">
           {!isLoading ? (

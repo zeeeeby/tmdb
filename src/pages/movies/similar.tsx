@@ -1,6 +1,6 @@
 import React from 'react'
 import { movies } from '@src/store/modules/movies'
-import { Page } from './_base/page'
+import { Page } from '../_base/baseMovies'
 
 export const Similar: React.FC = () => {
   const { getSimilarMovies } = movies.useActions()

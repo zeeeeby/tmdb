@@ -7,6 +7,8 @@ import { nowPlayingReducer, getNowPlayingMovies } from './nowPlaying'
 import { popularReducer, getPopularMovies } from './popular'
 import { topRatedReducer, getTopRatedMovies } from './topRated'
 import { upcomingReducer, getUpcomingMovies } from './upcoming'
+import { watchlistReducer, getWatchList } from './watchlist'
+import { favoritelistReducer, getFavoriteList } from './favoritelist'
 
 export const moviesReducer = combineReducers({
   currentMovie: currentMovieReducer,
@@ -17,6 +19,8 @@ export const moviesReducer = combineReducers({
   upcoming: upcomingReducer,
   topRated: topRatedReducer,
   discovered: discoveredReducer,
+  watchlist: watchlistReducer,
+  favoritelist: favoritelistReducer,
 })
 
 export const actions = {
@@ -28,4 +32,6 @@ export const actions = {
   getPopularMovies,
   getTopRatedMovies,
   getUpcomingMovies,
+  getWatchList,
+  getFavoriteList,
 }

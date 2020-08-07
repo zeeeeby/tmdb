@@ -13,6 +13,7 @@ import {
   TDiscoverTV,
 } from '@src/store/modules/tv/types'
 import { createQueryString } from '@src/lib/create_query_string'
+import { TAccountStates } from '@src/store/modules/account/types.js'
 
 const getDetails = (tv_id: number, append_to_response: string) =>
   http
@@ -65,6 +66,10 @@ const getDiscovered = (args: TDiscoverTV) =>
       })}`
     )
     .then((res) => res.data)
+const getAccountStates = (tv_id: number) =>
+  http
+    .get<TAccountStates>(`/tv/${tv_id}/account_states`)
+    .then((res) => res.data)
 
 export const tvApi = {
   getDetails,
@@ -77,4 +82,5 @@ export const tvApi = {
   getRecommendations,
   getExternalIds,
   getDiscovered,
+  getAccountStates,
 }

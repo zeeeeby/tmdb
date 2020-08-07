@@ -118,7 +118,7 @@ export type TTV = {
   origin_country: Array<string>
 }
 
-type TResult = {
+export type TResult = {
   page: number
   results: Array<TTV>
   total_results: number

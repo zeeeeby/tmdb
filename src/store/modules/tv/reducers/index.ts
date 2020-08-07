@@ -7,6 +7,8 @@ import { airingTodayReducer, getAiringTodayTV } from './airingToday'
 import { popularReducer, getPopularTV } from './popular'
 import { topRatedReducer, getTopRatedTV } from './topRated'
 import { onTheAirReducer, getOnTheAirTV } from './onTheAir'
+import { watchlistReducer, getWatchList } from './watchlist'
+import { favoritelistReducer, getFavoriteList } from './favoritelist'
 
 export const tvReducer = combineReducers({
   currentTV: currentTVReducer,
@@ -17,6 +19,8 @@ export const tvReducer = combineReducers({
   onTheAir: onTheAirReducer,
   topRated: topRatedReducer,
   discovered: discoveredReducer,
+  watchlist: watchlistReducer,
+  favoritelist: favoritelistReducer,
 })
 
 export const actions = {
@@ -28,4 +32,6 @@ export const actions = {
   getPopularTV,
   getTopRatedTV,
   getOnTheAirTV,
+  getWatchList,
+  getFavoriteList,
 }

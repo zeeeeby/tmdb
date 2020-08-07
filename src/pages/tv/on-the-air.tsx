@@ -1,6 +1,6 @@
 import React from 'react'
 import { tv } from '@src/store/modules/tv'
-import { Page } from './_base/page'
+import { Page } from '../_base/baseTV'
 import { Typography } from '@material-ui/core'
 
 export const OnTheAir: React.FC = () => {

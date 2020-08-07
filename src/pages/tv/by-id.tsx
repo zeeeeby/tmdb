@@ -10,9 +10,10 @@ import { getImageLink } from '@src/api'
 import Rating from '@material-ui/lab/Rating'
 import Skeleton from '@material-ui/lab/Skeleton'
 
-import { Expand } from '@src/components/common/expand'
+import { Expand } from '@src/components/Expand'
 import { TVCard } from '@src/components/CardsList/TVCard'
 import { TVSeasonCard } from '@src/components/CardsList/TVSeasonCard'
+import { CardSlider } from '@src/components/CardSlider'
 
 const useStyles = makeStyles({
   pagination: {
@@ -322,19 +323,17 @@ export const ByID: React.FC = () => {
             <Typography variant="button" component="h6">
               Сезоны{' '}
             </Typography>
-            <div className={classes.slider}>
-              <CardsList style={{ flexWrap: 'nowrap' }}>
-                {details.data?.seasons.map((el) => (
-                  <TVSeasonCard
-                    isLoading={details.isLoading}
-                    card={el}
-                    key={el.id}
-                  >
-                    {' Сезон!'}
-                  </TVSeasonCard>
-                ))}
-              </CardsList>
-            </div>
+            <CardSlider>
+              {details.data?.seasons.map((el) => (
+                <TVSeasonCard
+                  isLoading={details.isLoading}
+                  card={el}
+                  key={el.id}
+                >
+                  {' Сезон!'}
+                </TVSeasonCard>
+              ))}
+            </CardSlider>
           </>
         ) : null}
 
@@ -348,17 +347,15 @@ export const ByID: React.FC = () => {
                     посмотреть все
                   </Link>
                 </Typography>
-                <div className={classes.slider}>
-                  <CardsList style={{ flexWrap: 'nowrap' }}>
-                    {recommendations?.data?.results?.map((el) => (
-                      <TVCard
-                        isLoading={recommendations.isLoading}
-                        key={el.id}
-                        card={el}
-                      />
-                    ))}
-                  </CardsList>
-                </div>
+                <CardSlider>
+                  {recommendations?.data?.results?.map((el) => (
+                    <TVCard
+                      isLoading={recommendations.isLoading}
+                      key={el.id}
+                      card={el}
+                    />
+                  ))}
+                </CardSlider>
               </>
             )}
           </>
@@ -372,17 +369,15 @@ export const ByID: React.FC = () => {
                   Схожие сериалы{' '}
                   <Link to={'similar/' + details.data?.id}>посмотреть все</Link>
                 </Typography>
-                <div className={classes.slider}>
-                  <CardsList style={{ flexWrap: 'nowrap' }}>
-                    {similar.data?.results?.map((el) => (
-                      <TVCard
-                        isLoading={similar.isLoading}
-                        key={el.id}
-                        card={el}
-                      />
-                    ))}
-                  </CardsList>
-                </div>
+                <CardSlider>
+                  {similar.data?.results?.map((el) => (
+                    <TVCard
+                      isLoading={similar.isLoading}
+                      key={el.id}
+                      card={el}
+                    />
+                  ))}
+                </CardSlider>
               </>
             )}
           </>

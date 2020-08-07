@@ -1,6 +1,6 @@
 import React from 'react'
 import { tv } from '@src/store/modules/tv'
-import { Page } from './_base/page'
+import { Page } from '../_base/baseTV'
 
 export const Recommendations: React.FC = () => {
   const { getRecommendations } = tv.useActions()
