@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/tmdb/static/css/main.7f6fa7f1.chunk.css",
-    "main.js": "/tmdb/static/js/main.2ba7df03.chunk.js",
-    "main.js.map": "/tmdb/static/js/main.2ba7df03.chunk.js.map",
+    "main.css": "/tmdb/static/css/main.4afd82c5.chunk.css",
+    "main.js": "/tmdb/static/js/main.27f10531.chunk.js",
+    "main.js.map": "/tmdb/static/js/main.27f10531.chunk.js.map",
     "runtime-main.js": "/tmdb/static/js/runtime-main.09aa0c68.js",
     "runtime-main.js.map": "/tmdb/static/js/runtime-main.09aa0c68.js.map",
-    "static/js/2.9a4f804c.chunk.js": "/tmdb/static/js/2.9a4f804c.chunk.js",
-    "static/js/2.9a4f804c.chunk.js.map": "/tmdb/static/js/2.9a4f804c.chunk.js.map",
+    "static/js/2.6f3fb9fc.chunk.js": "/tmdb/static/js/2.6f3fb9fc.chunk.js",
+    "static/js/2.6f3fb9fc.chunk.js.map": "/tmdb/static/js/2.6f3fb9fc.chunk.js.map",
     "index.html": "/tmdb/index.html",
-    "precache-manifest.daab7f0b6a71aca960758dbd6e67c657.js": "/tmdb/precache-manifest.daab7f0b6a71aca960758dbd6e67c657.js",
+    "precache-manifest.68a1d497c193855228122c1d044868fc.js": "/tmdb/precache-manifest.68a1d497c193855228122c1d044868fc.js",
     "service-worker.js": "/tmdb/service-worker.js",
-    "static/css/main.7f6fa7f1.chunk.css.map": "/tmdb/static/css/main.7f6fa7f1.chunk.css.map",
-    "static/js/2.9a4f804c.chunk.js.LICENSE.txt": "/tmdb/static/js/2.9a4f804c.chunk.js.LICENSE.txt",
+    "static/css/main.4afd82c5.chunk.css.map": "/tmdb/static/css/main.4afd82c5.chunk.css.map",
+    "static/js/2.6f3fb9fc.chunk.js.LICENSE.txt": "/tmdb/static/js/2.6f3fb9fc.chunk.js.LICENSE.txt",
     "static/media/index.css": "/tmdb/static/media/SFUIText-SemiboldItalic.da2dba92.woff"
   },
   "entrypoints": [
     "static/js/runtime-main.09aa0c68.js",
-    "static/js/2.9a4f804c.chunk.js",
-    "static/css/main.7f6fa7f1.chunk.css",
-    "static/js/main.2ba7df03.chunk.js"
+    "static/js/2.6f3fb9fc.chunk.js",
+    "static/css/main.4afd82c5.chunk.css",
+    "static/js/main.27f10531.chunk.js"
   ]
 }
