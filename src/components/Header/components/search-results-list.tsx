@@ -10,6 +10,7 @@ import TvIcon from '@material-ui/icons/Tv'
 import MovieIcon from '@material-ui/icons/Movie'
 import PersonIcon from '@material-ui/icons/Person'
 import { useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,6 +35,7 @@ export const SearchResultsList: React.FC<T> = ({
 }) => {
   const classes = useStyles()
   const history = useHistory()
+  const [t] = useTranslation()
   return (
     <>
       {isOpened && (
@@ -62,7 +64,7 @@ export const SearchResultsList: React.FC<T> = ({
             })
           ) : (
             <Typography style={{ textAlign: 'center' }} variant="h5">
-              НЕТ РЕЗУЛЬТАТОВ
+              {t('search panel no-results')}
             </Typography>
           )}
         </List>
@@ -81,7 +83,7 @@ const getTitle = (media: TMultiSearch) => {
         media.first_air_date ? new Date(media.first_air_date).getFullYear() : ''
       }`
     default:
-      return 'NOT STATED (Persona)'
+      return 'N/A (Persona)'
   }
 }
 const getIcon = (media: TMultiSearch) => {

@@ -14,6 +14,7 @@ import { Expand } from '@src/components/Expand'
 import { TVCard } from '@src/components/CardsList/TVCard'
 import { TVSeasonCard } from '@src/components/CardsList/TVSeasonCard'
 import { CardSlider } from '@src/components/CardSlider'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles({
   pagination: {
@@ -104,11 +105,13 @@ export const ByID: React.FC = () => {
 
   const { getTVDetails, getRecommendations, getSimilarTV } = tv.useActions()
 
+  const [t, i18n] = useTranslation()
+
   React.useEffect(() => {
     getTVDetails(tvID)
     getRecommendations(tvID, 1)
     getSimilarTV(tvID, 1)
-  }, [tvID])
+  }, [tvID, i18n.language])
   if (details.error?.status === 404) history.push('/404')
   return (
     <>
@@ -178,19 +181,18 @@ export const ByID: React.FC = () => {
                 variant="h5"
                 component="h5"
               >
-                ИНФОРМАЦИЯ
+                {t('details info').toUpperCase()}
               </Typography>
               {!details.isLoading ? (
                 <>
                   {details.data?.status && (
                     <Typography variant="body1" component="h6">
-                      Статус:
-                      {details.data?.status}
+                      {t('details status')}:{details.data?.status}
                     </Typography>
                   )}
                   {details.data?.first_air_date && (
                     <Typography variant="body1" component="h6">
-                      Дата выхода:{' '}
+                      {t('details release date')}:{' '}
                       {new Date(
                         details.data?.first_air_date
                       ).toLocaleDateString()}
@@ -198,29 +200,31 @@ export const ByID: React.FC = () => {
                   )}
                   {details.data?.episode_run_time && (
                     <Typography variant="body1" component="h6">
-                      Длительность эпизода:
+                      {t('details episode duration')}:
                       {` ${Math.trunc(
                         details.data?.episode_run_time.reduce(
                           (acc, el) => acc + el,
                           0
                         ) / details.data?.episode_run_time.length
-                      )} мин`}
+                      )} ${t('details minutes')}`}
                     </Typography>
                   )}
                   {details.data?.number_of_episodes && (
                     <Typography variant="body1" component="h6">
-                      Эпизодов: {' ' + details.data?.number_of_episodes}
+                      {t('details episodes')}:{' '}
+                      {' ' + details.data?.number_of_episodes}
                     </Typography>
                   )}
                   {details.data?.number_of_seasons && (
                     <Typography variant="body1" component="h6">
-                      Сезонов: {' ' + details.data?.number_of_seasons}
+                      {t('details seasons')}:{' '}
+                      {' ' + details.data?.number_of_seasons}
                     </Typography>
                   )}
 
                   {details.data?.genres && details.data?.genres.length > 0 && (
                     <Typography variant="body1" component="h6">
-                      Жанры:
+                      {t('details genres')}:
                       {details.data?.genres.map((el, idx) => (
                         <Link
                           className={classes.genresLink}
@@ -252,7 +256,7 @@ export const ByID: React.FC = () => {
                   variant="h5"
                   component="h5"
                 >
-                  ОПИСАНИЕ
+                  {t('details description').toUpperCase()}
                 </Typography>
                 {details.data?.overview && (
                   <div>
@@ -287,7 +291,7 @@ export const ByID: React.FC = () => {
             {videos?.results.length > 0 && (
               <>
                 <Typography variant="button" component="h6">
-                  ВИДЕО
+                  {t('details video').toUpperCase()}
                 </Typography>
                 <Grid
                   container
@@ -318,7 +322,7 @@ export const ByID: React.FC = () => {
             )}
           </>
         ) : null}
-        {details.data?.seasons ? (
+        {/* {details.data?.seasons ? (
           <>
             <Typography variant="button" component="h6">
               Сезоны{' '}
@@ -335,16 +339,16 @@ export const ByID: React.FC = () => {
               ))}
             </CardSlider>
           </>
-        ) : null}
+        ) : null} */}
 
         {!recommendations.isLoading ? (
           <>
             {recommendations.data.total_results > 0 && (
               <>
                 <Typography variant="button" component="h6">
-                  Рекомендации{' '}
+                  {t('details recommend')}{' '}
                   <Link to={'recommendations/' + details.data?.id}>
-                    посмотреть все
+                    {t('details show all')}
                   </Link>
                 </Typography>
                 <CardSlider>
@@ -366,8 +370,11 @@ export const ByID: React.FC = () => {
             {similar.data.total_results > 0 && (
               <>
                 <Typography variant="button" component="h6">
-                  Схожие сериалы{' '}
-                  <Link to={'similar/' + details.data?.id}>посмотреть все</Link>
+                  {t('details similar tv')}{' '}
+                  <Link to={'similar/' + details.data?.id}>
+                    {' '}
+                    {t('details show all')}
+                  </Link>
                 </Typography>
                 <CardSlider>
                   {similar.data?.results?.map((el) => (

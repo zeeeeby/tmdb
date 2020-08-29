@@ -9,6 +9,7 @@ import { MovieCard } from '@src/components/CardsList/MovieCard'
 import { Link } from 'react-router-dom'
 import { Typography } from '@material-ui/core'
 import { TVCard } from '@src/components/CardsList/TVCard'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles({
   pagination: {
@@ -28,10 +29,12 @@ export const Home: React.FC = () => {
 
   const { getPopularMovies } = movies.useActions()
   const { getPopularTV } = tv.useActions()
+  const [t, i18n] = useTranslation()
   React.useEffect(() => {
     getPopularMovies(1)
     getPopularTV(1)
-  }, [])
+  }, [i18n.language])
+
   return (
     <>
       <Typography
@@ -39,7 +42,7 @@ export const Home: React.FC = () => {
         variant="button"
         component="h6"
       >
-        <Link to={'/movies'}>Популярные фильмы</Link>
+        <Link to={'/movies'}>{t('popular movies link')}</Link>
       </Typography>
       <div className={classes.slider}>
         <CardsList style={{ flexWrap: 'nowrap' }}>
@@ -57,7 +60,7 @@ export const Home: React.FC = () => {
         variant="button"
         component="h6"
       >
-        <Link to={'/tv'}>Популярные сериалы</Link>
+        <Link to={'/tv'}>{t('popular tv link')}</Link>
       </Typography>
       <div className={classes.slider}>
         <CardsList style={{ flexWrap: 'nowrap' }}>

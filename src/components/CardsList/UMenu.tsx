@@ -5,6 +5,7 @@ import { Menu, MenuItem } from '@material-ui/core'
 import { account } from '@src/store/modules/account'
 import { TAccountStates } from '@src/store/modules/account/types'
 import { tvApi, moviesApi } from '@src/api'
+import { useTranslation } from 'react-i18next'
 
 type T = {
   type: 'movie' | 'tv'
@@ -21,11 +22,12 @@ export const UMenu: React.FC<T> = ({ type, id }) => {
 
   const { addToFavoriteList, addToWatchList } = account.useActions()
 
+  const [t, i18n] = useTranslation()
   React.useEffect(() => {
     if (type === 'movie')
       moviesApi.getAccountStates(id).then((res) => setState(res as any))
     else tvApi.getAccountStates(id).then((res) => setState(res as any))
-  }, [])
+  }, [i18n.language])
   const params = { media_id: id, media_type: type }
 
   const onWatchListClick = async () => {
@@ -45,6 +47,7 @@ export const UMenu: React.FC<T> = ({ type, id }) => {
     await setState({ ...state, favorite: !state?.favorite })
     close()
   }
+
   return (
     <>
       <div
@@ -61,12 +64,14 @@ export const UMenu: React.FC<T> = ({ type, id }) => {
         onClose={close}
       >
         <MenuItem onClick={onWatchListClick}>
-          {state?.watchlist ? 'Remove from watchlist ' : 'Add to watchlist'}
+          {state?.watchlist
+            ? t('remove from watchlist')
+            : t('add to watchlist')}
         </MenuItem>
         <MenuItem onClick={onFavoriteListClick}>
           {state?.favorite
-            ? 'Remove from favoritelist '
-            : 'Add to favoritelist'}
+            ? t('remove from favoritelist')
+            : t('add to favoritelist')}
         </MenuItem>
       </Menu>
     </>

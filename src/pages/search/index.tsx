@@ -8,6 +8,7 @@ import { parseQueryString } from '@src/lib/parse_query_string'
 import { MovieCard } from '@src/components/CardsList/MovieCard'
 import { TVCard } from '@src/components/CardsList/TVCard'
 import { CardItem } from '@src/components/CardsList/CardItem'
+import { useTranslation } from 'react-i18next'
 const useStyles = makeStyles({
   pagination: {
     '& ul': { justifyContent: 'center', margin: '10px 0' },
@@ -27,13 +28,14 @@ export const Search: React.FC = () => {
     setPage(page)
     history.push(`?page=${page}&query=${query}`)
   }
+  const [t, i18n] = useTranslation()
 
   React.useEffect(() => {
     //@ts-ignore
     find(query, page).catch((err: any) => {
       if (err.status === 422) switchPage(1)
     })
-  }, [query, page])
+  }, [query, page, i18n.language])
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     switchPage(value)
@@ -41,12 +43,13 @@ export const Search: React.FC = () => {
   return (
     <>
       <div>
-        По запросу <b>{query}</b> найдено {searchRes?.total_results} совпадений
+        {t('search results', { count: searchRes?.total_results })}
+        <b>{' ' + query}</b>
       </div>
       {searchRes?.total_results ? (
         <>
           <CardsList>
-            {searchRes.results?.map((el:any) => {
+            {searchRes.results?.map((el: any) => {
               switch (el.media_type) {
                 case 'movie':
                   return <MovieCard isLoading={false} key={el.id} card={el} />

@@ -5,11 +5,13 @@ import Typography from '@material-ui/core/Typography'
 import { Box, Card } from '@material-ui/core'
 import { movies } from '@src/store/modules/movies'
 import { tv } from '@src/store/modules/tv'
+import { account } from '@src/store/modules/account'
 import { CardsList } from '@src/components/CardsList'
 import { MovieCard } from '@src/components/CardsList/MovieCard'
 import { Link } from 'react-router-dom'
 import { TVCard } from '@src/components/CardsList/TVCard'
 import { CardSlider } from '@src/components/CardSlider'
+import { useTranslation } from 'react-i18next'
 
 export const Profile: React.FC = () => {
   const [value, setValue] = React.useState(0)
@@ -17,6 +19,7 @@ export const Profile: React.FC = () => {
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue)
   }
+  const profileName = account.useProfileDetails()?.username
   const moviesWL = movies.useWatchList()
   const moviesFL = movies.useFavoriteList()
   const moviesAct = movies.useActions()
@@ -24,22 +27,28 @@ export const Profile: React.FC = () => {
   const tvWL = tv.useWatchList()
   const tvFL = tv.useFavoriteList()
   const tvAct = tv.useActions()
+
+  const [t, i18n] = useTranslation()
+
   React.useEffect(() => {
     moviesAct.getWatchList(1)
     moviesAct.getFavoriteList(1)
     tvAct.getWatchList(1)
     tvAct.getFavoriteList(1)
-  }, [])
+  }, [i18n.language])
   return (
     <div>
+      <Typography component="h3" variant="h3">
+        {t('profile greeting', { name: profileName })}
+      </Typography>
       <div>
         <Tabs
           value={value}
           onChange={handleChange}
           aria-label="simple tabs example"
         >
-          <Tab label="Movies" />
-          <Tab label="TV" />
+          <Tab label={t('movies')} />
+          <Tab label={t('tv')} />
         </Tabs>
       </div>
       <TabPanel value={value} index={0}>
@@ -48,9 +57,9 @@ export const Profile: React.FC = () => {
             {moviesWL.data.total_results > 0 && (
               <>
                 <Typography variant="button" component="h6">
-                  Watchlist{' '}
+                  {t('profile watchlist')}{' '}
                   <Link to={'/profile/movies/watchlist'}>
-                    посмотреть весь список
+                    {t('profile show all list')}
                   </Link>
                 </Typography>
                 <CardSlider>
@@ -71,9 +80,9 @@ export const Profile: React.FC = () => {
             {moviesFL.data.total_results > 0 && (
               <>
                 <Typography variant="button" component="h6">
-                  FavoriteList{' '}
+                  {t('profile favoritelist')}{' '}
                   <Link to={'/profile/movies/favoritelist'}>
-                    посмотреть весь список
+                    {t('profile show all list')}
                   </Link>
                 </Typography>
                 <CardSlider>
@@ -96,9 +105,9 @@ export const Profile: React.FC = () => {
             {tvWL.data.total_results > 0 && (
               <>
                 <Typography variant="button" component="h6">
-                  WatchList{' '}
+                  {t('profile watchlist')}{' '}
                   <Link to={'/profile/tv/watchlist'}>
-                    посмотреть весь список
+                    {t('profile show all list')}
                   </Link>
                 </Typography>
                 <CardSlider>
@@ -115,9 +124,9 @@ export const Profile: React.FC = () => {
             {tvFL.data.total_results > 0 && (
               <>
                 <Typography variant="button" component="h6">
-                  FavoriteList{' '}
+                  {t('profile favoritelist')}{' '}
                   <Link to={'/profile/tv/favoritelist'}>
-                    посмотреть весь список
+                    {t('profile show all list')}
                   </Link>
                 </Typography>
                 <CardSlider>
@@ -149,11 +158,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box p={3}>{children}</Box>}
     </div>
   )
 }

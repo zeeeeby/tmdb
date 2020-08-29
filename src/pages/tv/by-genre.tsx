@@ -6,6 +6,7 @@ import { useHistory, useLocation, useRouteMatch } from 'react-router-dom'
 import { tv } from '@src/store/modules/tv'
 import { parseQueryString } from '@src/lib/parse_query_string'
 import { TVCard } from '@src/components/CardsList/TVCard'
+import { useTranslation } from 'react-i18next'
 const useStyles = makeStyles({
   pagination: {
     '& ul': { justifyContent: 'center', margin: '10px 0' },
@@ -28,10 +29,10 @@ export const ByGenre: React.FC = () => {
     setPage(page)
     history.push(`?page=${page}`)
   }
-
+  const [t, i18n] = useTranslation()
   React.useEffect(() => {
     getDiscoveredTV({ with_genres: genre_id, page })
-  }, [page, genre_id])
+  }, [page, genre_id, i18n.language])
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     switchPage(value)

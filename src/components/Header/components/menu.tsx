@@ -6,6 +6,8 @@ import { auth } from '@src/store/modules/auth'
 import { account } from '@src/store/modules/account'
 import { useMenu } from '@src/hooks/useMenu'
 import { useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { localStorage } from '@src/lib/local-storage'
 
 export const FadeMenu = (props: { avatarLink: string | undefined }) => {
   const { signOut } = auth.useActions()
@@ -22,8 +24,10 @@ export const FadeMenu = (props: { avatarLink: string | undefined }) => {
   }
   const onProfileClick = () => {
     close()
-    history.push("/profile/")
+    history.push('/profile/')
   }
+  const [t, i18n] = useTranslation()
+
   return (
     <div>
       <Avatar
@@ -39,8 +43,24 @@ export const FadeMenu = (props: { avatarLink: string | undefined }) => {
         open={Boolean(anchorEl)}
         onClose={close}
       >
-        <MenuItem onClick={onProfileClick}>Profile</MenuItem>
-        <MenuItem onClick={onSignOutClick}>Logout</MenuItem>
+        <MenuItem onClick={onProfileClick}>{t('menu profile')}</MenuItem>
+        <MenuItem onClick={onSignOutClick}>{t('menu logout')}</MenuItem>
+        <MenuItem
+          onClick={() => {
+            i18n.changeLanguage('en')
+            localStorage.save('lang', 'en-US')
+          }}
+        >
+          eng
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            i18n.changeLanguage('ru')
+            localStorage.save('lang', 'ru-RU')
+          }}
+        >
+          rus
+        </MenuItem>
       </Menu>
     </div>
   )

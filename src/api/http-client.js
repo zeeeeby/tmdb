@@ -12,7 +12,8 @@ http.interceptors.request.use((config) => {
   const session_id = localStorage.load('session').session_id || ''
   config.params['session_id'] = encodeURIComponent(session_id)
 
-  config.params['language'] = encodeURIComponent('en-US')
+  const lang = localStorage.load('lang') || 'en-US'
+  config.params['language'] = encodeURIComponent(lang)
   return config
 })
 

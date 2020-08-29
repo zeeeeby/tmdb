@@ -1,20 +1,20 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react'
+import Button from '@material-ui/core/Button'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import TextField from '@material-ui/core/TextField'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
+import Link from '@material-ui/core/Link'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/core/styles'
 
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom'
 
-
-import { Field, Form } from 'react-final-form';
-import { auth } from '@src/store/modules/auth';
-import { account } from '@src/store/modules/account';
+import { Field, Form } from 'react-final-form'
+import { auth } from '@src/store/modules/auth'
+import { account } from '@src/store/modules/account'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,59 +36,60 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-}));
+}))
 
 type TFormValues = {
-  username: string;
-  password: string;
-};
+  username: string
+  password: string
+}
 
 export const Auth: React.FC = () => {
-  const history = useHistory();
+  const history = useHistory()
 
-  const { signIn, signUp } = auth.useActions();
-  const { getProfile } = account.useActions();
+  const { signIn, signUp } = auth.useActions()
+  const { getProfile } = account.useActions()
 
   const onFormSubmit = async ({ password, username }: TFormValues) => {
     try {
-      await signIn(username, password);
-      history.push('/');
-      await getProfile();
+      await signIn(username, password)
+      history.push('/')
+      await getProfile()
     } catch {
-      history.push('/login');
+      history.push('/login')
     }
-  };
+  }
 
   const onSignUpClick = async (event: any) => {
-    event.preventDefault();
+    event.preventDefault()
     try {
-      await signUp();
-      history.push('/');
+      await signUp()
+      history.push('/')
     } catch {}
-  };
+  }
 
-  const isFormFieldValid = (info: any) => info.error && info.touched;
+  const isFormFieldValid = (info: any) => info.error && info.touched
 
-  const classes = useStyles();
+  const classes = useStyles()
+  const [t] = useTranslation()
   return (
     <React.Fragment>
       <CssBaseline />
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
-          Sign in
+          {t('sign in')}
         </Typography>
         <Form
           onSubmit={onFormSubmit}
           validate={(values: any) => {
-            const errors: any = {};
+            const errors: any = {}
 
             if (!values.username) {
-              errors.username = 'Required';
+              errors.username = t('required')
             }
             if (!values.password) {
-              errors.password = 'Required';
+              errors.password = t('required')
             }
-            return errors;
+            return errors
           }}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form className={classes.form} onSubmit={handleSubmit}>
@@ -102,13 +103,13 @@ export const Auth: React.FC = () => {
                       required
                       fullWidth
                       id="email"
-                      label="Email Address"
+                      label={t('email label')}
                       autoComplete="email"
                       autoFocus
                       error={isFormFieldValid(meta)}
                       helperText={isFormFieldValid(meta) && meta.error}
                     />
-                  );
+                  )
                 }}
               </Field>
               <Field name="password">
@@ -119,7 +120,7 @@ export const Auth: React.FC = () => {
                     margin="normal"
                     required
                     fullWidth
-                    label="Password"
+                    label={t('pass label')}
                     type="password"
                     id="password"
                     autoComplete="current-password"
@@ -136,7 +137,7 @@ export const Auth: React.FC = () => {
                 color="primary"
                 className={classes.submit}
               >
-                Sign In
+                {t('sign in')}
               </Button>
               <Grid container>
                 <Grid item>
@@ -145,7 +146,7 @@ export const Auth: React.FC = () => {
                     onClick={onSignUpClick}
                     variant="body2"
                   >
-                    {"Don't have an account? Sign Up"}
+                    {t('form question')}
                   </Link>
                 </Grid>
               </Grid>
@@ -154,5 +155,5 @@ export const Auth: React.FC = () => {
         />
       </div>
     </React.Fragment>
-  );
-};
+  )
+}

@@ -14,6 +14,7 @@ import {
   TSimilarMovies,
 } from '@src/store/modules/movies/types'
 import { TResponseError } from '@src/api/types'
+import { useTranslation } from 'react-i18next'
 const useStyles = makeStyles({
   pagination: {
     '& ul': { justifyContent: 'center', margin: '10px 0' },
@@ -51,11 +52,11 @@ export const Page: React.FC<T> = ({ content, getter, withURLParam }) => {
 
   const matchedParams = useRouteMatch().params as any
   const movieID = parseInt(matchedParams.id || '0')
-
+  const [t, i18n] = useTranslation()
   React.useEffect(() => {
     if (!withURLParam) getter(page)
     else getter(movieID, page)
-  }, [page, getter, movieID])
+  }, [page, getter, movieID, i18n.language])
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     switchPage(value)

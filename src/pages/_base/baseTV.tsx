@@ -14,6 +14,7 @@ import {
   TSimilarTV,
 } from '@src/store/modules/tv/types'
 import { TResponseError } from '@src/api/types'
+import { useTranslation } from 'react-i18next'
 const useStyles = makeStyles({
   pagination: {
     '& ul': { justifyContent: 'center', margin: '10px 0' },
@@ -51,11 +52,11 @@ export const Page: React.FC<T> = ({ content, getter, withURLParam }) => {
 
   const matchedParams = useRouteMatch().params as any
   const tvID = parseInt(matchedParams.id || '0')
-
+  const [t, i18n] = useTranslation()
   React.useEffect(() => {
     if (!withURLParam) getter(page)
     else getter(tvID, page)
-  }, [page, getter, tvID])
+  }, [page, getter, tvID, i18n.language])
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     switchPage(value)

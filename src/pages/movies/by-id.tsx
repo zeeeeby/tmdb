@@ -13,6 +13,7 @@ import Skeleton from '@material-ui/lab/Skeleton'
 import { Expand } from '@src/components/Expand'
 import { MovieCard } from '@src/components/CardsList/MovieCard'
 import { CardSlider } from '@src/components/CardSlider'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles({
   pagination: {
@@ -109,11 +110,13 @@ export const ByID: React.FC = () => {
     getSimilarMovies,
   } = movies.useActions()
 
+  const [t, i18n] = useTranslation()
+  
   React.useEffect(() => {
     getMovieDetails(movieID)
     getRecommendations(movieID, 1)
     getSimilarMovies(movieID, 1)
-  }, [movieID])
+  }, [movieID, i18n.language])
   if (details.error?.status === 404) history.push('/404')
   return (
     <>
@@ -128,14 +131,6 @@ export const ByID: React.FC = () => {
                   alt="poster"
                 />
               </div>
-              {/* <div className={classes.containerExternalLinks}>
-                {externalIds &&
-                  getExternalLinks(externalIds).map((el) => (
-                    <Typography variant="body1" component="h6">
-                      {el}
-                    </Typography>
-                  ))}
-              </div> */}
             </div>
           ) : (
             <div className={classes.container}>
@@ -191,19 +186,18 @@ export const ByID: React.FC = () => {
                 variant="h5"
                 component="h5"
               >
-                ИНФОРМАЦИЯ
+                {t('details info').toUpperCase()}
               </Typography>
               {!details.isLoading ? (
                 <>
                   {details.data?.status && (
                     <Typography variant="body1" component="h6">
-                      Статус:
-                      {details.data?.status}
+                      {t('details status')}:{details.data?.status}
                     </Typography>
                   )}
                   {details.data?.release_date && (
                     <Typography variant="body1" component="h6">
-                      Дата выхода:{' '}
+                      {t('details release date')}:{' '}
                       {new Date(
                         details?.data?.release_date
                       ).toLocaleDateString()}
@@ -211,25 +205,25 @@ export const ByID: React.FC = () => {
                   )}
                   {details.data?.runtime && (
                     <Typography variant="body1" component="h6">
-                      Длительность:
-                      {` ${Math.trunc(details.data?.runtime / 60)} ч ${
-                        details.data?.runtime % 60
-                      } мин`}
+                      {t('details duration')}:
+                      {` ${Math.trunc(details.data?.runtime / 60)} ${t(
+                        'details hours'
+                      )} ${details.data?.runtime % 60} ${t('details minutes')}`}
                     </Typography>
                   )}
                   {details.data?.tagline && (
                     <Typography variant="body1" component="h6">
-                      Тег: {' ' + details.data?.tagline}
+                      {t('details tag')}: {' ' + details.data?.tagline}
                     </Typography>
                   )}
                   {Number.isInteger(details.data!.budget) && (
                     <Typography variant="body1" component="h6">
-                      Бюджет: {details.data?.budget + '$'}
+                      {t('details budget')}: {details.data?.budget + '$'}
                     </Typography>
                   )}
                   {details.data?.genres?.length ? (
                     <Typography variant="body1" component="h6">
-                      Жанры:
+                      {t('details genres')}:
                       {details.data?.genres.map((el, idx) => (
                         <Link
                           className={classes.genresLink}
@@ -261,7 +255,7 @@ export const ByID: React.FC = () => {
                   variant="h5"
                   component="h5"
                 >
-                  ОПИСАНИЕ
+                  {t('details description').toUpperCase()}
                 </Typography>
                 {details.data?.overview && (
                   <div>
@@ -296,7 +290,7 @@ export const ByID: React.FC = () => {
             {videos?.results.length > 0 && (
               <>
                 <Typography variant="button" component="h6">
-                  ВИДЕО
+                  {t('details video').toUpperCase()}
                 </Typography>
                 <Grid
                   container
@@ -332,9 +326,9 @@ export const ByID: React.FC = () => {
             {recommendations.data.total_results > 0 && (
               <>
                 <Typography variant="button" component="h6">
-                  Рекомендации{' '}
+                  {t('details recommend')}{' '}
                   <Link to={'recommendations/' + details.data?.id}>
-                    посмотреть все
+                    {t('details show all')}
                   </Link>
                 </Typography>
                 <CardSlider>
@@ -357,7 +351,9 @@ export const ByID: React.FC = () => {
               <>
                 <Typography variant="button" component="h6">
                   Схожие фильмы{' '}
-                  <Link to={'similar/' + details.data?.id}>посмотреть все</Link>
+                  <Link to={'similar/' + details.data?.id}>
+                    {t('details show all')}
+                  </Link>
                 </Typography>
                 <CardSlider>
                   {similar.data.results?.map((el) => (

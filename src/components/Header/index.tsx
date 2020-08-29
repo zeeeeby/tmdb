@@ -13,6 +13,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import { NavItems } from './components/nav-items'
 import { search } from '@src/store/modules/search'
 import { SearchResultsList } from './components/search-results-list'
+import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -96,6 +97,8 @@ export const Header: React.ComponentType = () => {
     setFindStatus(false)
     setSearchValue('')
   }
+
+  const [t] = useTranslation()
   return (
     <div className={classes.root}>
       <Backdrop
@@ -135,7 +138,7 @@ export const Header: React.ComponentType = () => {
             <React.Fragment>
               <Button color="inherit">
                 <Link className={classes.link} to="/login">
-                  Sign In
+                  {t('sign in')}
                 </Link>
               </Button>
             </React.Fragment>
